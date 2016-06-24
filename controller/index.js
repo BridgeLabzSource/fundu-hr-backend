@@ -6,4 +6,9 @@ router.post('/post', function(req, res) {
     res.send('your message is :' + msg);
 });
 
+router.post('/sendmsg', function(req, res) {
+    var message = req.body.message;
+    res.send('your message is :'+message);
+
+})
 module.exports = router;
