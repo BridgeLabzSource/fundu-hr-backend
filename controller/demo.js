@@ -1,7 +1,7 @@
 var express = require('express'),
     router = express.Router();
 
-router.post('/post', function(req, res) {
+router.get('/get', function(req, res) {
     var msg = req.query.q;
     res.send('your message is :' + msg);
 });
@@ -11,4 +11,5 @@ router.post('/sendmsg', function(req, res) {
     res.send('your message is :'+message);
 
 })
+
 module.exports = router;
