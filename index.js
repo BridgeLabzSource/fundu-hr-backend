@@ -3,13 +3,13 @@
  */
 var express = require('express')
 app = express(),
-    port = process.env.PORT || 3008,
+    port = process.env.PORT || 3009,
     bodyParser = require('body-parser');
 /**
  * configure 
  */
 app.use(bodyParser());
-app.use(require('./controller/index'));
+app.use(require('./controller/demo'));
 
 /**
  * listen port
