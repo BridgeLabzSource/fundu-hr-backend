@@ -6,7 +6,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/sendmsg', function(req, res) {
-    var message = req.body.message;
+    var message = req.query.message;
     res.send('your message is :'+message);
 
 })
