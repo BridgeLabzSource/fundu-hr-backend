@@ -1,0 +1,22 @@
+{
+  "name": "fundu-hr-backend",
+  "version": "1.0.0",
+  "description": "Fundu HR backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BridgeLabzSource/fundu-hr-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BridgeLabzSource/fundu-hr-backend/issues"
+  },
+  "homepage": "https://github.com/BridgeLabzSource/fundu-hr-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2"
+  }
+}
