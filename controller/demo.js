@@ -7,6 +7,7 @@ router.get('/', function(req, res) {
 
 router.post('/sendmsg', function(req, res) {
     var message = req.body.message;
+    console.log(message);
     res.send(message);
 });
 
