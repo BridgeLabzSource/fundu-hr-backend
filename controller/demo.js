@@ -1,5 +1,6 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    db=require('../database/db');
 
 router.get('/', function(req, res) {
     res.send('hiiiii');
@@ -8,13 +9,20 @@ router.get('/', function(req, res) {
 router.post('/sendmsg', function(req, res) {
     var message = req.body.message;
     console.log(message);
-    res.send(message);
+    res.json(message);
 });
 
 router.post('/edit',function(req,res){
 	var edit=req.body.edit;
-	edit='chandan';
-	res.send(edit);
+	console.log(edit);
+	var data=new db.userModel(edit);
+	data.save(function(err,data){
+		if(err){
+			res.send(err);
+		}else{
+			res.send("successfully save");
+		}
+	})
 });
 
 router.post('/inTime',function(req,res){
