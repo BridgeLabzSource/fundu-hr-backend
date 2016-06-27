@@ -1,5 +1,6 @@
 var express = require('express'),
     router = express.Router(),
+   request=require('request'),
     db=require('../database/db');
 
 router.get('/', function(req, res) {
@@ -13,9 +14,10 @@ router.post('/sendmsg', function(req, res) {
 });
 
 router.post('/edit',function(req,res){
-	var edit=req.body.edit;
-	console.log(edit.sr_id);
-	res.send(edit.sr_id);
+	var url='https://docs.google.com/spreadsheets/d/1aEqcILF2pbyHAiT5EKFq-plh903XcM9-Gtur8a2t_Es/edit#gid=1992094472';
+	request(url,function(data){
+		res.send(data);
+	})
 });
 
 router.post('/inTime',function(req,res){
