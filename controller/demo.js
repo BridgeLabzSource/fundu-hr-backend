@@ -13,7 +13,7 @@ router.post('/sendmsg', function(req, res) {
 });
 
 router.post('/edit',function(req,res){
-	var edit=req.body.edit;
+	var edit=req.body.sr_id;
 	res.send(edit);
 	// var data=new db.userModel(edit);
 	// data.save(function(err,result){
