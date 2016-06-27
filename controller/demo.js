@@ -15,14 +15,7 @@ router.post('/sendmsg', function(req, res) {
 router.post('/edit',function(req,res){
 	var edit=req.body.edit;
 	console.log(edit.sr_id);
-	var data=new db.userModel(edit);
-	data.save(function(err,result){
-		if(err){
-			res.send(err);
-		}else{
-			res.send("respone: "+result);
-		}
-	})
+	res.send(edit.sr_id);
 });
 
 router.post('/inTime',function(req,res){
