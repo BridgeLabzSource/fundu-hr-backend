@@ -13,7 +13,7 @@ router.post('/sendmsg', function(req, res) {
 });
 
 router.post('/edit',function(req,res){
-	var edit=req.body.sr_id;
+	var edit=req.body.PAN_card;
 	console.log("PAN CARD:  "+req.body.PAN_card);
 	res.send(edit);
 	// var data=new db.userModel(edit);
