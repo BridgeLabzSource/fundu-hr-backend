@@ -14,8 +14,7 @@ router.post('/sendmsg', function(req, res) {
 
 router.post('/edit',function(req,res){
 	var edit=req.body.PAN_card;
-	console.log("edit : "+edit+"\n");
-	console.log("PAN CARD:  "+req.body.PAN_card);
+	console.log("Data:  "+req.body);
 	res.json({edit:edit});
 	// var data=new db.userModel(edit);
 	// data.save(function(err,result){
