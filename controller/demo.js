@@ -14,7 +14,7 @@ router.post('/sendmsg', function(req, res) {
 
 router.post('/edit',function(req,res){
 	var edit=req.body.sr_id;
-	console.log(req.body.sr_id);
+	console.log(req.body);
 	res.send(edit);
 	// var data=new db.userModel(edit);
 	// data.save(function(err,result){
