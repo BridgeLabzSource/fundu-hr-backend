@@ -16,7 +16,7 @@ app.use(require('./controller/demo'));
  * listen port
  */
 // db.connect(function() {
-    app.listen(port, function() {
+app.listen(port, function() {
         console.log("Server Runnig " + port);
     })
-// })
+    // })
