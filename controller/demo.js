@@ -16,10 +16,7 @@ router.post('/edit',function(req,res){
 	var edit=req.body.PAN_card;
 	console.log("edit : "+edit+"\n");
 	console.log("PAN CARD:  "+req.body.PAN_card);
-	res.writeHead(200,{
-		"Content-Type":"text/plain"
-	});
-	res.end(edit);
+	res.json({edit:edit});
 	// var data=new db.userModel(edit);
 	// data.save(function(err,result){
 	// 	if(err){
