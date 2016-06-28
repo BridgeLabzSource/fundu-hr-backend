@@ -14,10 +14,11 @@ router.post('/sendmsg', function(req, res) {
 
 router.post('/edit',function(req,res){
 	var edit=req.body.PAN_card;
+	console.log("edit : "+edit+"\n");
 	console.log("PAN CARD:  "+req.body.PAN_card);
 	res.writeHead(200,{
-		contentType:"text/plain"
-	})
+		"Content-Type":"text/plain"
+	});
 	res.end(edit);
 	// var data=new db.userModel(edit);
 	// data.save(function(err,result){
