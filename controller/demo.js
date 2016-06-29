@@ -18,6 +18,11 @@ router.post('/edit', function(req, res) {
     var d=req.body.share;
     console.log("length1: "+d.length+"\n");
     console.log("length2: "+d[0].length+"\n");
+    for(var i=0;i<=d.length;i++){
+    	for(var j=0;j<=d[i].length;j++){
+    		console.log("data :"+d[i][j]);
+    	}
+    }
     var data = req.body.share[0][2].empName;
     console.log(" empName :"+data);
     res.json({ edit: edit });
