@@ -20,8 +20,8 @@ router.post('/edit', function(req, res) {
     console.log("length2: "+d[1].length+"\n");
 
 
-    for(var i=0;i<=d.length;i++){
-    	for(var j=0;j<=d[i].length;j++){
+    for(var i=0;i<=d.length-1;i++){
+    	for(var j=0;j<=d[i].length-1;j++){
     		console.log("data"+j+" :"+d[i][j]);
     	}
     }
