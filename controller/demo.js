@@ -1,6 +1,6 @@
 var express = require('express'),
     router = express.Router(),
-    db=require('../database/db');
+    db = require('../database/db');
 
 router.get('/', function(req, res) {
     res.send('hiiiii');
@@ -9,30 +9,22 @@ router.get('/', function(req, res) {
 router.post('/sendmsg', function(req, res) {
     var message = req.body.message;
     console.log(message);
-    res.json({message:message});
+    res.json({ message: message });
 });
 
-router.post('/edit',function(req,res){
-	var edit=req.body.PAN_card;
-	console.log("Data:  "+req.body+"\n");
-	var data=JSON.parse(req.body.share);
-	console.log(data.length);
-	res.json({edit:edit});
-	// var data=new db.userModel(edit);
-	// data.save(function(err,result){
-	// 	if(err){
-	// 		res.send(err);
-	// 	}else{
-	// 		res.send("respone: "+result);
-	// 	}
-	// })
+router.post('/edit', function(req, res) {
+    var edit = req.body.PAN_card;
+    console.log("Data:  " + req.body + "\n");
+    var data = JSON.parse(req.body.share);
+    console.log("length :"+data.length);
+    res.json({ edit: edit });
 });
 
-router.post('/inTime',function(req,res){
+router.post('/inTime', function(req, res) {
 
 });
 
-router.post('outTime',function(req,res){
+router.post('outTime', function(req, res) {
 
 });
 
