@@ -22,7 +22,7 @@ router.post('/edit', function(req, res) {
 
     for(var i=0;i<=d.length-1;i++){
     	for(var j=0;j<=d[i].length-1;j++){
-    		console.log("data"+j+" :"+d[i][j]);
+    		console.log("data"+j+" :"+JSON.stringify(d[i][j]));
     	}
     }
     var data = req.body.share[0][2].empName;
