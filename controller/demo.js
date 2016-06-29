@@ -17,7 +17,7 @@ router.post('/edit', function(req, res) {
     console.log(" Data:  " + JSON.stringify(req.body) + "\n");
 
     var data = req.body.share[0][2].empName;
-    console.log(" data :"+data);
+    console.log(" empName :"+data);
     res.json({ edit: edit });
 });
 
