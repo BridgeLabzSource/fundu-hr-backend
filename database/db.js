@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-    Sr_no: { type: Number },
+    sr_id: { type: Number },
     empId: { type: Number },
     empName: { type: String },
     Designation: { type: String },
@@ -16,5 +16,13 @@ var userSchema = mongoose.Schema({
 });
 
 var userModel = mongoose.model('userSchema', userSchema, 'userSchema');
-
 exports.userModel = userModel;
+
+var demo=mongoose.Schema({
+    mobile:{type:String},
+    otp:{type:String},
+    syncTime:{type:Date,default:Date.now()}
+});
+var demo=mongoose.model('demo',demo,'demo');
+exports.demo=demo;
+
