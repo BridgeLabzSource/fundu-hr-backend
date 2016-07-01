@@ -20,7 +20,7 @@ router.post('/edit', function(req, res) {
     console.log("length2: " + d[1].length + "\n"); //12
 
     for (var i = 0; i <= d.length - 1; i++) {
-        db.userModel.findOne({ "mobile": d[i].mobile }, function(err, existingUser) {
+        db.userModel.findOne({ "Mobile": d[i].Mobile }, function(err, existingUser) {
             if (!existingUser) {
                 var data = JSON.stringify(d[i]);
                 var dbSave = new db.userModel(data);
