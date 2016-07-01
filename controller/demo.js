@@ -1,6 +1,7 @@
 var express = require('express'),
     router = express.Router(),
     db = require('../database/db'),
+    request=require('request'),
     sms = require('../model/sms');
 
 router.get('/', function(req, res) {
@@ -45,9 +46,9 @@ router.post('/otp', function(req, res) {
     var mobile = req.body.mobile;
     sms.otp(mobile, function(err, data) {
         if (err) {
-            res.send(err);
+            res.json({"error":err,"status":"false"});
         } else {
-            res.send(data);
+            res.json({"data":data,"status":"true"});
         }
     })
 });
@@ -59,14 +60,18 @@ router.post('/verify', function(req, res) {
     }
     sms.verify(data, function(err, data) {
         if (err) {
-            res.send(err);
+            res.json({"error":err,"status":"false"});
         } else {
-            res.send(data);
+            res.json({"data":data,"status":"true"});
         }
     })
 })
 
-router.post('outTime', function(req, res) {
+router.post('/wit', function(req, res) {
+    var message=req.body.message;
+    var url='https://api.wit.ai/message';
+    request(url,{data:{'q':message,'access_token' : S2VQWSMBFF6BE4NSJICC26BL75BALYVD
+}})
 
 });
 
