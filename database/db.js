@@ -15,7 +15,7 @@ var userSchema = mongoose.Schema({
     original_submitted: { type: String }
 });
 
-var userModel = mongoose.model('userSchema', userSchema, 'userSchema');
+var userModel = mongoose.model('userSchema', userSchema, 'userModel');
 exports.userModel = userModel;
 
 var demo=mongoose.Schema({
