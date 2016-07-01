@@ -11,19 +11,24 @@ util.inherits(sms, EventEmitter)
 sms.prototype.otp = function(mobile, cb) {
     if (common.isMobile(mobile)) {
         db.demo.findOne({ "mobile": mobile }, function(err, existing) {
-            if (!existing) {
+            if (existing) {
                 var otp = (Math.floor(Math.random() * 90000) + 10000);
-                common.sendOtp(mobile,otp);
-                var data = new db.demo({ "mobile": mobile, "otp": otp });
-                data.save(function(err, data) {
+                common.sendOtp(mobile, otp);
+                db.demo.update({
+                    mobile: mobile
+                }, {
+                    $set: {
+                        otp: otp
+                    }
+                }, function(err, data) {
                     if (err) {
-                        cb(err,null);
+                        cb(err, null);
                     } else {
-                        cb(null,'save successfully');
+                        cb(null, 'save successfully');
                     }
                 })
             } else {
-                cb("Number already existing ", null);
+                cb("Number not existing ", null);
             }
         })
 
@@ -48,7 +53,7 @@ sms.prototype.verify = function(data, cb) {
                     if (err) {
                         cb(err, null);
                     } else {
-                        cb(null, "seccessfully register...");
+                        cb(null, "successfully register...");
                     }
                 })
             }
