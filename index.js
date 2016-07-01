@@ -3,7 +3,7 @@
  */
 var express = require('express')
 app = express(),
-    port = process.env.PORT || 3007,
+    port = process.env.PORT,
     bodyParser = require('body-parser'),
     db = require('./model/connect.js');
 /**
@@ -15,8 +15,8 @@ app.use(require('./controller/demo'));
 /**
  * listen port
  */
-// db.connect(function() {
+db.connect(function() {
     app.listen(port, function() {
         console.log("Server Runnig " + port);
     })
-// })
+})

@@ -3,35 +3,33 @@ var util = require('util'),
     common = require('../helper/common'),
     db = require('../database/db');
 
-
 function sms() {
     EventEmitter.call(this);
 }
 util.inherits(sms, EventEmitter)
 
 sms.prototype.otp = function(mobile, cb) {
-    // if (common.isMobile(mobile)) {
-    	console.log(common.sendOtp(mobile));
-        // db.demo.findOne({ "mobile": mobile }, function(err, existing) {
-        //     if (!existing) {
-        //         var otp = (Math.floor(Math.random() * 90000) + 10000);
-        //         cb(null, otp);
-        //         var data = new db.demo({ "mobile": mobile, "otp": otp });
-        //         data.save(function(err, data) {
-        //             if (err) {
-        //                 console.log(err);
-        //             } else {
-        //                 console.log(data);
-        //             }
-        //         })
-        //     } else {
-        //         cb("Number already existing ", null);
-        //     }
-        // })
+    if (common.isMobile(mobile)) {
+        db.demo.findOne({ "mobile": mobile }, function(err, existing) {
+            if (!existing) {
+                var otp = (Math.floor(Math.random() * 90000) + 10000);
+                common.sendOtp(mobile,otp);
+                var data = new db.demo({ "mobile": mobile, "otp": otp });
+                data.save(function(err, data) {
+                    if (err) {
+                        cb(err,null);
+                    } else {
+                        cb(null,'save successfully');
+                    }
+                })
+            } else {
+                cb("Number already existing ", null);
+            }
+        })
 
-    // } else {
-    //     cb("false", null);
-    // }
+    } else {
+        cb("false", null);
+    }
 }
 sms.prototype.verify = function(data, cb) {
     if (common.isMobile(data.mobile)) {
@@ -55,15 +53,9 @@ sms.prototype.verify = function(data, cb) {
                 })
             }
         })
-        cb(null, "true")
     } else {
         cb("false", null);
     }
 }
 
 module.exports = new sms;
-// request({
-// 	method:'get',
-// 	uri:'https://5773bbfd5428410009000000:293f229133f20f57fd09193a8436c7a8@api.easysmsapp.com/accounts/5773bbfd5428410009000000',
-
-// })

@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var state = {
         db: null,
     },
-    url = 'mongodb://developer:bridgeit@ds013908.mongolab.com:13908/sp';
+    url = 'mongodb://demo:demo007@ds023694.mlab.com:23694/heroku_0k7kk5fx';
 /**
  * @exports {connect,lib,get,close}
  */
