@@ -14,7 +14,7 @@ sms.prototype.otp = function(mobile, cb) {
             if (existing) {
                 var otp = (Math.floor(Math.random() * 90000) + 10000);
                 common.sendOtp(mobile, otp);
-                db.demo.update({
+                d.demo.update({
                     mobile: mobile
                 }, {
                     $set: {
@@ -53,7 +53,7 @@ sms.prototype.verify = function(data, cb) {
                     if (err) {
                         cb(err, null);
                     } else {
-                        cb(null, "successfully register...");
+                        cb(null, "seccessfully register...");
                     }
                 })
             }
