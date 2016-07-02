@@ -57,5 +57,4 @@ router.post('/wit', function(req, res) {
         res.send("body" + JSON.stringify(r.body));
     })
 });
-request.post
 module.exports = router;

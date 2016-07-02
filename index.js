@@ -3,7 +3,7 @@
  */
 var express = require('express')
 app = express(),
-    port = process.env.PORT,
+    port = process.env.PORT||3008,
     bodyParser = require('body-parser'),
     db = require('./model/connect.js');
 /**

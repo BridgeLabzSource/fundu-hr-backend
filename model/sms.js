@@ -63,14 +63,15 @@ sms.prototype.verify = function(data, cb) {
     }
 }
 sms.prototype.save = function(data, cb) {
-    for (var i = 0; i <data.length - 1; i++) {
-        console.log("mobile " + data[i][7].Mobile + " and " + i);
-
+    console.log(data.length);
+    for (var i = 0; i <= data.length - 1; i++) {
+        console.log("mobile " + data[i][7].Mobile + " and iteration " + i);
         db.userModel.findOne({ "Mobile": data[i][7].Mobile }, function(err, existingUser) {
-            if (existingUser) {
-                console.log(existingUser.Mobile + " and " + i);
-            } else {
-                console.log('already not exit' + i);
+            // console.log(existingUser+" and "+i)
+            if (!existingUser) {
+                // console.log("inc "i);
+                i=i-1;
+                console.log("ice"+i);
                 var dbSave = new db.userModel({
                     "sr_id": data[i][0].sr_id,
                     "empId": data[i][1].empId,
@@ -97,12 +98,11 @@ sms.prototype.save = function(data, cb) {
                         console.log('successfully save');
                     }
                 });
+            } else {
+                console.log('existingUser at ' + i);
             }
         });
     }
     cb(null, "save data");
 }
 module.exports = new sms;
-
-
-// {"sr_id":1,"empId": 1,"empName":"chandan Mandre","Designation":"software engineer","BL_start_date":"2015-01-11T18:30:00.000Z","start_date_at_company":"2015-01-11T18:30:00.000Z","End_Date":"2016-01-05T18:30:00.000Z","Mobile":"+917276447408","PAN_card":"Sdjdfd","email":"chandan@gmail.com","DOB":"1991-04-02T18:30:00.000Z","Emp_contract_signed":"yes","offer_letter":"yes","Emp_form_CSR":"yes","original_submitted":"no"}
