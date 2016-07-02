@@ -21,22 +21,27 @@ router.post('/edit', function(req, res) {
     console.log("length2: " + d[1].length + "\n"); //12
 
     for (var i = 0; i <= d.length - 1; i++) {
-        db.userModel.findOne({ "Mobile": d[i][6].Mobile }, function(err, existingUser) {
+        console.log("mobile "+d[i][7].Mobile);
+        db.userModel.findOne({ "Mobile": d[i][7].Mobile }, function(err, existingUser) {
+            // console.log("existingUser: "+existingUser+" and "+d[i][7].Mobile);
             if (!existingUser) {
                 // var data = JSON.stringify(d[i]);
                 var dbSave = new db.userModel({
-                    "sr_id": data[i][1],
-                    "empId": data[i][1],
-                    "empName": data[i][2],
-                    "Designation": data[i][3],
-                    "BL_start_date": data[i][4],
-                    "End_Date": data[i][5],
-                    "Mobile": data[i][6],
-                    "PAN_card": data[i][7],
-                    "Emp_contract_signed": data[i][8],
-                    "offer_letter": data[i][9],
-                    "Emp_form_CSR": data[i][10],
-                    "original_submitted": data[i][11]
+                    "sr_id": d[i][0],
+                    "empId": d[i][1],
+                    "empName": d[i][2],
+                    "Designation": d[i][3],
+                    "BL_start_date": d[i][4],
+                    "start_date_at_company":d[i][5],
+                    "End_Date": d[i][6],
+                    "Mobile": d[i][7],
+                    "PAN_card": d[i][8],
+                    "email":d[i][9],
+                    "DOB":d[i][10],
+                    "Emp_contract_signed": d[i][11],
+                    "offer_letter": d[i][12],
+                    "Emp_form_CSR": d[i][13],
+                    "original_submitted": d[i][14]
                 });
                 dbSave.save(function(err, data) {
                     if (err) {
