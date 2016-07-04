@@ -1,31 +1,32 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-                sr_id:{type:Number},
-                empId:{type:Number},
-                empName:{type:String},
-                Designation:{type:String},
-                BL_start_date:{type:String},
-                start_date_at_company:{type:String},
-                End_Date:{type:String},
-                Mobile:{type:String},
-                PAN_card:{type:String},
-                email:{type:String},
-                DOB:{type:String},
-                Emp_contract_signed:{type:String},
-                offer_letter:{type:String},
-                Emp_form_CSR:{type:String},
-                original_submitted:{type:String}
+    "srId": { type: Number },
+    "empId": { type: Number },
+    "empName": { type: String },
+    "designation": { type: String },
+    "blStartDate": { type: Date },
+    "startDateAtCompany": { type: Date },
+    "endDate": { type: Date },
+    "mobile": { type: String },
+    "panCard": { type: String },
+    "email": { type: String },
+    "dob": { type: Date },
+    "empContractSigned": { type: String },
+    "offerLetter": { type: String },
+    "empFormCsr": { type: String },
+    "originalSubmitted": { type: String }
 });
 
 var userModel = mongoose.model('userSchema', userSchema, 'userModel');
 exports.userModel = userModel;
 
-var demo=mongoose.Schema({
-    mobile:{type:String},
-    otp:{type:String},
-    syncTime:{type:Date,default:Date.now()}
+var demo = mongoose.Schema({
+    "mobile": { type: String },
+    "otp": { type: String },
+    "inTime": { type: Date },
+    "outTime": { type: Date },
+    "syncTime": { type: Date, default: Date.now() }
 });
-var demo=mongoose.model('demo',demo,'demo');
-exports.demo=demo;
-
+var demo = mongoose.model('demo', demo, 'demo');
+exports.demo = demo;

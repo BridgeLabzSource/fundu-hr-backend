@@ -1,6 +1,7 @@
 var express = require('express'),
     router = express.Router(),
-    request = require('request'),
+    q = require('q'),
+    db = require('../database/db'),
     sms = require('../model/sms');
 
 router.get('/', function(req, res) {
@@ -50,11 +51,16 @@ router.post('/verify', function(req, res) {
 })
 
 router.post('/wit', function(req, res) {
-    var message = req.body.message;
-    var url = 'https://api.wit.ai/message?v=20160526&q=' + message;
-    var auth = 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
-    request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
-        res.send("body" + JSON.stringify(r.body));
+    var data = {
+        message: req.body.message,
+        mobile: req.body.mobile
+    }
+    sms.wit(data, function(err, data) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(data);
+        }
     })
 });
 module.exports = router;

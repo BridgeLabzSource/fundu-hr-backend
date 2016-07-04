@@ -1,6 +1,7 @@
 var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
+    request = require('request'),
     db = require('../database/db');
 
 function sms() {
@@ -14,7 +15,7 @@ sms.prototype.otp = function(mobile, cb) {
             if (existing) {
                 var otp = (Math.floor(Math.random() * 90000) + 10000);
                 common.sendOtp(mobile, otp);
-                d.demo.update({
+                db.demo.update({
                     mobile: mobile
                 }, {
                     $set: {
@@ -63,46 +64,84 @@ sms.prototype.verify = function(data, cb) {
     }
 }
 sms.prototype.save = function(data, cb) {
-    console.log(data.length);
-    for (var i = 0; i <= data.length - 1; i++) {
-        console.log("mobile " + data[i][7].Mobile + " and iteration " + i);
-        db.userModel.findOne({ "Mobile": data[i][7].Mobile }, function(err, existingUser) {
-            // console.log(existingUser+" and "+i)
-            if (!existingUser) {
-                // console.log("inc "i);
-                i=i-1;
-                console.log("ice"+i);
-                var dbSave = new db.userModel({
-                    "sr_id": data[i][0].sr_id,
-                    "empId": data[i][1].empId,
-                    "empName": data[i][2].empName,
-                    "Designation": data[i][3].Designation,
-                    "BL_start_date": data[i][4].BL_start_date,
-                    "start_date_at_company": data[i][5].start_date_at_company,
-                    "End_Date": data[i][6].End_Date,
-                    "Mobile": data[i][7].Mobile,
-                    "PAN_card": data[i][8].PAN_card,
-                    "email": data[i][9].email,
-                    "DOB": data[i][10].DOB,
-                    "Emp_contract_signed": data[i][11].Emp_contract_signed,
-                    "offer_letter": data[i][12].offer_letter,
-                    "Emp_form_CSR": data[i][13].Emp_form_CSR,
-                    "original_submitted": data[i][14].original_submitted
-                });
-                console.log(dbSave);
-
-                dbSave.save(function(err, data) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log('successfully save');
-                    }
-                });
-            } else {
-                console.log('existingUser at ' + i);
-            }
-        });
-    }
+    db.userModel.findOne({ "Mobile": data[0][7].Mobile }, function(err, existingUser) {
+        if (!existingUser) {
+            var dbSave = new db.userModel({
+                "srId": data[0][0].sr_id,
+                "empId": data[0][1].empId,
+                "empName": data[0][2].empName,
+                "designation": data[0][3].Designation,
+                "blStartDate": data[0][4].BL_start_date,
+                "startDateAtCompany": data[0][5].start_date_at_company,
+                "endDate": data[0][6].End_Date,
+                "mobile": data[0][7].Mobile,
+                "panCard": data[0][8].PAN_card,
+                "email": data[0][9].email,
+                "dob": data[0][10].DOB,
+                "empContractSigned": data[0][11].Emp_contract_signed,
+                "offerLetter": data[0][12].offer_letter,
+                "empFormCsr": data[0][13].Emp_form_CSR,
+                "originalSubmitted": data[0][14].original_submitted
+            });
+            dbSave.save(function(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('successfully save');
+                }
+            });
+        } else {
+            console.log('existingUser at ' + i);
+        }
+    });
     cb(null, "save data");
+};
+
+sms.prototype.wit = function(d, cb) {
+    if (common.isMobile(d.mobile)) {
+        var url = process.env.witUrl || 'https://api.wit.ai/message?v=20160526&q=' + d.message,
+            auth = process.env.witAuthToken || 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
+        request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
+            var data = r.body,
+                intent = data.entities.intent[0].value,
+                on_off = data.entities.on_off[0].value,
+                datetime = data.entities.datetime[0].value;
+            if (intent == 'Work' || intent == 'office' && on_off == 'on') {
+                db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
+                    if (existingUser) {
+                        db.demo.update({ "mobile": d.mobile }, {
+                            $set: {
+                                inTime: datetime
+                            }
+                        }, function(err, data) {
+                            if (err) {
+                                cb(err, null);
+                            } else {
+                                cb(null, "hi " + d.mobile + " ur in office now at " + datetime);
+                            }
+                        })
+                    }
+                })
+            } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
+                db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
+                    if (existingUser) {
+                        db.demo.update({ "mobile": d.mobile }, {
+                            $set: {
+                                outTime: datetime
+                            }
+                        }, function(err, data) {
+                            if (err) {
+                                cb(err, null);
+                            } else {
+                                cb(null, "hi " + d.mobile + " ur in office now at " + datetime);
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    } else {
+        cb("number not existing in db", null);
+    }
 }
 module.exports = new sms;
