@@ -144,7 +144,7 @@ sms.prototype.wit = function(d, cb) {
                     if (existingUser) {
                         db.demo.update({ "mobile": d.mobile }, {
                             $set: {
-                                inTime: datetime
+                                inTime: datetime 
                             }
                         }, function(err, data) {
                             if (err) {
