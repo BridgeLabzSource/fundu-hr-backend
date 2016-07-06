@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var state = {
         db: null,
     },
-    url = process.env.MONGO||'mongodb://demo:demo007@ds023694.mlab.com:23694/heroku_0k7kk5fx';
+    url = process.env.MONGO || 'mongodb://demo:demo007@ds023694.mlab.com:23694/heroku_0k7kk5fx';
 /**
  * @exports {connect,lib,get,close}
  */
@@ -19,7 +19,7 @@ module.exports = {
             cb();
         }
     },
-      close: function(done) {
+    close: function(done) {
         if (state.db) {
             state.db.close(function(err, result) {
                 state.db = null

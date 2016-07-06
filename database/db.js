@@ -1,3 +1,6 @@
+/**
+ * define require module
+ */
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
