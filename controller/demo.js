@@ -10,7 +10,13 @@ var express = require('express'),
  * demo
  */
 router.get('/', function(req, res) {
-    res.send('hiiiii');
+    db.demo.find({},function(err,data){
+        if(err){
+            res.send(err);
+        }else{
+            res.send(data);
+        }
+    })
 });
 /**
  * sendmsg
@@ -88,4 +94,13 @@ router.post('/wit', function(req, res) {
         }
     })
 });
+
+router.get('/geo',function(req,res){
+var geolocation = require('geolocation');
+ console.log(geolocation);
+geolocation.getCurrentPosition(function (err, position) {
+  if (err) throw err
+  console.log(position)
+})
+})
 module.exports = router;
