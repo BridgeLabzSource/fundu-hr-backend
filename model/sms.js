@@ -5,6 +5,7 @@ var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
+    moment = require('moment'),
     db = require('../database/db');
 /**
  * @constructor
@@ -21,72 +22,72 @@ util.inherits(sms, EventEmitter)
  * @param {cb}
  */
 sms.prototype.otp = function(mobile, cb) {
-        if (common.isMobile(mobile)) {
-            db.demo.findOne({ "mobile": mobile }, function(err, existing) {
-                if (existing) {
-                    var otp = (Math.floor(Math.random() * 90000) + 10000);
-                    common.sendOtp(mobile, otp);
-                    db.demo.update({
-                        mobile: mobile
-                    }, {
-                        $set: {
-                            otp: otp
-                        }
-                    }, function(err, data) {
-                        if (err) {
-                            cb(err, null);
-                        } else {
-                            cb(null, 'save successfully');
-                        }
-                    })
-                } else {
-                    cb("Number not existing ", null);
-                }
-            })
+    if (common.isMobile(mobile)) {
+        db.demo.findOne({ "mobile": mobile }, function(err, existing) {
+            if (existing) {
+                // var otp = (Math.floor(Math.random() * 90000) + 10000);
+                // common.sendOtp(mobile, otp);
+                var otp = 123456
+                db.demo.update({
+                    mobile: mobile
+                }, {
+                    $set: {
+                        otp: 123456
+                    }
+                }, function(err, data) {
+                    if (err) {
+                        cb(err, null);
+                    } else {
+                        cb(null, otp);
+                    }
+                })
+            } else {
+                cb("Number not existing ", null);
+            }
+        })
+    } else {
+        cb("false", null);
+    }
+};
 
-        } else {
-            cb("false", null);
-        }
-    };
-
-    /** 
-     * In this function send mobile and otp to user if exist in database then
-     * update otp as zero in database
-     * @param {data}
-     * @param {cb}
-     */
+/** 
+ * In this function send mobile and otp to user if exist in database then
+ * update otp as zero in database
+ * @param {data}
+ * @param {cb}
+ */
 sms.prototype.verify = function(data, cb) {
-        if (common.isMobile(data.mobile)) {
-            db.demo.findOne({ "mobile": data.mobile, "otp": data.otp }, function(err, data) {
-                if (err) {
-                    cb(err, null);
-                } else {
-                    db.demo.update({
-                        mobile: data.mobile,
-                        otp: data.otp
-                    }, {
-                        $set: {
-                            otp: 0
-                        }
-                    }, function(err, data) {
-                        if (err) {
-                            cb(err, null);
-                        } else {
-                            cb(null, "seccessfully register...");
-                        }
-                    })
-                }
-            })
-        } else {
-            cb("false", null);
-        }
-    };
+    if (common.isMobile(data.mobile)) {
+        db.demo.findOne({ "mobile": data.mobile, "otp": data.otp }, function(err, data) {
+            if (err) {
+                cb(err, null);
+            } else {
+                db.demo.update({
+                    mobile: data.mobile,
+                    otp: data.otp
+                }, {
+                    $set: {
+                        otp: 123456
+                    }
+                }, function(err, data) {
+                    if (err) {
+                        cb(err, null);
+                    } else {
+                        cb(null, "seccessfully register...");
+                    }
+                })
+            }
+        })
+    } else {
+        cb("false", null);
+    }
+};
 
-    /** 
-     * In this function spreadsheet data in database
-     * @param {data}
-     * @param {cb}
-     */
+/** 
+ * In this function spreadsheet data in database
+ * @param {data}
+ * @param {cb}
+ */
 sms.prototype.save = function(data, cb) {
     if (common.isMobile(data[0][7].Mobile)) {
         db.userModel.findOne({ "Mobile": data[0][7].Mobile }, function(err, existingUser) {
@@ -115,8 +116,6 @@ sms.prototype.save = function(data, cb) {
                         console.log('successfully save');
                     }
                 });
-            } else {
-                console.log('existingUser at ' + i);
             }
         });
         cb(null, "save data");
@@ -132,49 +131,70 @@ sms.prototype.save = function(data, cb) {
  */
 sms.prototype.wit = function(d, cb) {
     if (common.isMobile(d.mobile)) {
-        var url = process.env.witUrl || 'https://api.wit.ai/message?v=20160526&q=' + d.message,
-            auth = process.env.witAuthToken || 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
-        request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
-            var data = r.body,
-                intent = data.entities.intent[0].value,
-                on_off = data.entities.on_off[0].value,
-                datetime = data.entities.datetime[0].value;
-            if (intent == 'Work' || intent == 'office' && on_off == 'on') {
-                db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
-                    if (existingUser) {
-                        db.demo.update({ "mobile": d.mobile }, {
-                            $set: {
-                                inTime: datetime 
-                            }
-                        }, function(err, data) {
-                            if (err) {
-                                cb(err, null);
-                            } else {
-                                cb(null, "hi " + d.mobile + " ur in office now at " + datetime);
-                            }
-                        })
+        db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
+            if (existingUser) {
+                var url = process.env.witUrl || 'https://api.wit.ai/message?v=20160526&q=' + d.message,
+                    auth = process.env.witAuthToken || 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
+                request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
+                    var data = r.body,
+                        intent = data.entities.intent[0].value,
+                        on_off = data.entities.on_off[0].value,
+                        datetime = data.entities.datetime[0].value;
+                    if (intent == 'Work' || intent == 'office' && on_off == 'on') {
+                        var result = {
+                            userId: d.mobile,
+                            inTime: datetime,
+                            outTime: 0,
+                            totalTime: 0
+                        }
+                        cb(null, result);
+                    } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
+                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss").diff(moment(existingUser.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss");
+                        var result = {
+                            userId: existingUser.mobile,
+                            inTime: existingUser.inTime,
+                            outTime: datetime,
+                            totalTime: diff
+                        }
+                        cb(null, result);
                     }
                 })
-            } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
-                db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
-                    if (existingUser) {
-                        db.demo.update({ "mobile": d.mobile }, {
-                            $set: {
-                                outTime: datetime
-                            }
-                        }, function(err, data) {
-                            if (err) {
-                                cb(err, null);
-                            } else {
-                                cb(null, "hi " + d.mobile + " ur in office now at " + datetime);
-                            }
-                        })
-                    }
-                })
+            } else {
+                cb('not exit in db', null);
             }
         })
     } else {
-        cb("number not existing in db", null);
+        cb('number not proper format', null);
     }
 };
+
+/** 
+ * In this function user send data for conformation to update time
+ * @param {data}
+ * @param {cb}
+ */
+sms.prototype.conform = function(data, cb) {
+    if (data.check == 'true') {
+        var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss").diff(moment(data.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss")
+        db.demo.update({
+            mobile: data.userId
+        }, {
+            $set: {
+                inTime: data.inTime,
+                outTime: data.outTime,
+                totalTime: diff
+            }
+        }, function(err, result) {
+            if (err) {
+                cb(err, null);
+            } else {
+                cb(null, "update");
+
+            }
+        })
+    } else {
+        cb("You are not check", null);
+    }
+};
+
 module.exports = new sms;

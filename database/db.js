@@ -25,14 +25,11 @@ var userModel = mongoose.model('userSchema', userSchema, 'userModel');
 exports.userModel = userModel;
 
 var demo = mongoose.Schema({
-    "mobile1":{
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'userModel'
-            },
     "mobile": { type: String },
     "otp": { type: String },
-    "inTime": { type: Date },
-    "outTime": { type: Date },
+    "inTime": { type: String },
+    "outTime": { type: String},
+    "totalTime":{type:String},
     "syncTime": { type: Date, default: Date.now() }
 });
 var demo = mongoose.model('demo', demo, 'demo');
