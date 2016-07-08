@@ -83,7 +83,6 @@ router.post('/verify', function(req, res) {
  * @return {response}
  */
 router.post('/timeEntryMsg', function(req, res) {
-    console.log('inside controller');
     var data = {
         message: req.body.message,
         mobile: req.body.mobile
@@ -120,3 +119,4 @@ router.post('/timeEntryConform', function(req, res) {
 })
 
 module.exports = router;
+            

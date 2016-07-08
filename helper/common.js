@@ -3,7 +3,6 @@
  */
 module.exports = {
     isMobile: function(mobile) {
-        console.log("inside mobile check");
         if (mobile.match(/^(\+91[\s]?)\d{10}$/)) {
             return true;
         } else {
