@@ -139,8 +139,8 @@ sms.prototype.wit = function(d, cb) {
                     var data = r.body,
                         intent = data.entities.intent[0].value,
                         on_off = data.entities.on_off[0].value,
-                        datetime= moment().format("YYYY-MM-DD HH:mm:ss Z").tz("Asia/Kolkata");
-                        console.log(datetime);
+                        datetime = moment().format("YYYY-MM-DD HH:mm:ss Z").tz("Asia/Kolkata");
+                    console.log(datetime);
                     if (intent == 'Work' || intent == 'office' && on_off == 'on') {
                         var result = {
                             userId: d.mobile,
@@ -150,7 +150,7 @@ sms.prototype.wit = function(d, cb) {
                         }
                         cb(null, result);
                     } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
-                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss","Asia/Kolkata").diff(moment(existingUser.inTime, "YYYY-MM-DD HH:mm:ss","Asia/Kolkata"))).format("HH:mm:ss");
+                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss", "Asia/Kolkata").diff(moment(existingUser.inTime, "YYYY-MM-DD HH:mm:ss", "Asia/Kolkata"))).format("HH:mm:ss");
                         var result = {
                             userId: existingUser.mobile,
                             inTime: existingUser.time[0].inTime,
@@ -179,8 +179,8 @@ sms.prototype.conform = function(data, cb) {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
             console.log(!existingUser.time);
             for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                console.log(i+" and length "+existingUser.time.length)
-                if ( existingUser.time[i].inTime != data.inTime) {
+                console.log(i + " and length " + existingUser.time.length)
+                if (existingUser.time[i].inTime != data.inTime) {
                     console.log('inside if')
                     db.demo.update({
                         mobile: data.userId
@@ -195,12 +195,13 @@ sms.prototype.conform = function(data, cb) {
                     }, function(err, result) {
                         if (err) {
                             // cb(err, null);
-                            console.log("err \n"+err);
+                            console.log("err \n" + err);
                         } else {
                             // cb(null, "update");
                             console.log(result);
                         }
-                    });break;
+                    });
+                    break;
                 } else if (existingUser.time[i].inTime == data.inTime && data.outTime) {
                     console.log('inside else');
                     var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss").diff(moment(data.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss")
@@ -221,7 +222,8 @@ sms.prototype.conform = function(data, cb) {
                             // cb(null, "update");
 
                         }
-                    });break;
+                    });
+                    break;
                 }
 
             }
