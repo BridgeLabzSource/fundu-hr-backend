@@ -5,7 +5,7 @@ var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
-    moment = require('moment'),
+    moment = require('moment-timezone'),
     db = require('../database/db');
 /**
  * @constructor
