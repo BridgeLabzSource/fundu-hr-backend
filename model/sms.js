@@ -175,26 +175,72 @@ sms.prototype.wit = function(d, cb) {
  */
 sms.prototype.conform = function(data, cb) {
     if (data.check == 'true') {
-        var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss").diff(moment(data.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss")
-        db.demo.update({
-            mobile: data.userId
-        }, {
-            $set: {
-                inTime: data.inTime,
-                outTime: data.outTime,
-                totalTime: diff
-            }
-        }, function(err, result) {
-            if (err) {
-                cb(err, null);
-            } else {
-                cb(null, "update");
+        db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
+            console.log(!existingUser.time);
+            for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                console.log(i+" and length "+existingUser.time.length)
+                if ( existingUser.time[i].inTime != data.inTime) {
+                    console.log('inside if')
+                    db.demo.update({
+                        mobile: data.userId
+                    }, {
+                        $push: {
+                            "time": {
+                                inTime: data.inTime,
+                                outTime: data.outTime,
+                                totalTime: 0
+                            }
+                        }
+                    }, function(err, result) {
+                        if (err) {
+                            // cb(err, null);
+                            console.log("err \n"+err);
+                        } else {
+                            // cb(null, "update");
+                            console.log(result);
+                        }
+                    });break;
+                } else if (existingUser.time[i].inTime == data.inTime && data.outTime) {
+                    console.log('inside else');
+                    var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss").diff(moment(data.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss")
+                    db.demo.update({
+                        mobile: data.userId
+                    }, {
+                        $set: {
+                            "time": {
+                                inTime: data.inTime,
+                                outTime: data.outTime,
+                                totalTime: diff
+                            }
+                        }
+                    }, function(err, result) {
+                        if (err) {
+                            cb(err, null);
+                        } else {
+                            // cb(null, "update");
+
+                        }
+                    });break;
+                }
 
             }
+
         })
+        cb(null, "update");
     } else {
         cb("You are not check", null);
     }
 };
 
+sms.prototype.demo = function(data, cb) {
+    db.demo.findOne({ "mobile": data.userId })
+        .populate("userAttendance")
+        .exec(function(err, person) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('JSON for person is :' + person);
+            }
+        })
+}
 module.exports = new sms;

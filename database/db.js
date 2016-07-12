@@ -27,10 +27,27 @@ exports.userModel = userModel;
 var demo = mongoose.Schema({
     "mobile": { type: String },
     "otp": { type: String },
-    "inTime": { type: String },
-    "outTime": { type: String},
-    "totalTime":{type:String},
-    "syncTime": { type: Date, default: Date.now() }
+    "time": [{
+        "inTime": { type: String },
+        "outTime": { type: String },
+        "totalTime": { type: String },
+        "syncTime": { type: Date, default: Date.now() }
+    }],
+
 });
 var demo = mongoose.model('demo', demo, 'demo');
 exports.demo = demo;
+
+var userAttendance = mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'demo'
+    },
+    time: [{
+        inTime: String,
+        outTime: String,
+        totalTime: String
+    }]
+});
+var userAttendance = mongoose.model("userAttendance", userAttendance, "userAttendance");
+exports.userAttendance = userAttendance;

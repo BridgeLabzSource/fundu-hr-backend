@@ -43,6 +43,7 @@ router.post('/edit', function(req, res) {
         }
     })
 });
+
 /**
  * send otp to mobile
  * @param {mobile}
@@ -58,6 +59,7 @@ router.post('/otp', function(req, res) {
         }
     })
 });
+
 /**
  * verify mobile and otp
  * @param {mobile,otp}
@@ -119,4 +121,3 @@ router.post('/timeEntryConform', function(req, res) {
 })
 
 module.exports = router;
-            
