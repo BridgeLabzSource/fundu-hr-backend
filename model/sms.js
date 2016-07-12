@@ -152,7 +152,7 @@ sms.prototype.wit = function(d, cb) {
                         var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss").diff(moment(existingUser.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss");
                         var result = {
                             userId: existingUser.mobile,
-                            inTime: existingUser.inTime,
+                            inTime: existingUser.time[0].inTime,
                             outTime: datetime,
                             totalTime: diff
                         }
