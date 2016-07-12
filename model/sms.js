@@ -139,7 +139,7 @@ sms.prototype.wit = function(d, cb) {
                     var data = r.body,
                         intent = data.entities.intent[0].value,
                         on_off = data.entities.on_off[0].value,
-                        datetime= moment().format("YYYY-MM-DD HH:mm:ss+5:30");
+                        datetime= moment().format("YYYY-MM-DD HH:mm:ss +5:30");
                         console.log(datetime);
                     if (intent == 'Work' || intent == 'office' && on_off == 'on') {
                         var result = {
