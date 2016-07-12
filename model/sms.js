@@ -177,7 +177,7 @@ sms.prototype.wit = function(d, cb) {
 sms.prototype.conform = function(data, cb) {
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
-            console.log(!existingUser.time);
+            console.log("existingUser :"+existingUser);
             for (var i = 0; i <= existingUser.time.length - 1; i++) {
                 console.log(i + " and length " + existingUser.time.length)
                 if (existingUser.time[i].inTime != data.inTime) {
