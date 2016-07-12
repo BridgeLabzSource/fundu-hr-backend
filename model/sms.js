@@ -139,7 +139,7 @@ sms.prototype.wit = function(d, cb) {
                     var data = r.body,
                         intent = data.entities.intent[0].value,
                         on_off = data.entities.on_off[0].value,
-                        datetime = moment().format("YYYY-MM-DD HH:mm:ss Z").tz("Asia/Kolkata");
+                        datetime = moment().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss");
                     console.log(datetime);
                     if (intent == 'Work' || intent == 'office' && on_off == 'on') {
                         var result = {
@@ -150,7 +150,7 @@ sms.prototype.wit = function(d, cb) {
                         }
                         cb(null, result);
                     } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
-                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss", "Asia/Kolkata").diff(moment(existingUser.inTime, "YYYY-MM-DD HH:mm:ss", "Asia/Kolkata"))).format("HH:mm:ss");
+                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss").diff(moment(existingUser.inTime, "YYYY-MM-DD HH:mm:ss"))).format("HH:mm:ss");
                         var result = {
                             userId: existingUser.mobile,
                             inTime: existingUser.time[0].inTime,
