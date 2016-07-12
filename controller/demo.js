@@ -92,8 +92,10 @@ router.post('/timeEntryMsg', function(req, res) {
     sms.wit(data, function(err, data) {
         if (err) {
             res.json({ "err": err });
+            console.log("errrror : \n"+err );
         } else {
             res.json({ "data": data });
+            console.log("errrror : \n"+data );
         }
     })
 });
@@ -112,10 +114,12 @@ router.post('/timeEntryConform', function(req, res) {
         totalTime: req.body.totalTime
     };
     sms.conform(data, function(err, data) {
-        if (err) {
+         if (err) {
             res.json({ "err": err });
+            console.log("errrror : \n"+err );
         } else {
             res.json({ "data": data });
+            console.log("errrror : \n"+data );
         }
     })
 })
