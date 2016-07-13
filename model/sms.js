@@ -59,13 +59,13 @@ sms.prototype.otp = function(mobile, cb) {
 sms.prototype.verify = function(data, cb) {
     console.log(data.mobile);
     if (common.isMobile(data.mobile)) {
-        db.demo.findOne({ "mobile": data.mobile, "otp": data.otp }, function(err, result) {
+        db.demo.findOne({ "mobile": data.mobile}, function(err, result) {
+            
             if (err) {
                 cb(err, null);
             } else {
                 db.demo.update({
-                    mobile: data.mobile,
-                    otp: data.otp
+                    mobile: data.mobile
                 }, {
                     $set: {
                         otp: 123456
@@ -74,6 +74,7 @@ sms.prototype.verify = function(data, cb) {
                     if (err) {
                         cb(err, null);
                     } else {
+                        console.log(data)
                         cb(null, "seccessfully register...");
                     }
                 })
