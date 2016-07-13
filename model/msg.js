@@ -33,7 +33,7 @@ msg.prototype.wit = function(d, cb) {
                     var data = r.body,
                         intent = data.entities.intent[0].value,
                         on_off = data.entities.on_off[0].value,
-                        datetime=moment().utcOffset("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss");
+                        datetime=moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss");
                         // datetime = moment().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss");
                     console.log(datetime);
                     if (intent == 'Work' || intent == 'office' && on_off == 'on') {
