@@ -3,21 +3,8 @@
  */
 var express = require('express'),
     router = express.Router(),
-    q = require('q'),
-    db = require('../database/db'),
     sms = require('../model/sms');
-/**
- * demo
- */
-router.get('/', function(req, res) {
-    db.demo.find({}, function(err, data) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(data);
-        }
-    })
-});
+
 /**
  * sendmsg
  * @param {message}
@@ -79,49 +66,15 @@ router.post('/verify', function(req, res) {
     })
 });
 
-/**
- * call timeEntryMsg
- * @param {message,mobile}
- * @return {response}
- */
-router.post('/timeEntryMsg', function(req, res) {
-    var data = {
-        message: req.body.message,
-        mobile: req.body.mobile
-    };
-    sms.wit(data, function(err, data) {
-        if (err) {
-            res.json({ "err": err });
-            console.log("errrror : \n"+err );
-        } else {
-            res.json({ "data": data });
-            console.log("errrror : \n"+data );
-        }
-    })
-});
-
-/**
- * call timeEntryConform
- * @param {check,mobile,inTime,outTime,totalTime}
- * @return {response}
- */
-router.post('/timeEntryConform', function(req, res) {
-    var data = {
-        check: req.body.check,
-        userId: req.body.mobile,
-        inTime: req.body.inTime,
-        outTime: req.body.outTime,
-        totalTime: req.body.totalTime
-    };
-    sms.conform(data, function(err, data) {
-         if (err) {
-            res.json({ "err": err });
-            console.log("errrror : \n"+err );
-        } else {
-            res.json({ "data": data });
-            console.log("errrror : \n"+data );
-        }
-    })
+router.get('/time',function (req,res){
+    var moment=require('moment-timezone');
+    var mom=require('moment');
+    console.log(mom.getZone())
+    var st=moment().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss Z");
+    var et="2016-07-13 11:26:34 +05:30";
+    console.log(st+" and et "+et)
+     var diff = mom.utc(mom(et, "YYYY-MM-DD HH:mm:ss Z").diff(mom(st, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+     console.log(diff)
 })
 
 module.exports = router;

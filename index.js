@@ -1,8 +1,8 @@
 /**
  * @define dependencies
  */
-var express = require('express')
-app = express(),
+var express = require('express'),
+    app = express(),
     port = process.env.PORT || 3008,
     bodyParser = require('body-parser'),
     db = require('./model/connect.js');
@@ -10,7 +10,7 @@ app = express(),
  * configure 
  */
 app.use(bodyParser());
-app.use(require('./controller/demo'));
+app.use(require('./controller/index'));
 
 /**
  * listen port
