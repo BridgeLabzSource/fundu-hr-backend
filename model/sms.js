@@ -68,7 +68,8 @@ sms.prototype.verify = function(data, cb) {
                     mobile: data.mobile
                 }, {
                     $set: {
-                        otp: 123456
+                        otp: 123456,
+                        time:[]
                     }
                 }, function(err, data) {
                     if (err) {
