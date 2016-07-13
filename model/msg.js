@@ -73,7 +73,7 @@ msg.prototype.wit = function(d, cb) {
 msg.prototype.conform = function(data, cb) {
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
-            console.log(existingUser.time.length);
+            // console.log(existingUser.time.length);
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
                     db.demo.update({ "mobile": data.userId }, {
