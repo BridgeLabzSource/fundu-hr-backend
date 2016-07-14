@@ -38,6 +38,7 @@ router.post('/edit', function(req, res) {
  * @return {otp}
  */
 router.post('/otp', function(req, res) {
+    console.log("opt received \n"+JSON.stringify(req));
     var mobile = req.body.mobile;
     sms.otp(mobile, function(err, data) {
         if (err) {
