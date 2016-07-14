@@ -22,7 +22,7 @@ util.inherits(msg, EventEmitter)
  */
 msg.prototype.wit = function(d, cb) {
     if (common.isMobile(d.mobile)) {
-        console.log("message  "+d.message)
+        console.log("message  " + d.message)
         db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
             if (existingUser) {
                 console.log('inside existingUser')
@@ -44,7 +44,7 @@ msg.prototype.wit = function(d, cb) {
                                 str = exist.time[i].inTime;
                                 str = str.slice(0, 10)
                                 str1 = datetime.slice(0, 10);
-                                console.log("str 1 :"+str1);
+                                console.log("str 1 :" + str1);
                                 if (str != str1) {
                                     var result = {
                                         userId: d.mobile,
