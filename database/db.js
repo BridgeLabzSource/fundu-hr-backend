@@ -37,17 +37,3 @@ var demo = mongoose.Schema({
 });
 var demo = mongoose.model('demo', demo, 'demo');
 exports.demo = demo;
-
-var userAttendance = mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'demo'
-    },
-    time: [{
-        inTime: String,
-        outTime: String,
-        totalTime: String
-    }]
-});
-var userAttendance = mongoose.model("userAttendance", userAttendance, "userAttendance");
-exports.userAttendance = userAttendance;
