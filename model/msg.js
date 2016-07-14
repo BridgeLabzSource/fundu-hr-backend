@@ -39,6 +39,7 @@ msg.prototype.wit = function(d, cb) {
                     if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
                         console.log("inside if " + intent + " and " + on_off);
                         db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                            console.log(exist);
                             for (var i = 0; i <= exist.time.length; i++) {
                                 var inTime;
                                 str = exist.time[i].inTime;
