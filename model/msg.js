@@ -60,7 +60,7 @@ msg.prototype.wit = function(d, cb) {
                                         userId: exist.mobile,
                                         inTime: exist.time[i].inTime,
                                         outTime: datetime,
-                                        totalTime: 0
+                                        totalTime: diff
                                     }
                                     cb(null, result);
                                 }
