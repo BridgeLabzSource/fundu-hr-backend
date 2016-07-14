@@ -32,7 +32,7 @@ msg.prototype.wit = function(d, cb) {
                     console.log("error :" + JSON.stringify(ee))
                     console.log("r :" + JSON.stringify(r));
                     console.log("body :" + JSON.stringify(body))
-                    intent = body.entities.intent[0].value,
+                    var intent = body.entities.intent[0].value,
                         on_off = body.entities.on_off[0].value,
                         datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
                     console.log(datetime);
@@ -104,7 +104,9 @@ msg.prototype.conform = function(data, cb) {
     console.log(data)
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
-                // console.log(existingUser.time.length);
+                /*
+                 * first time intime Entry at 0 postion of time array
+                 */
                 if (data.outTime == 0) {
                     console.log(existingUser)
                     if (existingUser.time.length == 0) {
@@ -125,6 +127,9 @@ msg.prototype.conform = function(data, cb) {
                         })
                     } else {
                         for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                            /*
+                             * inTime entry in time array
+                             */
                             if (existingUser.time[i].inTime != data.inTime) {
                                 console.log("second else " + existingUser.time[i].inTime + " actual " + data.inTime);
                                 db.demo.update({ "mobile": data.userId }, {
@@ -149,6 +154,9 @@ msg.prototype.conform = function(data, cb) {
                         }
                     }
                 } else {
+                    /*
+                     * outTime entry in time array
+                     */
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
                         if (existingUser.time[i].inTime == data.inTime) {
                             console.log("second else..... " + existingUser.time[i].inTime + " actual " + data.inTime);
@@ -175,7 +183,6 @@ msg.prototype.conform = function(data, cb) {
                     }
                 }
             })
-            // cb(null, "update");
     } else {
         cb("You are not check", null);
     }

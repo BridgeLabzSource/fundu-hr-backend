@@ -15,6 +15,7 @@ router.post('/sendmsg', function(req, res) {
     console.log(message);
     res.json({ message: message });
 });
+
 /**
  * save spreadsheet data into mongodb
  * @param {share}
