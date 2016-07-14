@@ -35,6 +35,7 @@ msg.prototype.wit = function(d, cb) {
                         on_off = data.entities.on_off[0].value,
                         datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
                     console.log(datetime);
+                    console.log(data);
                     if (intent == 'Work' || intent == 'office' && on_off == 'on') {
                         console.log("inside if " + intent + " and " + on_off);
                         var result = {
@@ -46,14 +47,20 @@ msg.prototype.wit = function(d, cb) {
                         cb(null, result);
                     } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
-                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                        var result = {
-                            userId: existingUser.mobile,
-                            inTime: existingUser.time[0].inTime,
-                            outTime: datetime,
-                            totalTime: diff
-                        }
-                        cb(null, result);
+                        db.demo.findOne({ "mobile": d.mobile, "inTime": d.inTime }, function(error, exist) {
+                            for (var i = 0; i <= exist.time; i++) {
+                                if (exist.time[i].inTime == d.time) {
+                                    var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                    var result = {
+                                        userId: exist.mobile,
+                                        inTime: exist.time[i].inTime,
+                                        outTime: datetime,
+                                        totalTime: 0
+                                    }
+                                    cb(null, result);
+                                }
+                            }
+                        })
                     }
                 })
             } else {
@@ -73,7 +80,7 @@ msg.prototype.wit = function(d, cb) {
 msg.prototype.conform = function(data, cb) {
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
-             console.log(existingUser.time.length);
+            // console.log(existingUser.time.length);
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
                     db.demo.update({ "mobile": data.userId }, {
@@ -118,7 +125,7 @@ msg.prototype.conform = function(data, cb) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         console.log("second else..... " + existingUser.time[i].inTime + " actual " + data.inTime);
                         var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                        db.demo.update({ "mobile": data.userId, "time":{ $elemMatch: { inTime:existingUser.time[i].inTime} } }, {
+                        db.demo.update({ "mobile": data.userId, "time": { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
                                     "time.$.inTime": data.inTime,
                                     "time.$.outTime": data.outTime,

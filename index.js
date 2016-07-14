@@ -6,7 +6,7 @@ var express = require('express'),
     port = process.env.PORT || 3008,
     bodyParser = require('body-parser'),
     cors = require('cors'),
-    db = require('./model/connect.js');
+    db = require('./helper/connect.js');
 /**
  * configure 
  */
