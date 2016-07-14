@@ -49,8 +49,9 @@ msg.prototype.wit = function(d, cb) {
                         console.log("inside else " + intent + " and " + on_off);
                         db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
                             str=exist.time[0].inTime;
-                            str=str.slice(0,9)
-                            str1=datetime.slice(0,9);
+                            console.log(str);
+                            str=str.slice(0,10)
+                            str1=datetime.slice(0,10);
                             console.log("slice :"+str+" and "+str1);
                             for (var i = 0; i <= exist.time.length; i++) {
                                 if (str== str1) {
