@@ -48,12 +48,12 @@ msg.prototype.wit = function(d, cb) {
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
                         db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            str=exist.time[0].inTime;
+                            for (var i = 0; i <= exist.time.length; i++) {
+                                str=exist.time[i].inTime;
                             console.log(str);
                             str=str.slice(0,10)
                             str1=datetime.slice(0,10);
                             console.log("slice :"+str+" and "+str1);
-                            for (var i = 0; i <= exist.time.length; i++) {
                                 if (str== str1) {
                                     var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
                                     var result = {
