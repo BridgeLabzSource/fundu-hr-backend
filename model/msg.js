@@ -29,14 +29,14 @@ msg.prototype.wit = function(d, cb) {
                 var url = process.env.witUrl || 'https://api.wit.ai/message?v=20160526&q=' + d.message,
                     auth = process.env.witAuthToken || 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
                 request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
-                    console.log("inside request url")
-                    var data = r.body,
-                        intent = data.entities.intent[0].value,
-                        on_off = data.entities.on_off[0].value,
+                    console.log("error :" +JSON.stringify(ee))
+                    console.log("r :" +JSON.stringify(r));
+                    console.log("body :"+JSON.stringify(body))
+                        intent = body.entities.intent[0].value,
+                        on_off = body.entities.on_off[0].value,
                         datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
                     console.log(datetime);
-                    console.log(data);
-                    if (intent == 'Work' || intent == 'office' && on_off == 'on') {
+                    if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
                         console.log("inside if " + intent + " and " + on_off);
                         var result = {
                             userId: d.mobile,
@@ -45,11 +45,15 @@ msg.prototype.wit = function(d, cb) {
                             totalTime: 0
                         }
                         cb(null, result);
-                    } else if (intent == 'Work' || intent == 'office' && on_off == 'off') {
+                    } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
-                        db.demo.findOne({ "mobile": d.mobile, "inTime": d.inTime }, function(error, exist) {
-                            for (var i = 0; i <= exist.time; i++) {
-                                if (exist.time[i].inTime == d.time) {
+                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                            str=exist.time[0].inTime;
+                            str=str.slice(0,9)
+                            str1=datetime.slice(0,9);
+                            console.log("slice :"+str+" and "+str1);
+                            for (var i = 0; i <= exist.time.length; i++) {
+                                if (str== str1) {
                                     var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
                                     var result = {
                                         userId: exist.mobile,
@@ -78,10 +82,12 @@ msg.prototype.wit = function(d, cb) {
  * @param {cb}
  */
 msg.prototype.conform = function(data, cb) {
+    console.log(data)
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
             // console.log(existingUser.time.length);
             if (data.outTime == 0) {
+                console.log(existingUser)
                 if (existingUser.time.length == 0) {
                     db.demo.update({ "mobile": data.userId }, {
                         $push: {
