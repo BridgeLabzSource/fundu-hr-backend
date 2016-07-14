@@ -138,8 +138,11 @@ msg.prototype.conform = function(data, cb) {
                             }, function(err, result) {
                                 if (err) {
                                     console.log(err);
+                                    cb("err",null);
                                 } else {
                                     console.log(result);
+                                    cb(null, "update");
+                                    break;
                                 }
                             })
                         }
@@ -160,15 +163,18 @@ msg.prototype.conform = function(data, cb) {
                             function(err, result) {
                                 if (err) {
                                     console.log(err);
+                                    cb("err",null);
                                 } else {
                                     console.log(result);
+                                    cb(null, "update");
+                                    break;
                                 }
                             })
                     }
                 }
             }
         })
-        cb(null, "update");
+        // cb(null, "update");
     } else {
         cb("You are not check", null);
     }
