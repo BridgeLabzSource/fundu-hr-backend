@@ -27,7 +27,7 @@ io.on('connection', function(socket){
 });
 
 db.connect(function() {
-    app.listen(port, function() {
+    server.listen(port, function() {
         console.log("Server Runnig " + port);
     })
 })
