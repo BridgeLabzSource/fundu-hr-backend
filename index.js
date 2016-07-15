@@ -17,7 +17,7 @@ app.use(bodyParser());
 app.use(require('./controller/index'));
 
 /**
- * listen port
+ * socket connection on
  */
 io.on('connection', function(socket) {
     console.log('a user connected');
@@ -26,6 +26,9 @@ io.on('connection', function(socket) {
     });
 });
 
+/**
+ * listen port
+ */
 db.connect(function() {
     http.listen(port, function() {
         console.log("Server Runnig " + port);
