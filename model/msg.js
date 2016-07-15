@@ -40,29 +40,40 @@ msg.prototype.wit = function(d, cb) {
                         console.log("inside if " + intent + " and " + on_off);
                         db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
                             console.log(exist);
-                            for (var i = 0; i <= exist.time.length; i++) {
-                                var inTime;
-                                str = exist.time[i].inTime;
-                                str = str.slice(0, 10)
-                                str1 = datetime.slice(0, 10);
-                                console.log("str 1 :" + str1);
-                                if (str != str1) {
-                                    var result = {
-                                        userId: d.mobile,
-                                        inTime: datetime,
-                                        outTime: 0,
-                                        totalTime: 0
-                                    }
-                                    console.log("result : " + result)
-                                    cb(null, result);
-                                    break;
-                                } else {
-
-                                    console.log("already exist")
-                                    cb("You are already enter time ", null)
-                                    break;
+                            if (exist.time.length == 0) {
+                                var result = {
+                                    userId: d.mobile,
+                                    inTime: datetime,
+                                    outTime: 0,
+                                    totalTime: 0
                                 }
-                                cb(null, result)
+                                console.log("result : " + result)
+                                cb(null, result);
+                            } else {
+                                for (var i = 0; i <= exist.time.length; i++) {
+                                    var inTime;
+                                    str = exist.time[i].inTime;
+                                    str = str.slice(0, 10)
+                                    str1 = datetime.slice(0, 10);
+                                    console.log("str 1 :" + str1);
+                                    if (str != str1) {
+                                        var result = {
+                                            userId: d.mobile,
+                                            inTime: datetime,
+                                            outTime: 0,
+                                            totalTime: 0
+                                        }
+                                        console.log("result : " + result)
+                                        cb(null, result);
+                                        break;
+                                    } else {
+
+                                        console.log("already exist")
+                                        cb("You are already enter time ", null)
+                                        break;
+                                    }
+                                    cb(null, result)
+                                }
                             }
                         })
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
@@ -105,85 +116,85 @@ msg.prototype.conform = function(data, cb) {
     console.log(data)
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
-                /*
-                 * first time intime Entry at 0 postion of time array
-                 */
-                if (data.outTime == 0) {
-                    console.log(existingUser)
-                    if (existingUser.time.length == 0) {
-                        db.demo.update({ "mobile": data.userId }, {
-                            $push: {
-                                time: {
-                                    inTime: data.inTime,
-                                    outTime: 0,
-                                    totalTime: 0
-                                }
-                            }
-                        }, function(err, result) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log(result);
-                            }
-                        })
-                    } else {
-                        for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                            /*
-                             * inTime entry in time array
-                             */
-                            if (existingUser.time[i].inTime != data.inTime) {
-                                console.log("second else " + existingUser.time[i].inTime + " actual " + data.inTime);
-                                db.demo.update({ "mobile": data.userId }, {
-                                    $push: {
-                                        time: {
-                                            inTime: data.inTime,
-                                            outTime: 0,
-                                            totalTime: 0
-                                        }
-                                    }
-                                }, function(err, result) {
-                                    if (err) {
-                                        console.log(err);
-                                        cb("err", null);
-                                    } else {
-                                        console.log(result);
-                                    }
-                                })
-                                cb(null, "update");
-                                break;
+            /*
+             * first time intime Entry at 0 postion of time array
+             */
+            if (data.outTime == 0) {
+                console.log(existingUser)
+                if (existingUser.time.length == 0) {
+                    db.demo.update({ "mobile": data.userId }, {
+                        $push: {
+                            time: {
+                                inTime: data.inTime,
+                                outTime: 0,
+                                totalTime: 0
                             }
                         }
-                    }
+                    }, function(err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(result);
+                        }
+                    })
                 } else {
-                    /*
-                     * outTime entry in time array
-                     */
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        if (existingUser.time[i].inTime == data.inTime) {
-                            console.log("second else..... " + existingUser.time[i].inTime + " actual " + data.inTime);
-                            var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                            db.demo.update({ "mobile": data.userId, "time": { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
-                                    $set: {
-                                        "time.$.inTime": data.inTime,
-                                        "time.$.outTime": data.outTime,
-                                        "time.$.totalTime": diff
+                        /*
+                         * inTime entry in time array
+                         */
+                        if (existingUser.time[i].inTime != data.inTime) {
+                            console.log("second else " + existingUser.time[i].inTime + " actual " + data.inTime);
+                            db.demo.update({ "mobile": data.userId }, {
+                                $push: {
+                                    time: {
+                                        inTime: data.inTime,
+                                        outTime: 0,
+                                        totalTime: 0
                                     }
-                                },
-                                function(err, result) {
-                                    if (err) {
-                                        console.log(err);
-                                        cb("err", null);
-                                    } else {
-                                        console.log(result);
-
-                                    }
-                                })
+                                }
+                            }, function(err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    cb("err", null);
+                                } else {
+                                    console.log(result);
+                                }
+                            })
                             cb(null, "update");
                             break;
                         }
                     }
                 }
-            })
+            } else {
+                /*
+                 * outTime entry in time array
+                 */
+                for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                    if (existingUser.time[i].inTime == data.inTime) {
+                        console.log("second else..... " + existingUser.time[i].inTime + " actual " + data.inTime);
+                        var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                        db.demo.update({ "mobile": data.userId, "time": { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
+                                $set: {
+                                    "time.$.inTime": data.inTime,
+                                    "time.$.outTime": data.outTime,
+                                    "time.$.totalTime": diff
+                                }
+                            },
+                            function(err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    cb("err", null);
+                                } else {
+                                    console.log(result);
+
+                                }
+                            })
+                        cb(null, "update");
+                        break;
+                    }
+                }
+            }
+        })
     } else {
         cb("You are not check", null);
     }
