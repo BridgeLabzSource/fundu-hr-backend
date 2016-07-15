@@ -85,6 +85,7 @@ msg.prototype.wit = function(d, cb) {
                                 str1 = datetime.slice(0, 10);
                                 if (str == str1) {
                                     var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                    console.log(diff);
                                     var result = {
                                         userId: exist.mobile,
                                         inTime: exist.time[i].inTime,
