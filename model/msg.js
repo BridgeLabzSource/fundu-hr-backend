@@ -115,14 +115,14 @@ msg.prototype.wit = function(d, cb) {
 msg.prototype.conform = function(data, cb) {
     console.log(data)
     if (data.check == 'true') {
-        db.demo.findOne({ "mobile": data.userId }, function(err, existingUser) {
+        db.demo.findOne({ "mobile": data.mobile }, function(err, existingUser) {
             /*
              * first time intime Entry at 0 postion of time array
              */
             if (data.outTime == 0) {
                 console.log(existingUser)
                 if (existingUser.time.length == 0) {
-                    db.demo.update({ "mobile": data.userId }, {
+                    db.demo.update({ "mobile": data.mobile }, {
                         $push: {
                             time: {
                                 inTime: data.inTime,
@@ -145,7 +145,7 @@ msg.prototype.conform = function(data, cb) {
                          */
                         if (existingUser.time[i].inTime != data.inTime) {
                             console.log("second else " + existingUser.time[i].inTime + " actual " + data.inTime);
-                            db.demo.update({ "mobile": data.userId }, {
+                            db.demo.update({ "mobile": data.mobile }, {
                                 $push: {
                                     time: {
                                         inTime: data.inTime,
@@ -177,7 +177,7 @@ msg.prototype.conform = function(data, cb) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         console.log("second else..... " + existingUser.time[i].inTime + " actual " + data.inTime);
                         var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                        db.demo.update({ "mobile": data.userId, "time": { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
+                        db.demo.update({ "mobile": data.mobile, "time": { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
                                     "time.$.inTime": data.inTime,
                                     "time.$.outTime": data.outTime,

@@ -32,7 +32,7 @@ router.post('/timeEntryMsg', function(req, res) {
 router.post('/timeEntryConform', function(req, res) {
     var data = {
         check: req.body.check,
-        userId: req.body.mobile,
+        mobile: req.body.mobile,
         inTime: req.body.inTime,
         outTime: req.body.outTime,
         totalTime: req.body.totalTime
