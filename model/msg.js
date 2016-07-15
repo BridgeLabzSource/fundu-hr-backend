@@ -135,6 +135,7 @@ msg.prototype.conform = function(data, cb) {
                             console.log(err);
                         } else {
                             console.log(result);
+                            cb(null,"update");
                         }
                     })
                 } else {
