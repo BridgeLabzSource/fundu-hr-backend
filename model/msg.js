@@ -135,7 +135,7 @@ msg.prototype.conform = function(data, cb) {
                             console.log(err);
                         } else {
                             console.log(result);
-                            cb(null,"update");
+                            cb(null, "update");
                         }
                     })
                 } else {
@@ -162,6 +162,9 @@ msg.prototype.conform = function(data, cb) {
                                 }
                             })
                             cb(null, "update");
+                            break;
+                        } else {
+                            cb("already update time", null)
                             break;
                         }
                     }
