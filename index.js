@@ -20,9 +20,9 @@ app.use(require('./controller/index'));
  * socket connection on
  */
 io.on('connection', function(socket) {
-    console.log('a user connected');
+    console.log('a user connected to server');
     socket.on('disconnect', function() {
-        console.log('user disconnected');
+        console.log('user disconnected from server');
     });
 });
 
