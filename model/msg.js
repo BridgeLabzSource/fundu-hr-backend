@@ -80,6 +80,7 @@ msg.prototype.wit = function(d, cb) {
                         console.log("inside else " + intent + " and " + on_off);
                         db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
                             for (var i = 0; i <= exist.time.length; i++) {
+                                console.log(exist.time[i].inTime);
                                 if (exist.time[i].inTime == undefined) {
                                     cb("You have not enter inTime", null)
                                 } else {
