@@ -46,7 +46,6 @@ msg.prototype.wit = function(d, cb) {
                                     str = existingUser.time[i].inTime;
                                     str = str.slice(0, 10)
                                     str1 = datetime.slice(0, 10);
-                                    console.log("str 1 :" + str1);
                                     if (str != str1) {
                                         var result = {
                                             userId: d.mobile,
@@ -65,24 +64,22 @@ msg.prototype.wit = function(d, cb) {
                             }
                         })
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
-                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            for (var i = 0; i <= existingUser.time.length; i++) {
-                                str = existingUser.time[i].inTime;
-                                str = str.slice(0, 10)
-                                str1 = datetime.slice(0, 10);
-                                if (str == str1) {
-                                    var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                                    var result = {
-                                        userId: existingUser.mobile,
-                                        inTime: existingUser.time[i].inTime,
-                                        outTime: datetime,
-                                        totalTime: diff
-                                    }
-                                    cb(null, result);
-                                    break;
+                        for (var i = 0; i <= existingUser.time.length; i++) {
+                            str = existingUser.time[i].inTime;
+                            str = str.slice(0, 10)
+                            str1 = datetime.slice(0, 10);
+                            if (str == str1) {
+                                var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                var result = {
+                                    userId: existingUser.mobile,
+                                    inTime: existingUser.time[i].inTime,
+                                    outTime: datetime,
+                                    totalTime: diff
                                 }
+                                cb(null, result);
+                                break;
                             }
-                        })
+                        }
                     }
                 })
             } else {
