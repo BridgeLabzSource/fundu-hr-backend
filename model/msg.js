@@ -39,95 +39,70 @@ msg.prototype.wit = function(d, cb) {
                     if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
                         console.log("inside if " + intent + " and " + on_off);
                         // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                        console.log("exist: \n"+existingUser);
-                        if (existingUser.time.length == 0) {
-                            var result = {
-                                userId: d.mobile,
-                                inTime: datetime,
-                                outTime: 0,
-                                totalTime: 0
-                            }
-                            console.log("result : " + result)
-                            cb(null, result);
-                        } else {
-                            for (var i = 0; i <= existingUser.time.length; i++) {
-                                var inTime;
-                                str = existingUser.time[i].inTime;
-                                str = str.slice(0, 10)
-                                str1 = datetime.slice(0, 10);
-                                console.log("str 1 :" + str1);
-                                if (str != str1) {
-                                    var result = {
-                                        userId: d.mobile,
-                                        inTime: datetime,
-                                        outTime: 0,
-                                        totalTime: 0
-                                    }
-                                    console.log("result : " + result)
-                                    cb(null, result);
-                                    break;
-                                } else {
+                            console.log("exist \n "+existingUser);
+                            if (existingUser.time.length == 0) {
+                                var result = {
+                                    userId: d.mobile,
+                                    inTime: datetime,
+                                    outTime: 0,
+                                    totalTime: 0
+                                }
+                                console.log("result : " + result)
+                                cb(null, result);
+                            } else {
+                                for (var i = 0; i <= existingUser.time.length; i++) {
+                                    var inTime;
+                                    str = existingUser.time[i].inTime;
+                                    str = str.slice(0, 10)
+                                    str1 = datetime.slice(0, 10);
+                                    console.log("str 1 :" + str1);
+                                    if (str != str1) {
+                                        var result = {
+                                            userId: d.mobile,
+                                            inTime: datetime,
+                                            outTime: 0,
+                                            totalTime: 0
+                                        }
+                                        console.log("result : " + result)
+                                        cb(null, result);
+                                        break;
+                                    } else {
 
-                                    console.log("already exist")
-                                    cb("You are already enter time ", null)
-                                    break;
+                                        console.log("already exist")
+                                        cb("You are already enter time ", null)
+                                        break;
+                                    }
+                                    cb(null, result)
                                 }
                             }
-                        }
                         // })
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
                         // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                        consolr.log(existingUser.time.inTime);
-                        for (var i = 0; i <= exist.time.length; i++) {
-                            console.log(existingUser.time[i].inTime);
-                            if (existingUser.time[i].inTime == undefined) {
-                                cb("You have not enter inTime", null)
-                            } else {
-                                var str = existingUser.time[i].inTime;
-                                str = str.slice(0, 10)
-                                str1 = datetime.slice(0, 10);
-                                if (str == str1) {
-                                    var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                                    console.log(diff);
-                                    var result = {
-                                        userId: existingUser.mobile,
-                                        inTime: existingUser.time[i].inTime,
-                                        outTime: datetime,
-                                        totalTime: diff
-=======
-                            // })
-                        } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
-                            console.log("inside else " + intent + " and " + on_off);
-                            // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                                console.log(existingUser.time.inTime);
-                                for (var i = 0; i <= existingUser.time.length; i++) {
-                                    console.log(existingUser.time[i].inTime);
-                                    if (existingUser.time[i].inTime == undefined) {
-                                        cb("You have not enter inTime", null)
-                                    } else {
-                                        var str = existingUser.time[i].inTime;
-                                        str = str.slice(0, 10)
-                                        str1 = datetime.slice(0, 10);
-                                        if (str == str1) {
-                                            var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                                            console.log(diff);
-                                            var result = {
-                                                userId: existingUser.mobile,
-                                                inTime: existingUser.time[i].inTime,
-                                                outTime: datetime,
-                                                totalTime: diff
-                                            }
-                                            cb(null, result);
-                                            break;
+                            consolr.log(existingUser.time.inTime);
+                            for (var i = 0; i <= existingUser.time.length; i++) {
+                                console.log(existingUser.time[i].inTime);
+                                if (existingUser.time[i].inTime == undefined) {
+                                    cb("You have not enter inTime", null)
+                                } else {
+                                    var str = existingUser.time[i].inTime;
+                                    str = str.slice(0, 10)
+                                    str1 = datetime.slice(0, 10);
+                                    if (str == str1) {
+                                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                        console.log(diff);
+                                        var result = {
+                                            userId: existingUser.mobile,
+                                            inTime: existingUser.time[i].inTime,
+                                            outTime: datetime,
+                                            totalTime: diff
                                         }
->>>>>>> 18b13c399f924a2c220514177f18ee83661e2ce5
+                                        cb(null, result);
+                                        break;
                                     }
-                                    cb(null, result);
-                                    break;
                                 }
+
                             }
-                        }
                         // })
                     }
                 })
