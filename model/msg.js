@@ -31,38 +31,36 @@ msg.prototype.wit = function(d, cb) {
                         on_off = body.entities.on_off[0].value,
                         datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
                     if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
-                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            if (existingUser.time.length == 0) {
-                                var result = {
-                                    userId: d.mobile,
-                                    inTime: datetime,
-                                    outTime: 0,
-                                    totalTime: 0
-                                }
-                                cb(null, result);
-                            } else {
-                                for (var i = 0; i <= existingUser.time.length; i++) {
-                                    var inTime;
-                                    str = existingUser.time[i].inTime;
-                                    str = str.slice(0, 10)
-                                    str1 = datetime.slice(0, 10);
-                                    if (str != str1) {
-                                        var result = {
-                                            userId: d.mobile,
-                                            inTime: datetime,
-                                            outTime: 0,
-                                            totalTime: 0
-                                        }
-                                        cb(null, result);
-                                        break;
-                                    } else {
-                                        cb("You are already enter time ", null)
-                                        break;
-                                    }
-                                    cb(null, result)
-                                }
+                        if (existingUser.time.length == 0) {
+                            var result = {
+                                userId: d.mobile,
+                                inTime: datetime,
+                                outTime: 0,
+                                totalTime: 0
                             }
-                        })
+                            cb(null, result);
+                        } else {
+                            for (var i = 0; i <= existingUser.time.length; i++) {
+                                var inTime;
+                                str = existingUser.time[i].inTime;
+                                str = str.slice(0, 10)
+                                str1 = datetime.slice(0, 10);
+                                if (str != str1) {
+                                    var result = {
+                                        userId: d.mobile,
+                                        inTime: datetime,
+                                        outTime: 0,
+                                        totalTime: 0
+                                    }
+                                    cb(null, result);
+                                    break;
+                                } else {
+                                    cb("You are already enter time ", null)
+                                    break;
+                                }
+                                cb(null, result)
+                            }
+                        }
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         for (var i = 0; i <= existingUser.time.length; i++) {
                             str = existingUser.time[i].inTime;
