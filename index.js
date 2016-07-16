@@ -21,6 +21,11 @@ app.use(require('./controller/index'));
  */
 io.on('connection', function(socket) {
     console.log('a user connected to server');
+
+    socket.on('message', function(message) {
+        console.log('my message is : ' + message);
+    });
+
     socket.on('disconnect', function() {
         console.log('user disconnected from server');
     });
