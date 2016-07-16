@@ -81,7 +81,7 @@ msg.prototype.wit = function(d, cb) {
                             console.log("inside else " + intent + " and " + on_off);
                             // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
                                 consolr.log(existingUser.time.inTime);
-                                for (var i = 0; i <= exist.time.length; i++) {
+                                for (var i = 0; i <= existingUser.time.length; i++) {
                                     console.log(existingUser.time[i].inTime);
                                     if (existingUser.time[i].inTime == undefined) {
                                         cb("You have not enter inTime", null)
@@ -90,7 +90,7 @@ msg.prototype.wit = function(d, cb) {
                                         str = str.slice(0, 10)
                                         str1 = datetime.slice(0, 10);
                                         if (str == str1) {
-                                            var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                            var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
                                             console.log(diff);
                                             var result = {
                                                 userId: existingUser.mobile,
