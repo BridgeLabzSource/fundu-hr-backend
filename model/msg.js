@@ -36,74 +36,77 @@ msg.prototype.wit = function(d, cb) {
                         on_off = body.entities.on_off[0].value,
                         datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
                     console.log(datetime);
-                    if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
-                        console.log("inside if " + intent + " and " + on_off);
-                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            console.log(exist);
-                            if (exist.time.length == 0) {
-                                var result = {
-                                    userId: d.mobile,
-                                    inTime: datetime,
-                                    outTime: 0,
-                                    totalTime: 0
-                                }
-                                console.log("result : " + result)
-                                cb(null, result);
-                            } else {
-                                for (var i = 0; i <= exist.time.length; i++) {
-                                    var inTime;
-                                    str = exist.time[i].inTime;
-                                    str = str.slice(0, 10)
-                                    str1 = datetime.slice(0, 10);
-                                    console.log("str 1 :" + str1);
-                                    if (str != str1) {
-                                        var result = {
-                                            userId: d.mobile,
-                                            inTime: datetime,
-                                            outTime: 0,
-                                            totalTime: 0
-                                        }
-                                        console.log("result : " + result)
-                                        cb(null, result);
-                                        break;
-                                    } else {
-
-                                        console.log("already exist")
-                                        cb("You are already enter time ", null)
-                                        break;
+                    if ((body.entities.intent[0].confidence >= 0.8) || (body.entities.location[0].confidence >= 0.8)) {
+                        if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
+                            console.log("inside if " + intent + " and " + on_off);
+                            // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                                console.log(existingUser);
+                                if (existingUser.time.length == 0) {
+                                    var result = {
+                                        userId: d.mobile,
+                                        inTime: datetime,
+                                        outTime: 0,
+                                        totalTime: 0
                                     }
-                                    cb(null, result)
-                                }
-                            }
-                        })
-                    } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
-                        console.log("inside else " + intent + " and " + on_off);
-                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            consolr.log(exist.time.inTime);
-                            for (var i = 0; i <= exist.time.length; i++) {
-                                console.log(exist.time[i].inTime);
-                                if (exist.time[i].inTime == undefined) {
-                                    cb("You have not enter inTime", null)
+                                    console.log("result : " + result)
+                                    cb(null, result);
                                 } else {
-                                    var str = exist.time[i].inTime;
-                                    str = str.slice(0, 10)
-                                    str1 = datetime.slice(0, 10);
-                                    if (str == str1) {
-                                        var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                                        console.log(diff);
-                                        var result = {
-                                            userId: exist.mobile,
-                                            inTime: exist.time[i].inTime,
-                                            outTime: datetime,
-                                            totalTime: diff
+                                    for (var i = 0; i <= existingUser.time.length; i++) {
+                                        var inTime;
+                                        str = existingUser.time[i].inTime;
+                                        str = str.slice(0, 10)
+                                        str1 = datetime.slice(0, 10);
+                                        console.log("str 1 :" + str1);
+                                        if (str != str1) {
+                                            var result = {
+                                                userId: d.mobile,
+                                                inTime: datetime,
+                                                outTime: 0,
+                                                totalTime: 0
+                                            }
+                                            console.log("result : " + result)
+                                            cb(null, result);
+                                            break;
+                                        } else {
+
+                                            console.log("already exist")
+                                            cb("You are already enter time ", null)
+                                            break;
                                         }
-                                        cb(null, result);
-                                        break;
+                                        cb(null, result)
                                     }
                                 }
-
-                            }
-                        })
+                            // })
+                        } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
+                            console.log("inside else " + intent + " and " + on_off);
+                            // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                                consolr.log(existingUser.time.inTime);
+                                for (var i = 0; i <= exist.time.length; i++) {
+                                    console.log(existingUser.time[i].inTime);
+                                    if (existingUser.time[i].inTime == undefined) {
+                                        cb("You have not enter inTime", null)
+                                    } else {
+                                        var str = existingUser.time[i].inTime;
+                                        str = str.slice(0, 10)
+                                        str1 = datetime.slice(0, 10);
+                                        if (str == str1) {
+                                            var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                            console.log(diff);
+                                            var result = {
+                                                userId: existingUser.mobile,
+                                                inTime: existingUser.time[i].inTime,
+                                                outTime: datetime,
+                                                totalTime: diff
+                                            }
+                                            cb(null, result);
+                                            break;
+                                        }
+                                    }
+                                }
+                            // })
+                        }
+                    }else{
+                        cb("Please enter time again",null);
                     }
                 })
             } else {
@@ -203,8 +206,8 @@ msg.prototype.conform = function(data, cb) {
                             })
                         cb(null, "update");
                         break;
-                    }else{
-                        cb("You have not enter inTime",null);
+                    } else {
+                        cb("You have not enter inTime", null);
                     }
                 }
             }
