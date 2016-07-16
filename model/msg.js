@@ -38,9 +38,9 @@ msg.prototype.wit = function(d, cb) {
                     console.log(datetime);
                     if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
                         console.log("inside if " + intent + " and " + on_off);
-                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            console.log(exist);
-                            if (exist.time.length == 0) {
+                        // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                            console.log(existingUser);
+                            if (existingUser.time.length == 0) {
                                 var result = {
                                     userId: d.mobile,
                                     inTime: datetime,
@@ -50,9 +50,9 @@ msg.prototype.wit = function(d, cb) {
                                 console.log("result : " + result)
                                 cb(null, result);
                             } else {
-                                for (var i = 0; i <= exist.time.length; i++) {
+                                for (var i = 0; i <= existingUser.time.length; i++) {
                                     var inTime;
-                                    str = exist.time[i].inTime;
+                                    str = existingUser.time[i].inTime;
                                     str = str.slice(0, 10)
                                     str1 = datetime.slice(0, 10);
                                     console.log("str 1 :" + str1);
@@ -75,20 +75,20 @@ msg.prototype.wit = function(d, cb) {
                                     cb(null, result)
                                 }
                             }
-                        })
+                        // })
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
-                        db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            for (var i = 0; i <= exist.time.length; i++) {
-                                str = exist.time[i].inTime;
+                        // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                            for (var i = 0; i <= existingUser.time.length; i++) {
+                                str = existingUser.time[i].inTime;
                                 str = str.slice(0, 10)
                                 str1 = datetime.slice(0, 10);
                                 if (str == str1) {
-                                    var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(exist.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                                    var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
                                     console.log(diff);
                                     var result = {
-                                        userId: exist.mobile,
-                                        inTime: exist.time[i].inTime,
+                                        userId: existingUser.mobile,
+                                        inTime: existingUser.time[i].inTime,
                                         outTime: datetime,
                                         totalTime: diff
                                     }
@@ -96,7 +96,7 @@ msg.prototype.wit = function(d, cb) {
                                     break;
                                 }
                             }
-                        })
+                        // })
                     }
                 })
             } else {
