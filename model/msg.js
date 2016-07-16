@@ -79,6 +79,7 @@ msg.prototype.wit = function(d, cb) {
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
                         db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
+                            consolr.log(exist.time.inTime);
                             for (var i = 0; i <= exist.time.length; i++) {
                                 if (exist.time[i].inTime == undefined) {
                                     cb("You have not enter inTime", null)
@@ -201,6 +202,8 @@ msg.prototype.conform = function(data, cb) {
                             })
                         cb(null, "update");
                         break;
+                    }else{
+                        cb("You have not enter inTime",null);
                     }
                 }
             }
