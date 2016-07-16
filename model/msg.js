@@ -27,7 +27,7 @@ msg.prototype.wit = function(d, cb) {
                 var url = process.env.witUrl || 'https://api.wit.ai/message?v=20160526&q=' + d.message,
                     auth = process.env.witAuthToken || 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
                 request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
-                    console.log("body :\n"+body);
+                    console.log("body :\n"+JSON.stringify(body));
                     var intent = body.entities.intent[0].value,
                         on_off = body.entities.on_off[0].value,
                         datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
