@@ -79,7 +79,7 @@ msg.prototype.wit = function(d, cb) {
                     } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
                         console.log("inside else " + intent + " and " + on_off);
                         // db.demo.findOne({ "mobile": d.mobile }, function(error, exist) {
-                            consolr.log(existingUser.time.inTime);
+                            console.log("exist time : "+existingUser.time.inTime);
                             for (var i = 0; i <= existingUser.time.length; i++) {
                                 console.log(existingUser.time[i].inTime);
                                 if (existingUser.time[i].inTime == undefined) {
