@@ -47,7 +47,7 @@ msg.prototype.wit = function(d, cb) {
                                     outTime: 0,
                                     totalTime: 0
                                 }
-                                console.log("result : " + result)
+                                console.log("result : " + JSON.stringify(result));
                                 cb(null, result);
                             } else {
                                 for (var i = 0; i <= existingUser.time.length; i++) {
