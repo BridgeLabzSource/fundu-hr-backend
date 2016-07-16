@@ -68,15 +68,4 @@ router.post('/verify', function(req, res) {
     })
 });
 
-router.get('/time',function (req,res){
-    var moment=require('moment-timezone');
-    var mom=require('moment');
-    console.log(mom.getZone())
-    var st=moment().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss Z");
-    var et="2016-07-13 11:26:34 +05:30";
-    console.log(st+" and et "+et)
-     var diff = mom.utc(mom(et, "YYYY-MM-DD HH:mm:ss Z").diff(mom(st, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-     console.log(diff)
-})
-
 module.exports = router;
