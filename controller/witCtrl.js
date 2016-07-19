@@ -2,7 +2,6 @@
 
 const Wit = require('node-wit').Wit;
 const moment = require('moment');
-
 const client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' });
 
 /**@constant {number} */
