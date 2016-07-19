@@ -4,20 +4,14 @@
 var express = require('express'),
     router = express.Router();
 
-router.use(require('./sms.js'));
-router.use(require('./msg.js'));
+router.use('/sms',require('./sms.js'));
+router.use('/message',require('./msg.js'));
 
 /**
  * demo
  */
 router.get('/', function(req, res) {
-    db.demo.find({}, function(err, data) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(data);
-        }
-    })
+    res.send("Home Screen");
 });
 
 module.exports = router;

@@ -21,73 +21,62 @@ util.inherits(msg, EventEmitter)
  * @param {cb}
  */
 msg.prototype.wit = function(d, cb) {
-    if (common.isMobile(d.mobile)) {
-        db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
-            if (existingUser) {
-                var url = process.env.witUrl || 'https://api.wit.ai/message?v=20160526&q=' + d.message,
-                    auth = process.env.witAuthToken || 'Bearer S2VQWSMBFF6BE4NSJICC26BL75BALYVD'
-                request({ url: url, method: 'POST', json: true, headers: { 'Authorization': auth, 'Content-Type': 'application/json' } }, function(ee, r, body) {
-                    console.log("body :\n"+JSON.stringify(body));
-                    var intent = body.entities.intent[0].value,
-                        on_off = body.entities.on_off[0].value,
-                        datetime = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z");
-                    if ((intent == 'Work' || intent == 'office') && on_off == 'on') {
-                        if (existingUser.time.length == 0) {
-                            var result = {
-                                userId: d.mobile,
-                                inTime: datetime,
-                                outTime: 0,
-                                totalTime: 0
-                            }
-                            cb(null, result);
-                        } else {
-                            for (var i = 0; i <= existingUser.time.length; i++) {
-                                var inTime;
-                                str = existingUser.time[i].inTime;
-                                str = str.slice(0, 10)
-                                str1 = datetime.slice(0, 10);
-                                if (str != str1) {
-                                    var result = {
-                                        userId: d.mobile,
-                                        inTime: datetime,
-                                        outTime: 0,
-                                        totalTime: 0
-                                    }
-                                    cb(null, result);
-                                    break;
-                                } else {
-                                    cb("You are already enter time ", null)
-                                    break;
-                                }
-                                cb(null, result)
-                            }
+    console.log("wit :"+d);
+    db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
+        if (existingUser) {
+                if (d.on_off == 'on') {
+                    if (existingUser.time.length == 0) {
+                        var result = {
+                            userId: d.mobile,
+                            inTime: d.time,
+                            outTime: 0,
+                            totalTime: 0
                         }
-                    } else if ((intent == 'Work' || intent == 'office') && on_off == 'off') {
+                        cb(null, result);
+                    } else {
                         for (var i = 0; i <= existingUser.time.length; i++) {
+                            var inTime;
                             str = existingUser.time[i].inTime;
                             str = str.slice(0, 10)
-                            str1 = datetime.slice(0, 10);
-                            if (str == str1) {
-                                var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                            str1 = d.time.slice(0, 10);
+                            if (str != str1) {
                                 var result = {
-                                    userId: existingUser.mobile,
-                                    inTime: existingUser.time[i].inTime,
-                                    outTime: datetime,
-                                    totalTime: diff
+                                    userId: d.mobile,
+                                    inTime: d.time,
+                                    outTime: 0,
+                                    totalTime: 0
                                 }
                                 cb(null, result);
                                 break;
+                            } else {
+                                cb("You are already enter time ", null)
+                                break;
                             }
+                            cb(null, result)
                         }
                     }
-                })
-            } else {
-                cb('not exit in db', null);
-            }
-        })
-    } else {
-        cb('number not proper format', null);
-    }
+                } else if (d.on_off == 'off') {
+                    for (var i = 0; i <= existingUser.time.length; i++) {
+                        str = existingUser.time[i].inTime;
+                        str = str.slice(0, 10)
+                        str1 = d.time.slice(0, 10);
+                        if (str == str1) {
+                            var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                            var result = {
+                                userId: existingUser.mobile,
+                                inTime: existingUser.time[i].inTime,
+                                outTime: d.time,
+                                totalTime: diff
+                            }
+                            cb(null, result);
+                            break;
+                        }
+                    }
+                }
+        } else {
+            cb('not exit in db', null);
+        }
+    })
 };
 
 /** 

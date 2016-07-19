@@ -5,12 +5,13 @@ var express = require('express'),
     router = express.Router(),
     sms = require('../model/sms');
 
+//TODO:Demo URL to delete
 /**
- * sendmsg
+ * send message 
  * @param {message}
  * @return {json}
  */
-router.post('/sendmsg', function(req, res) {
+router.post('/send', function(req, res) {
     var message = req.body.message;
     console.log(message);
     res.json({ message: message });
