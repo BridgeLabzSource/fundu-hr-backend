@@ -56,12 +56,14 @@ msg.prototype.wit = function(d, cb) {
                         }
                     }
                 } else if (d.on_off == 'off') {
+                    console.log("on_off : "+d.on_off)
                     for (var i = 0; i <= existingUser.time.length; i++) {
+                        console.log(existingUser)
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = d.time.slice(0, 10);
                         if (str == str1) {
-                            var diff = moment.utc(moment(datetime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                            var diff = moment.utc(moment(d.time, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
                             var result = {
                                 userId: existingUser.mobile,
                                 inTime: existingUser.time[i].inTime,
@@ -91,6 +93,7 @@ msg.prototype.conform = function(data, cb) {
             /*
              * first time intime Entry at 0 postion of time array
              */
+             console.log(existingUser);
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
                     db.demo.update({ "mobile": data.mobile }, {
@@ -105,6 +108,7 @@ msg.prototype.conform = function(data, cb) {
                         if (err) {
                             cb(err, null);
                         } else {
+                            console.log(result);
                             cb(null, "update");
                         }
                     })
