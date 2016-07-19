@@ -21,7 +21,7 @@ util.inherits(msg, EventEmitter)
  * @param {cb}
  */
 msg.prototype.wit = function(d, cb) {
-    console.log("wit :"+d);
+    console.log("wit :"+JSON.stringify(d));
     db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
         if (existingUser) {
                 if (d.on_off == 'on') {

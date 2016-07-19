@@ -35,8 +35,8 @@ router.post('/', function(req, res) {
     console.log("inside root")
     var mobile = req.body.mobile,
         message = req.body.message,
-        attendance = req.body.attendance
-    if (typeof attendance == 'string' && common.isMobile(mobile)) {
+        intent = req.body.intent
+    if (typeof intent == 'string' && intent=="attendance" && common.isMobile(mobile)) {
         console.log("true")
         witCtrl(message, "Work", function(data) {
             var result = {
