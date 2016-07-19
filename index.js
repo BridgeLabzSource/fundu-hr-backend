@@ -4,7 +4,7 @@
 var express = require('express'),
     app = express(),
     http = require('http').Server(app),
-    port = process.env.PORT || 3010,
+    port = process.env.PORT || 3011,
     bodyParser = require('body-parser'),
     cors = require('cors'),
     io = require('socket.io')(http),
@@ -13,7 +13,8 @@ var express = require('express'),
  * configure 
  */
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(require('./controller/index'));
 
 /**
