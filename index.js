@@ -12,9 +12,9 @@ var express = require('express'),
 /**
  * configure 
  */
- 
+
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(require('./controller/index'));
 
@@ -24,8 +24,9 @@ app.use(require('./controller/index'));
 io.on('connection', function(socket) {
     console.log('a user connected to server');
 
-    socket.on('message', function(message) {
-        console.log('my message is : ' + message);
+    socket.on('message', function() {
+        var data = ["I am in office", "I left from office now", "I left office yesterday", "In office", "Left office"];
+        socket.emit('server ready', data);
     });
 
     socket.on('disconnect', function() {
