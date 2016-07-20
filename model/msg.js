@@ -132,7 +132,7 @@ msg.prototype.conform = function(data, cb) {
                                 if (err) {
                                     cb("err", null);
                                 } else {
-                                    cb(null, "update");
+                                    console.log("update")
                                 }
                             })
                             cb(null, "update");
