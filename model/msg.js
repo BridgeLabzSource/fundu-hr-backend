@@ -133,8 +133,10 @@ msg.prototype.conform = function(data, cb) {
                                     cb("err", null);
                                 } else {
                                     cb(null, "update");
-                                    break;
+                                    // break;
                                 }
+                                // cb(null, "update");
+                                    break;
                             })
                         } else {
                             cb("already update time", null)
