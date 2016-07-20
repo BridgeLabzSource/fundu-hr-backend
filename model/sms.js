@@ -59,8 +59,8 @@ sms.prototype.otp = function(mobile, cb) {
 sms.prototype.verify = function(data, cb) {
     console.log(data.mobile);
     if (common.isMobile(data.mobile)) {
-        db.demo.findOne({ "mobile": data.mobile,"otp":data.otp }, function(err, result) {
-            
+        db.demo.findOne({ "mobile": data.mobile, "otp": data.otp }, function(err, result) {
+
             if (err) {
                 cb(err, null);
             } else {
@@ -69,7 +69,7 @@ sms.prototype.verify = function(data, cb) {
                 }, {
                     $set: {
                         otp: 123456,
-                        time:[]
+                        time: []
                     }
                 }, function(err, data) {
                     if (err) {

@@ -1,7 +1,7 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'start' ]
-2 info using npm@3.9.5
-3 info using node@v6.2.2
+2 info using npm@3.10.3
+3 info using node@v6.3.0
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle fundu-hr-backend@1.0.0~prestart: fundu-hr-backend@1.0.0
 6 silly lifecycle fundu-hr-backend@1.0.0~prestart: no script for prestart, continuing
@@ -14,10 +14,10 @@
 13 info lifecycle fundu-hr-backend@1.0.0~start: Failed to exec start script
 14 verbose stack Error: fundu-hr-backend@1.0.0 start: `node index.js`
 14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/usr/lib/node_modules/npm/lib/utils/lifecycle.js:245:16)
+14 verbose stack     at EventEmitter.<anonymous> (/usr/lib/node_modules/npm/lib/utils/lifecycle.js:242:16)
 14 verbose stack     at emitTwo (events.js:106:13)
 14 verbose stack     at EventEmitter.emit (events.js:191:7)
-14 verbose stack     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/lib/utils/spawn.js:40:14)
 14 verbose stack     at emitTwo (events.js:106:13)
 14 verbose stack     at ChildProcess.emit (events.js:191:7)
 14 verbose stack     at maybeClose (internal/child_process.js:852:16)
@@ -26,8 +26,8 @@
 16 verbose cwd /home/bridgeit/Documents/fundu-hr-backend
 17 error Linux 4.2.0-27-generic
 18 error argv "/usr/bin/nodejs" "/usr/bin/npm" "start"
-19 error node v6.2.2
-20 error npm  v3.9.5
+19 error node v6.3.0
+20 error npm  v3.10.3
 21 error code ELIFECYCLE
 22 error fundu-hr-backend@1.0.0 start: `node index.js`
 22 error Exit status 1

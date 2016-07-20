@@ -4,8 +4,9 @@
 var express = require('express'),
     router = express.Router(),
     common = require('../helper/common'),
-    msg = require('../model/msg');
-witCtrl = require('./witCtrl');
+    msg = require('../model/msg'),
+    errorMsg = require('../model/errorMsg'),
+    witCtrl = require('./witCtrl');
 /**
  * call timeEntryMsg
  * @param {message,mobile}
@@ -36,24 +37,29 @@ router.post('/', function(req, res) {
     var mobile = req.body.mobile,
         message = req.body.message,
         intent = req.body.intent
-    if (typeof intent == 'string' && intent=="attendance" && common.isMobile(mobile)) {
-        console.log("true")
-        witCtrl(message, "Work", function(data) {
-            var result = {
-                mobile: mobile,
-                time: data.time,
-                on_off: data.on_off
-            }
-            msg.wit(result, function(err, data1) {
-                if (err) {
-
-                    res.send(err);
-                } else {
-                    res.send(data1);
+    if (typeof intent == 'string' && intent == "attendance" && common.isMobile(mobile)) {
+        witCtrl(message, "Work", function(err, data) {
+            console.log("errorMsg " + JSON.stringify(err));
+            if (err) {
+                errorMsg.save(err, function(err, result) {
+                    if (err) { res.send(err) } else { res.send(result) } });
+            } else {
+                var result = {
+                    mobile: mobile,
+                    time: data.time,
+                    on_off: data.on_off
                 }
-            })
+                msg.wit(result, function(err, data1) {
+                    if (err) {
+
+                        res.send(err);
+                    } else {
+                        res.send(data1);
+                    }
+                })
+            }
         });
-    } else { console.log("errr") }
+    } else { res.send("number not proper format") }
 });
 
 /**

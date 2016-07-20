@@ -4,7 +4,7 @@
 var express = require('express'),
     app = express(),
     http = require('http').Server(app),
-    port = process.env.PORT,
+    port = process.env.PORT || 3015,
     bodyParser = require('body-parser'),
     cors = require('cors'),
     io = require('socket.io')(http),
@@ -25,7 +25,7 @@ io.on('connection', function(socket) {
     console.log('a user connected to server');
 
     socket.on('message', function() {
-        var data = ["I am in office", "I left from office now", "I left office yesterday", "In office", "Left office"];
+        var data = ["I am in office", "I left from office now", "I left office yesterday", "In office", "Left office","I am in","I am out"];
         socket.emit('server ready', data);
     });
 

@@ -37,3 +37,11 @@ var demo = mongoose.Schema({
 });
 var demo = mongoose.model('demo', demo, 'demo');
 exports.demo = demo;
+
+var errorMsg=mongoose.Schema({
+    "message":{type:String},
+    "response":{type:String},
+    "Date":{type:Date,default:Date.now()}
+})
+var errorMsg=mongoose.model('errorMsg',errorMsg,'errorMsg');
+exports.errorMsg=errorMsg;
