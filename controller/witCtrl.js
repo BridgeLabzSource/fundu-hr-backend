@@ -34,10 +34,11 @@ const message = (msg, expValue, cb) => {
             let firstEntity = firstEntityValue(data.entities, "intent");
             let on_off = firstEntityValue(data.entities, "on_off");
             let datetime = firstEntityValue(data.entities, "datetime");
+            console.log(moment(datetime).utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z"))
             (firstEntity == expValue || firstEntity == "office") ?
             (on_off == "on" || on_off == "off") ?
             datetime ?
-                cb(null, { "time": moment(datetime).format("YYYY-MM-DD HH:mm:ss Z"), "on_off": on_off }) : cb(null, { "time": moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z"), "on_off": on_off }): cb({ "msg": data._text, "error": "in entities on_off not found" }, null): cb({ "msg": data._text, "error": "in entities intent not found" }, null)
+                cb(null, { "dasdas":"fkfs","time": moment(datetime).utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z"), "on_off": on_off }) : cb(null, { "time": moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z"), "on_off": on_off }): cb({ "msg": data._text, "error": "in entities on_off not found" }, null): cb({ "msg": data._text, "error": "in entities intent not found" }, null)
         })
         .catch((err) => {
             cb({ "msg": msg, "error": err }, null);
