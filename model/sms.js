@@ -16,10 +16,10 @@ function sms() {
 util.inherits(sms, EventEmitter)
 
 /** 
- * In this function send otp to mobile if exist in database then
- * update otp in database
- * @param {mobile}
- * @param {cb}
+ * send otp to user mobile if number exist in collection then update otp in collection
+ * @param {mobile} -send mobile from sms controller
+ * @param {cb} -callback to controller
+ * @return {cb} -return cb either error or result
  */
 sms.prototype.otp = function(mobile, cb) {
     if (common.isMobile(mobile)) {
@@ -51,16 +51,15 @@ sms.prototype.otp = function(mobile, cb) {
 };
 
 /** 
- * In this function send mobile and otp to user if exist in database then
- * update otp as zero in database
- * @param {data}
- * @param {cb}
+ * user send mobile and otp to user if exist in collection then update otp as zero in collection
+ * @param {data} -data from sms controller
+ * @param {cb} -callback to sms controller
+ * @return {cb} -return cb either error or result
  */
 sms.prototype.verify = function(data, cb) {
     console.log(data.mobile);
     if (common.isMobile(data.mobile)) {
         db.demo.findOne({ "mobile": data.mobile, "otp": data.otp }, function(err, result) {
-
             if (err) {
                 cb(err, null);
             } else {
@@ -87,9 +86,10 @@ sms.prototype.verify = function(data, cb) {
 };
 
 /** 
- * In this function spreadsheet data in database
- * @param {data}
- * @param {cb}
+ * extract user data from google spreadsheet and save in collection
+ * @param {data} -data from sms controller
+ * @param {cb} -callback to sms controller
+ * @return {cb} -return cb either error or result
  */
 sms.prototype.save = function(data, cb) {
     if (common.isMobile(data[0][7].Mobile)) {
@@ -114,14 +114,13 @@ sms.prototype.save = function(data, cb) {
                 });
                 dbSave.save(function(err, data) {
                     if (err) {
-                        console.log(err);
+                        cb(err, null);
                     } else {
-                        console.log('successfully save');
+                        cb(null, "save data");
                     }
                 });
             }
         });
-        cb(null, "save data");
     } else {
         cb("Number not proper", null);
     }

@@ -7,54 +7,35 @@ var express = require('express'),
     msg = require('../model/msg'),
     errorMsg = require('../model/errorMsg'),
     witCtrl = require('./witCtrl');
-/**
- * call timeEntryMsg
- * @param {message,mobile}
- * @return {response}
- */
-router.post('/timeEntryMsg', function(req, res) {
-    var data = {
-        message: req.body.message,
-        mobile: req.body.mobile
-    };
-
-    msg.wit(data, function(err, data) {
-        if (err) {
-            res.json({ "err": err });
-        } else {
-            res.json({ "data": data });
-        }
-    })
-});
-
 /*
-    Process commands
-    @param  JSON {commands}
-    @return JSON 
-*/
+ * User send message
+ * @param  JSON {commands}
+ * @return JSON 
+ */
 router.post('/', function(req, res) {
     console.log("inside root")
     var mobile = req.body.mobile,
         message = req.body.message,
         intent = req.body.intent
-    if (typeof intent == 'string' && intent == "attendance" && common.isMobile(mobile)) {
+    if (common.isMobile(mobile)) {
         witCtrl(message, "Work", function(err, data) {
             console.log("errorMsg " + JSON.stringify(err));
             if (err) {
                 errorMsg.save(err, function(err, result) {
-                    if (err) { res.send(err) } else { res.send(result) } });
+                    if (err) { res.send(err) } else { res.send(result) }
+                });
             } else {
                 var result = {
                     mobile: mobile,
                     time: data.time,
-                    on_off: data.on_off
+                    on_off: data.on_off,
+                    type:"attendance"
                 }
                 msg.wit(result, function(err, data1) {
                     if (err) {
-
-                        res.send(err);
+                        res.json({ "err": err });
                     } else {
-                        res.send(data1);
+                        res.json({ "data": data1 });
                     }
                 })
             }
@@ -63,7 +44,7 @@ router.post('/', function(req, res) {
 });
 
 /**
- * call timeEntryConform
+ * update timeEntry in collection
  * @param {check,mobile,inTime,outTime,totalTime}
  * @return {response}
  */

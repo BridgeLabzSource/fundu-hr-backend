@@ -13,13 +13,13 @@ function errorMsg() {
 util.inherits(errorMsg, EventEmitter)
 
 /** 
- * In this function send message,mobile and send message user
- * @param {d}
- * @param {cb}
+ * save error message in collections
+ * @param {d} -d from msg controller 
+ * @param {cb} -callback to msg conroller
+ * @return {cb} -return cb either error or result
  */
 errorMsg.prototype.save = function(d, cb) {
     console.log("errorMsg 007 :" + JSON.stringify(d));
-    // cb(null,d);
     var data = new db.errorMsg({ "message": d.msg, "response": d.error })
     data.save(function(err, result) {
         if (err) {

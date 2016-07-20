@@ -16,9 +16,10 @@ function msg() {
 util.inherits(msg, EventEmitter)
 
 /** 
- * In this function send message,mobile and send message user
- * @param {d}
- * @param {cb}
+ * show time deatils to user
+ * @param {d} -d recieved from msg controller
+ * @param {cb} -callback to controller
+ * @return {cb} -return cb either error or result
  */
 msg.prototype.wit = function(d, cb) {
     console.log("wit :" + JSON.stringify(d));
@@ -30,11 +31,12 @@ msg.prototype.wit = function(d, cb) {
                         userId: d.mobile,
                         inTime: d.time,
                         outTime: 0,
-                        totalTime: 0
+                        totalTime: 0,
+                        type: d.type
                     }
                     cb(null, result);
                 } else {
-                    for (var i = 0; i <= existingUser.time.length; i++) {
+                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
                         var inTime;
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
@@ -44,7 +46,8 @@ msg.prototype.wit = function(d, cb) {
                                 userId: d.mobile,
                                 inTime: d.time,
                                 outTime: 0,
-                                totalTime: 0
+                                totalTime: 0,
+                                type: d.type
                             }
                             cb(null, result);
                             break;
@@ -57,7 +60,7 @@ msg.prototype.wit = function(d, cb) {
                 }
             } else if (d.on_off == 'off') {
                 console.log("on_off : " + d.on_off)
-                for (var i = 0; i <= existingUser.time.length; i++) {
+                for (var i = 0; i <= existingUser.time.length - 1; i++) {
                     console.log(existingUser)
                     str = existingUser.time[i].inTime;
                     str = str.slice(0, 10)
@@ -68,9 +71,13 @@ msg.prototype.wit = function(d, cb) {
                             userId: existingUser.mobile,
                             inTime: existingUser.time[i].inTime,
                             outTime: d.time,
-                            totalTime: diff
+                            totalTime: diff,
+                            type: d.type
                         }
                         cb(null, result);
+                        break;
+                    } else {
+                        cb("You have not enter inTime", null);
                         break;
                     }
                 }
@@ -82,17 +89,15 @@ msg.prototype.wit = function(d, cb) {
 };
 
 /** 
- * In this function user send data for conformation to update time
- * @param {data}
- * @param {cb}
+ * take conform msg from user then update in collection
+ * @param {data} -data from msg controller for update inTime,outTime and TotalTime in collection
+ * @param {cb} -callback to controller
+ * @return {cb} -return cb either error or result
  */
 msg.prototype.conform = function(data, cb) {
-    console.log("data :" + data + "\n")
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.mobile }, function(err, existingUser) {
-            /*
-             * first time intime Entry at 0 postion of time array
-             */
+            /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
                     db.demo.update({ "mobile": data.mobile }, {
@@ -111,10 +116,8 @@ msg.prototype.conform = function(data, cb) {
                         }
                     })
                 } else {
+                    /* inTime entry in time array */
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        /*
-                         * inTime entry in time array
-                         */
                         var inTime;
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
@@ -144,9 +147,7 @@ msg.prototype.conform = function(data, cb) {
                     }
                 }
             } else {
-                /*
-                 * outTime entry in time array
-                 */
+                /* outTime entry in time array*/
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
@@ -165,6 +166,9 @@ msg.prototype.conform = function(data, cb) {
                                 }
                             })
                         cb(null, "update");
+                        break;
+                    } else {
+                        cb("You have not enter inTime", null);
                         break;
                     }
                 }
