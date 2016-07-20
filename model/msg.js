@@ -87,13 +87,12 @@ msg.prototype.wit = function(d, cb) {
  * @param {cb}
  */
 msg.prototype.conform = function(data, cb) {
-    console.log(data)
+    console.log("data :"+data+"\n")
     if (data.check == 'true') {
         db.demo.findOne({ "mobile": data.mobile }, function(err, existingUser) {
             /*
              * first time intime Entry at 0 postion of time array
              */
-             console.log(existingUser);
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
                     db.demo.update({ "mobile": data.mobile }, {
@@ -108,7 +107,6 @@ msg.prototype.conform = function(data, cb) {
                         if (err) {
                             cb(err, null);
                         } else {
-                            console.log(result);
                             cb(null, "update");
                         }
                     })
@@ -117,7 +115,11 @@ msg.prototype.conform = function(data, cb) {
                         /*
                          * inTime entry in time array
                          */
-                        if (existingUser.time[i].inTime != data.inTime) {
+                         var inTime;
+                            str = existingUser.time[i].inTime;
+                            str = str.slice(0, 10)
+                            str1 = data.inTime.slice(0, 10);
+                        if (str != str1) {
                             db.demo.update({ "mobile": data.mobile }, {
                                 $push: {
                                     time: {
@@ -128,14 +130,12 @@ msg.prototype.conform = function(data, cb) {
                                 }
                             }, function(err, result) {
                                 if (err) {
-                                    console.log(err);
                                     cb("err", null);
                                 } else {
-                                    console.log(result);
+                                    cb(null, "update");
+                                    break;
                                 }
                             })
-                            cb(null, "update");
-                            break;
                         } else {
                             cb("already update time", null)
                             break;
@@ -158,7 +158,6 @@ msg.prototype.conform = function(data, cb) {
                             },
                             function(err, result) {
                                 if (err) {
-                                    console.log(err);
                                     cb("err", null);
                                 } else {
                                     console.log(result);

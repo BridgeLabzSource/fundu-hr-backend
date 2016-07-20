@@ -4,7 +4,7 @@
 var express = require('express'),
     app = express(),
     http = require('http').Server(app),
-    port = process.env.PORT || 3012,
+    port = process.env.PORT,
     bodyParser = require('body-parser'),
     cors = require('cors'),
     io = require('socket.io')(http),
