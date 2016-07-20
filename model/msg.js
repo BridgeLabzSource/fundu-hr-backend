@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-var util = require('util'),
+var util = require('util') ,
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
