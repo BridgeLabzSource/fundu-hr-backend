@@ -19,6 +19,7 @@ router.post('/', function(req, res) {
         intent = req.body.intent
     if (common.isMobile(mobile)) {
         witCtrl(message, "Work", function(err, data) {
+            console.log("data " + JSON.stringify(data));
             console.log("errorMsg " + JSON.stringify(err));
             if (err) {
                 errorMsg.save(err, function(err, result) {
