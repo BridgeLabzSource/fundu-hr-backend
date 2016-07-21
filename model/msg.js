@@ -29,8 +29,8 @@ msg.prototype.wit = function(d, cb) {
                     var result = {
                         userId: d.mobile,
                         inTime: d.time,
-                        outTime: 0,
-                        totalTime: 0,
+                        outTime: "0",
+                        totalTime: "0",
                         type: d.type
                     }
                     cb(null, result);
@@ -44,8 +44,8 @@ msg.prototype.wit = function(d, cb) {
                             var result = {
                                 userId: d.mobile,
                                 inTime: d.time,
-                                outTime: 0,
-                                totalTime: 0,
+                                outTime: "0",
+                                totalTime: "0",
                                 type: d.type
                             }
                             cb(null, result);

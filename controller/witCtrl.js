@@ -32,8 +32,8 @@ const message = (msg, expValue, cb) => {
             let firstEntity = firstEntityValue(data.entities, "intent");
             let on_off = firstEntityValue(data.entities, "on_off");
             let datetime = firstEntityValue(data.entities, "datetime");
-            console.log("data :"+JSON.stringify(data)+"\n");
-            console.log("datetime : "+datetime);
+            console.log("data :" + JSON.stringify(data) + "\n");
+            console.log("datetime : " + datetime);
             (firstEntity == expValue || firstEntity == "office") ?
             (on_off == "on" || on_off == "off") ?
             datetime ?
