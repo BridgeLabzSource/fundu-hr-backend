@@ -22,7 +22,6 @@ util.inherits(msg, EventEmitter)
  * @return {cb} -return cb either error or result
  */
 msg.prototype.wit = function(d, cb) {
-    console.log("wit :" + JSON.stringify(d));
     db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
         if (existingUser) {
             if (d.on_off == 'on') {
@@ -59,9 +58,7 @@ msg.prototype.wit = function(d, cb) {
                     }
                 }
             } else if (d.on_off == 'off') {
-                console.log("on_off : " + d.on_off)
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                    console.log(existingUser)
                     str = existingUser.time[i].inTime;
                     str = str.slice(0, 10)
                     str1 = d.time.slice(0, 10);

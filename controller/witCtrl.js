@@ -27,14 +27,11 @@ const firstEntityValue = (entities, entity) => {
 };
 
 const message = (msg, expValue, cb) => {
-    console.log("message :" + msg)
     client.message(msg, {})
         .then((data) => {
-            console.log(JSON.stringify(data));
             let firstEntity = firstEntityValue(data.entities, "intent");
             let on_off = firstEntityValue(data.entities, "on_off");
             let datetime = firstEntityValue(data.entities, "datetime");
-            console.log("datetime :" + moment(datetime).format("YYYY-MM-DD HH:mm:ss Z"));
             (firstEntity == expValue || firstEntity == "office") ?
             (on_off == "on" || on_off == "off") ?
             datetime ?

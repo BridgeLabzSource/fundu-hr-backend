@@ -8,29 +8,30 @@ var express = require('express'),
     errorMsg = require('../model/errorMsg'),
     witCtrl = require('./witCtrl');
 /*
- * User send message
+ * User send message 
  * @param  JSON {commands}
  * @return JSON 
  */
 router.post('/', function(req, res) {
     console.log("inside root")
     var mobile = req.body.mobile,
-        message = req.body.message,
-        intent = req.body.intent
+        message = req.body.message;
     if (common.isMobile(mobile)) {
         witCtrl(message, "Work", function(err, data) {
-            console.log("data " + JSON.stringify(data));
-            console.log("errorMsg " + JSON.stringify(err));
             if (err) {
                 errorMsg.save(err, function(err, result) {
-                    if (err) { res.send(err) } else { res.send(result) }
+                    if (err) {
+                        res.json({ "err": err });
+                    } else {
+                        res.json({ "data": result });
+                    }
                 });
             } else {
                 var result = {
                     mobile: mobile,
                     time: data.time,
                     on_off: data.on_off,
-                    type:"attendance"
+                    type: "attendance"
                 }
                 msg.wit(result, function(err, data1) {
                     if (err) {
