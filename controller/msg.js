@@ -17,7 +17,7 @@ router.post('/', function(req, res) {
     var mobile = req.body.mobile,
         message = req.body.message;
     if (common.isMobile(mobile)) {
-        witCtrl(message, "Work", function(err, data) {
+        witCtrl.message(message, "Work", function(err, data) {
             if (err) {
                 errorMsg.save(err, function(err, result) {
                     if (err) {
