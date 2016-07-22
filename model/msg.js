@@ -48,6 +48,7 @@ msg.prototype.wit = function(d, cb) {
                             break;
                         }
                         cb(null, result)
+                        break;
                     }
                 }
             } else if (d.on_off == 'off') {

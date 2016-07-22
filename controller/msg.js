@@ -18,6 +18,7 @@ router.post('/', function(req, res) {
         message = req.body.message;
     if (common.isMobile(mobile)) {
         witCtrl.message(message, "Work", function(err, data) {
+            console.log("data "+JSON.stringify(data));
             if (err) {
                 errorMsg.save(err, function(err, result) {
                     if (err) {
