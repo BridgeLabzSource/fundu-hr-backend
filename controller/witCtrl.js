@@ -30,13 +30,18 @@ var self = module.exports = {
                 let firstEntity = self.firstEntityValue(data.entities, "intent");
                 let on_off = self.firstEntityValue(data.entities, "on_off");
                 let datetime = self.firstEntityValue(data.entities, "datetime");
+                console.log("time :"+datetime);
                 (firstEntity == expValue || firstEntity == "office") ?
                 (on_off == "on" || on_off == "off") ?
                 datetime ?
-                    cb(null, { "time": moment(datetime).utcOffset("+05:30").format(), "on_off": on_off }) : cb(null, { "time": moment().utcOffset("+05:30").format(), "on_off": on_off }): cb({ "msg": data._text, "error": "in entities on_off not found" }, null): cb({ "msg": data._text, "error": "in entities intent not found" }, null)
+
+cb(null, { "time": moment.parseZone(datetime).local().format(), "on_off": on_off }) : cb(null, { "time": moment.parseZone(datetime).local().format(), "on_off": on_off }): cb({ "msg": data._text, "error": "in entities on_off not found" }, null): cb({ "msg": data._text, "error": "in entities intent not found" }, null)
+
+// cb(null, { "time": moment.utc(datetime).format(), "on_off": on_off }) : cb(null, { "time": moment.utc().format(), "on_off": on_off }): cb({ "msg": data._text, "error": "in entities on_off not found" }, null): cb({ "msg": data._text, "error": "in entities intent not found" }, null)
             })
             .catch((err) => {
                 cb({ "msg": msg, "error": err }, null);
             });
     }
 }
+// 2016-07-22T 15:05:56 .235-0530
