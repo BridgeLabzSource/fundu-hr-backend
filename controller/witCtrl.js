@@ -32,8 +32,6 @@ var self = module.exports = {
                 let firstEntity = self.firstEntityValue(data.entities, "intent");
                 let on_off = self.firstEntityValue(data.entities, "on_off");
                 let datetime = self.firstEntityValue(data.entities, "datetime");
-                console.log("data :" + JSON.stringify(data) + "\n");
-                console.log("datetime : " + datetime);
                 (firstEntity == expValue || firstEntity == "office") ?
                 (on_off == "on" || on_off == "off") ?
                 datetime ?

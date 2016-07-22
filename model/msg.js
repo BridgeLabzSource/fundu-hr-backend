@@ -16,7 +16,7 @@ function msg() {
 util.inherits(msg, EventEmitter)
 
 /** 
- * show time deatils to user
+ * show time details to user
  * @param {d} -d recieved from msg controller
  * @param {cb} -callback to controller
  * @return {cb} -return cb either error or result
@@ -25,14 +25,14 @@ msg.prototype.wit = function(d, cb) {
     db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
         if (existingUser) {
             if (d.on_off == 'on') {
+                var result = {
+                    userId: d.mobile,
+                    inTime: d.time,
+                    outTime: "0",
+                    totalTime: "0",
+                    type: d.type
+                }
                 if (existingUser.time.length == 0) {
-                    var result = {
-                        userId: d.mobile,
-                        inTime: d.time,
-                        outTime: "0",
-                        totalTime: "0",
-                        type: d.type
-                    }
                     cb(null, result);
                 } else {
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
@@ -41,18 +41,9 @@ msg.prototype.wit = function(d, cb) {
                         str = str.slice(0, 10)
                         str1 = d.time.slice(0, 10);
                         if (str != str1) {
-                            var result = {
-                                userId: d.mobile,
-                                inTime: d.time,
-                                outTime: "0",
-                                totalTime: "0",
-                                type: d.type
-                            }
                             cb(null, result);
-                            break;
                         } else {
                             cb("You are already enter time ", null)
-                            break;
                         }
                         cb(null, result)
                     }
@@ -72,10 +63,8 @@ msg.prototype.wit = function(d, cb) {
                             type: d.type
                         }
                         cb(null, result);
-                        break;
                     } else {
                         cb("You have not enter inTime", null);
-                        break;
                     }
                 }
             }
@@ -132,14 +121,11 @@ msg.prototype.conform = function(data, cb) {
                                 if (err) {
                                     cb("err", null);
                                 } else {
-                                    console.log("update")
+                                    cb(null, "update");
                                 }
                             })
-                            cb(null, "update");
-                            break;
                         } else {
                             cb("already update time", null)
-                            break;
                         }
                     }
                 }
@@ -159,14 +145,11 @@ msg.prototype.conform = function(data, cb) {
                                 if (err) {
                                     cb("err", null);
                                 } else {
-                                    console.log(result);
+                                    cb(null, "update")
                                 }
                             })
-                        cb(null, "update");
-                        break;
                     } else {
                         cb("You have not enter inTime", null);
-                        break;
                     }
                 }
             }

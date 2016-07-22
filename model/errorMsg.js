@@ -12,6 +12,7 @@ function errorMsg() {
 }
 util.inherits(errorMsg, EventEmitter)
 
+
 /** 
  * save error message in collections
  * @param {d} -d from msg controller 
