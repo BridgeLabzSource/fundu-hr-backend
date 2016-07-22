@@ -13,12 +13,10 @@ var express = require('express'),
  * @return JSON 
  */
 router.post('/', function(req, res) {
-    console.log("inside root")
     var mobile = req.body.mobile,
         message = req.body.message;
     if (common.isMobile(mobile)) {
         witCtrl.message(message, "Work", function(err, data) {
-            console.log("data "+JSON.stringify(data));
             if (err) {
                 errorMsg.save(err, function(err, result) {
                     if (err) {
@@ -43,7 +41,7 @@ router.post('/', function(req, res) {
                 })
             }
         });
-    } else { res.send("number not proper format") }
+    } else { res.json({"data":"number not proper format"}) }
 });
 
 /**

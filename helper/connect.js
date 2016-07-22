@@ -8,7 +8,7 @@ var state = {
     },
     url = process.env.MONGO || 'mongodb://demo:demo007@ds023694.mlab.com:23694/heroku_0k7kk5fx';
 /**
- * @exports {connect,lib,get,close}
+ * @exports {connect,close}
  */
 module.exports = {
     connect: function(cb) {

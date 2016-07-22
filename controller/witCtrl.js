@@ -1,10 +1,9 @@
 'use strict';
-
 const Wit = require('node-wit').Wit;
 const moment = require('moment');
 const client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' });
 
-/**@constant {number} */
+/*@constant {number} */
 const minConfidence = 0.80;
 
 /**
@@ -19,7 +18,6 @@ var self = module.exports = {
             Array.isArray(entities[entity]) &&
             entities[entity].length > 0 &&
             entities[entity][0].value;
-        // console.log(val);
         if (!val) {
             return null;
         }
