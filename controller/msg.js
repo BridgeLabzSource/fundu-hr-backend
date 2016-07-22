@@ -13,6 +13,7 @@ var express = require('express'),
  * @return JSON 
  */
 router.post('/', function(req, res) {
+    console.log("inside root")
     var mobile = req.body.mobile,
         message = req.body.message;
     if (common.isMobile(mobile)) {

@@ -26,12 +26,12 @@ msg.prototype.wit = function(d, cb) {
         if (existingUser) {
             if (d.on_off == 'on') {
                 var result = {
-                    userId: d.mobile,
-                    inTime: d.time,
-                    outTime: "0",
-                    totalTime: "0",
-                    type: d.type
-                }
+                        userId: d.mobile,
+                        inTime: d.time,
+                        outTime: "0",
+                        totalTime: "0",
+                        type: d.type
+                    }
                 if (existingUser.time.length == 0) {
                     cb(null, result);
                 } else {
@@ -42,8 +42,10 @@ msg.prototype.wit = function(d, cb) {
                         str1 = d.time.slice(0, 10);
                         if (str != str1) {
                             cb(null, result);
+                            break;
                         } else {
                             cb("You are already enter time ", null)
+                            break;
                         }
                         cb(null, result)
                     }
@@ -63,8 +65,10 @@ msg.prototype.wit = function(d, cb) {
                             type: d.type
                         }
                         cb(null, result);
+                        break;
                     } else {
                         cb("You have not enter inTime", null);
+                        break;
                     }
                 }
             }
@@ -121,11 +125,14 @@ msg.prototype.conform = function(data, cb) {
                                 if (err) {
                                     cb("err", null);
                                 } else {
-                                    cb(null, "update");
+                                    console.log("update")
                                 }
                             })
+                            cb(null, "update");
+                            break;
                         } else {
                             cb("already update time", null)
+                            break;
                         }
                     }
                 }
@@ -145,11 +152,14 @@ msg.prototype.conform = function(data, cb) {
                                 if (err) {
                                     cb("err", null);
                                 } else {
-                                    cb(null, "update")
+                                    console.log(result);
                                 }
                             })
+                        cb(null, "update");
+                        break;
                     } else {
                         cb("You have not enter inTime", null);
+                        break;
                     }
                 }
             }
