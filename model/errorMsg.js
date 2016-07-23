@@ -19,6 +19,7 @@ util.inherits(errorMsg, EventEmitter)
  * @return {cb} -return cb either error or result
  */
 errorMsg.prototype.save = function(d, cb) {
+    console.log(d);
     var data = new db.errorMsg({ "message": d.msg, "response": d.error })
     data.save(function(err, result) {
         if (err) {
