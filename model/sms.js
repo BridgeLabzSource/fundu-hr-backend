@@ -59,7 +59,8 @@ sms.prototype.otp = function(mobile, cb) {
 sms.prototype.verify = function(data, cb) {
     if (common.isMobile(data.mobile)) {
         db.demo.findOne({ 'mobile': data.mobile, 'otp': data.otp }, function(err, result) {
-            if (err) {
+            console.log(" result "+result);
+            if (err || !result) {
                 cb(err, null);
             } else {
                 db.demo.update({
