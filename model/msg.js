@@ -68,7 +68,7 @@ msg.prototype.wit = function(d, cb) {
                         cb(null, result);
                         break;
                     } else {
-                        cb("You have not enter inTime", null);
+                        cb("You have not entered inTime", null);
                         break;
                     }
                 }
