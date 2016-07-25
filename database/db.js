@@ -25,7 +25,9 @@ var userModel = mongoose.model('userSchema', userSchema, 'userModel');
 exports.userModel = userModel;
 
 var demo = mongoose.Schema({
-    'mobile': { type: String },
+    'email':{type:String,index: { unique: true }},
+    'mobile': { type: String ,index: { unique: true }},
+    'password':{type:String},
     'otp': { type: String },
     'time': [{
         'inTime': { type: String },

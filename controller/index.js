@@ -6,6 +6,7 @@ var express = require('express'),
     
 router.use('/sms',require('./sms.js'));
 router.use('/message',require('./msg.js'));
+router.use('/registration',require('./registration.js'));
 /**
  * demo
  */
