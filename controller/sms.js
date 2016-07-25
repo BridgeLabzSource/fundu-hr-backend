@@ -26,9 +26,9 @@ router.post('/edit', function(req, res) {
     var d = req.body.share;
     sms.save(d, function(err, data) {
         if (err) {
-            res.json({ "error": err, "status": false });
+            res.json({ 'error': err, 'status': false });
         } else {
-            res.json({ "data": data, "status": true });
+            res.json({ 'data': data, 'status': true });
         }
     })
 });
@@ -39,13 +39,13 @@ router.post('/edit', function(req, res) {
  * @return {otp}
  */
 router.post('/otp', function(req, res) {
-    console.log("opt received \n"+req);
+    console.log("opt received \n" + req);
     var mobile = req.body.mobile;
     sms.otp(mobile, function(err, data) {
         if (err) {
-            res.json({ "error": err, "status": false });
+            res.json({ 'error': err, 'status': false });
         } else {
-            res.json({ "data": data, "status": true });
+            res.json({ 'data': data, 'status': true });
         }
     })
 });
@@ -62,9 +62,9 @@ router.post('/verify', function(req, res) {
     }
     sms.verify(data, function(err, data) {
         if (err) {
-            res.json({ "error": err, "status": false });
+            res.json({ 'error': err, 'status': false });
         } else {
-            res.json({ "data": data, "status": true });
+            res.json({ 'data': data, 'status': true });
         }
     })
 });

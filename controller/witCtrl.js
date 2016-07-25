@@ -29,18 +29,16 @@ var self = module.exports = {
     message: (msg, expValue, cb) => {
         client.message(msg, {})
             .then((data) => {
-                let firstEntity = self.firstEntityValue(data.entities, "intent");
-                let on_off = self.firstEntityValue(data.entities, "on_off");
-                let datetime = self.firstEntityValue(data.entities, "datetime");
-                console.log("data :" + JSON.stringify(data) + "\n");
-                console.log("datetime : " + datetime);
-                (firstEntity == expValue || firstEntity == "office") ?
-                (on_off == "on" || on_off == "off") ?
+                let firstEntity = self.firstEntityValue(data.entities, 'intent');
+                let on_off = self.firstEntityValue(data.entities, 'on_off');
+                let datetime = self.firstEntityValue(data.entities, 'datetime');
+                (firstEntity == expValue || firstEntity == 'office') ?
+                (on_off == 'on' || on_off == 'off') ?
                 datetime ?
-                    cb(null, { "time": moment(datetime).utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z"), "on_off": on_off }) : cb(null, { "time": moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss Z"), "on_off": on_off }): cb({ "msg": data._text, "error": JSON.stringify(data.entities)}, null): cb({ "msg": data._text, "error": JSON.stringify(data.entities) }, null)
+                    cb(null, { 'time': moment(datetime).utcOffset('+05:30').format('YYYY-MM-DD HH:mm:ss Z'), 'on_off': on_off }) : cb(null, { 'time': moment().utcOffset('+05:30').format('YYYY-MM-DD HH:mm:ss Z'), 'on_off': on_off }): cb({ 'msg': data._text, 'error': JSON.stringify(data.entities) }, null): cb({ 'msg': data._text, 'error': JSON.stringify(data.entities) }, null)
             })
             .catch((err) => {
-                cb({ "msg": msg, "error": err }, null);
+                cb({ 'msg': msg, 'error': err }, null);
             });
     }
 }

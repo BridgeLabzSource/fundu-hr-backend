@@ -16,13 +16,13 @@ router.post('/', function(req, res) {
     var mobile = req.body.mobile,
         message = req.body.message;
     if (common.isMobile(mobile)) {
-        witCtrl.message(message, "Work", function(err, data) {
+        witCtrl.message(message, 'Work', function(err, data) {
             if (err) {
                 errorMsg.save(err, function(err, result) {
                     if (err) {
-                        res.json({ "err": err });
+                        res.json({ 'err': err });
                     } else {
-                        res.json({ "data": result });
+                        res.json({ 'data': result });
                     }
                 });
             } else {
@@ -30,18 +30,18 @@ router.post('/', function(req, res) {
                     mobile: mobile,
                     time: data.time,
                     on_off: data.on_off,
-                    type: "attendance"
+                    type: 'attendance'
                 }
                 msg.wit(result, function(err, data1) {
                     if (err) {
-                        res.json({ "err": err });
+                        res.json({ 'err': err });
                     } else {
-                        res.json({ "data": data1 });
+                        res.json({ 'data': data1 });
                     }
                 })
             }
         });
-    } else { res.json({"data":"number not proper format"}) }
+    } else { res.json({ 'data': 'Number not proper format' }) }
 });
 
 /**
@@ -59,9 +59,9 @@ router.post('/timeEntryConform', function(req, res) {
     };
     msg.conform(data, function(err, data) {
         if (err) {
-            res.json({ "err": err });
+            res.json({ 'err': err });
         } else {
-            res.json({ "data": data });
+            res.json({ 'data': data });
         }
     })
 });

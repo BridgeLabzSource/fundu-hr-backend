@@ -1,7 +1,7 @@
 /**
  * @exports {isMobile,sendOtp}
  */
-var request = require("request"),
+var request = require('request'),
     moment = require('moment');
 module.exports = {
     isMobile: function(mobile) {
@@ -12,8 +12,8 @@ module.exports = {
         }
     },
     sendOtp: function(mobile, otp) {
-        var url = process.env.smsUrl+"/messages";
-        request.post(url, { form: { "to": mobile, "body": "your otp is : " + otp } }, function(ee, r, body) {
+        var url = process.env.smsUrl+'/messages';
+        request.post(url, { form: { 'to': mobile, 'body': 'your otp is : ' + otp } }, function(ee, r, body) {
             return body;
         });
     }

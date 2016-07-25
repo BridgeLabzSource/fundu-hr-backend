@@ -22,7 +22,7 @@ util.inherits(msg, EventEmitter)
  * @return {cb} -return cb either error or result
  */
 msg.prototype.wit = function(d, cb) {
-    db.demo.findOne({ "mobile": d.mobile }, function(err, existingUser) {
+    db.demo.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
             if (d.on_off == 'on') {
                 var result = {
@@ -44,7 +44,7 @@ msg.prototype.wit = function(d, cb) {
                             cb(null, result);
                             break;
                         } else {
-                            cb("You are already enter time ", null)
+                            cb('You are already enter time', null)
                             break;
                         }
                         cb(null, result)
@@ -52,15 +52,13 @@ msg.prototype.wit = function(d, cb) {
                     }
                 }
             } else if (d.on_off == 'off') {
-                console.log('inside off'+existingUser.time.length);
                 if (existingUser.time.length != 0) {
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = d.time.slice(0, 10);
                         if (str == str1) {
-                            console.log('inside if');
-                            var diff = moment.utc(moment(d.time, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                            var diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[i].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
                             var result = {
                                 userId: existingUser.mobile,
                                 inTime: existingUser.time[i].inTime,
@@ -71,17 +69,10 @@ msg.prototype.wit = function(d, cb) {
                             cb(null, result);
                             break;
                         }
-                        // else {
-                        //     console.log('time off');
-                        //     cb("You have not entered inTime", null);
-                        //     break;
-                        // }
                     }
                 } else {
-                    console.log('you have not entered inTime');
-                    cb("You have not entered inTime", null);
+                    cb('You have not entered inTime', null);
                 }
-
             }
         } else {
             cb('not exit in db', null);
@@ -97,11 +88,11 @@ msg.prototype.wit = function(d, cb) {
  */
 msg.prototype.conform = function(data, cb) {
     if (data.check == 'true') {
-        db.demo.findOne({ "mobile": data.mobile }, function(err, existingUser) {
+        db.demo.findOne({ 'mobile': data.mobile }, function(err, existingUser) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
-                    db.demo.update({ "mobile": data.mobile }, {
+                    db.demo.update({ 'mobile': data.mobile }, {
                         $push: {
                             time: {
                                 inTime: data.inTime,
@@ -113,7 +104,7 @@ msg.prototype.conform = function(data, cb) {
                         if (err) {
                             cb(err, null);
                         } else {
-                            cb(null, "update");
+                            cb(null, 'update');
                         }
                     })
                 } else {
@@ -124,7 +115,7 @@ msg.prototype.conform = function(data, cb) {
                         str = str.slice(0, 10)
                         str1 = data.inTime.slice(0, 10);
                         if (str != str1) {
-                            db.demo.update({ "mobile": data.mobile }, {
+                            db.demo.update({ 'mobile': data.mobile }, {
                                 $push: {
                                     time: {
                                         inTime: data.inTime,
@@ -134,15 +125,15 @@ msg.prototype.conform = function(data, cb) {
                                 }
                             }, function(err, result) {
                                 if (err) {
-                                    cb("err", null);
+                                    cb('err', null);
                                 } else {
-                                    console.log("update")
+                                    console.log('update')
                                 }
                             })
-                            cb(null, "update");
+                            cb(null, 'update');
                             break;
                         } else {
-                            cb("already update time", null)
+                            cb('already update time', null)
                             break;
                         }
                     }
@@ -151,25 +142,25 @@ msg.prototype.conform = function(data, cb) {
                 /* outTime entry in time array*/
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
-                        var diff = moment.utc(moment(data.outTime, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[0].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                        db.demo.update({ "mobile": data.mobile, "time": { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
+                        var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                        db.demo.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
-                                    "time.$.inTime": data.inTime,
-                                    "time.$.outTime": data.outTime,
-                                    "time.$.totalTime": diff
+                                    'time.$.inTime': data.inTime,
+                                    'time.$.outTime': data.outTime,
+                                    'time.$.totalTime': diff
                                 }
                             },
                             function(err, result) {
                                 if (err) {
-                                    cb("err", null);
+                                    cb('err', null);
                                 } else {
                                     console.log(result);
                                 }
                             })
-                        cb(null, "update");
+                        cb(null, 'update');
                         break;
                     } else {
-                        cb("You have not enter inTime", null);
+                        cb('You have not enter inTime', null);
                         break;
                     }
                 }

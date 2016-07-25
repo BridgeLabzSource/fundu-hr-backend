@@ -24,7 +24,7 @@ app.use(require('./controller/index'));
 io.on('connection', function(socket) {
     console.log('a user connected to server');
     socket.on('message', function() {
-        var data = ["I am in office", "I left from office now", "I left office yesterday", "In office", "Left office","I am in","I am out"];
+        var data = ['I am in office', 'I left from office now', 'I left office yesterday', 'In office', 'Left office', 'I am in', 'I am out'];
         socket.emit('server ready', data);
     });
     socket.on('disconnect', function() {
@@ -37,6 +37,6 @@ io.on('connection', function(socket) {
  */
 db.connect(function() {
     http.listen(port, function() {
-        console.log("Server Runnig " + port);
+        console.log('Server Runnig ' + port);
     })
 })

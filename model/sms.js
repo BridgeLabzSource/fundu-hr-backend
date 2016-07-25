@@ -23,7 +23,7 @@ util.inherits(sms, EventEmitter)
  */
 sms.prototype.otp = function(mobile, cb) {
     if (common.isMobile(mobile)) {
-        db.demo.findOne({ "mobile": mobile }, function(err, existing) {
+        db.demo.findOne({ 'mobile': mobile }, function(err, existing) {
             if (existing) {
                 // var otp = (Math.floor(Math.random() * 90000) + 10000);
                 // common.sendOtp(mobile, otp);
@@ -42,11 +42,11 @@ sms.prototype.otp = function(mobile, cb) {
                     }
                 })
             } else {
-                cb("Number not existing ", null);
+                cb('Number not existing ', null);
             }
         })
     } else {
-        cb("false", null);
+        cb('Mobile not proper Format', null);
     }
 };
 
@@ -57,9 +57,8 @@ sms.prototype.otp = function(mobile, cb) {
  * @return {cb} -return cb either error or result
  */
 sms.prototype.verify = function(data, cb) {
-    console.log(data.mobile);
     if (common.isMobile(data.mobile)) {
-        db.demo.findOne({ "mobile": data.mobile, "otp": data.otp }, function(err, result) {
+        db.demo.findOne({ 'mobile': data.mobile, 'otp': data.otp }, function(err, result) {
             if (err) {
                 cb(err, null);
             } else {
@@ -74,14 +73,13 @@ sms.prototype.verify = function(data, cb) {
                     if (err) {
                         cb(err, null);
                     } else {
-                        console.log(data)
-                        cb(null, "seccessfully register...");
+                        cb(null, 'seccessfully register...');
                     }
                 })
             }
         })
     } else {
-        cb("false", null);
+        cb('Mobile not proper Format', null);
     }
 };
 
@@ -93,36 +91,36 @@ sms.prototype.verify = function(data, cb) {
  */
 sms.prototype.save = function(data, cb) {
     if (common.isMobile(data[0][7].Mobile)) {
-        db.userModel.findOne({ "Mobile": data[0][7].Mobile }, function(err, existingUser) {
+        db.userModel.findOne({ 'Mobile': data[0][7].Mobile }, function(err, existingUser) {
             if (!existingUser) {
                 var dbSave = new db.userModel({
-                    "srId": data[0][0].sr_id,
-                    "empId": data[0][1].empId,
-                    "empName": data[0][2].empName,
-                    "designation": data[0][3].Designation,
-                    "blStartDate": data[0][4].BL_start_date,
-                    "startDateAtCompany": data[0][5].start_date_at_company,
-                    "endDate": data[0][6].End_Date,
-                    "mobile": data[0][7].Mobile,
-                    "panCard": data[0][8].PAN_card,
-                    "email": data[0][9].email,
-                    "dob": data[0][10].DOB,
-                    "empContractSigned": data[0][11].Emp_contract_signed,
-                    "offerLetter": data[0][12].offer_letter,
-                    "empFormCsr": data[0][13].Emp_form_CSR,
-                    "originalSubmitted": data[0][14].original_submitted
+                    'srId': data[0][0].sr_id,
+                    'empId': data[0][1].empId,
+                    'empName': data[0][2].empName,
+                    'designation': data[0][3].Designation,
+                    'blStartDate': data[0][4].BL_start_date,
+                    'startDateAtCompany': data[0][5].start_date_at_company,
+                    'endDate': data[0][6].End_Date,
+                    'mobile': data[0][7].Mobile,
+                    'panCard': data[0][8].PAN_card,
+                    'email': data[0][9].email,
+                    'dob': data[0][10].DOB,
+                    'empContractSigned': data[0][11].Emp_contract_signed,
+                    'offerLetter': data[0][12].offer_letter,
+                    'empFormCsr': data[0][13].Emp_form_CSR,
+                    'originalSubmitted': data[0][14].original_submitted
                 });
                 dbSave.save(function(err, data) {
                     if (err) {
                         cb(err, null);
                     } else {
-                        cb(null, "save data");
+                        cb(null, 'save data');
                     }
                 });
             }
         });
     } else {
-        cb("Number not proper", null);
+        cb('Mobile not proper Format', null);
     }
 };
 
