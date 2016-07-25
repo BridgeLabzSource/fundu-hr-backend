@@ -52,11 +52,13 @@ msg.prototype.wit = function(d, cb) {
                     }
                 }
             } else if (d.on_off == 'off') {
+                console.log('inside off');
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
                     str = existingUser.time[i].inTime;
                     str = str.slice(0, 10)
                     str1 = d.time.slice(0, 10);
                     if (str == str1) {
+                        console.log('inside if');
                         var diff = moment.utc(moment(d.time, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
                         var result = {
                             userId: existingUser.mobile,
@@ -68,6 +70,7 @@ msg.prototype.wit = function(d, cb) {
                         cb(null, result);
                         break;
                     } else {
+                        console.log('time off');
                         cb("You have not entered inTime", null);
                         break;
                     }
