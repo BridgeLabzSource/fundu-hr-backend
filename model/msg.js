@@ -26,12 +26,12 @@ msg.prototype.wit = function(d, cb) {
         if (existingUser) {
             if (d.on_off == 'on') {
                 var result = {
-                        userId: d.mobile,
-                        inTime: d.time,
-                        outTime: "0",
-                        totalTime: "0",
-                        type: d.type
-                    }
+                    userId: d.mobile,
+                    inTime: d.time,
+                    outTime: "0",
+                    totalTime: "0",
+                    type: d.type
+                }
                 if (existingUser.time.length == 0) {
                     cb(null, result);
                 } else {
@@ -52,29 +52,36 @@ msg.prototype.wit = function(d, cb) {
                     }
                 }
             } else if (d.on_off == 'off') {
-                console.log('inside off');
-                for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                    str = existingUser.time[i].inTime;
-                    str = str.slice(0, 10)
-                    str1 = d.time.slice(0, 10);
-                    if (str == str1) {
-                        console.log('inside if');
-                        var diff = moment.utc(moment(d.time, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
-                        var result = {
-                            userId: existingUser.mobile,
-                            inTime: existingUser.time[i].inTime,
-                            outTime: d.time,
-                            totalTime: diff,
-                            type: d.type
+                console.log('inside off'+existingUser.time.length);
+                if (existingUser.time.length != 0) {
+                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                        str = existingUser.time[i].inTime;
+                        str = str.slice(0, 10)
+                        str1 = d.time.slice(0, 10);
+                        if (str == str1) {
+                            console.log('inside if');
+                            var diff = moment.utc(moment(d.time, "YYYY-MM-DD HH:mm:ss Z").diff(moment(existingUser.time[i].inTime, "YYYY-MM-DD HH:mm:ss Z"))).format("HH:mm:ss");
+                            var result = {
+                                userId: existingUser.mobile,
+                                inTime: existingUser.time[i].inTime,
+                                outTime: d.time,
+                                totalTime: diff,
+                                type: d.type
+                            }
+                            cb(null, result);
+                            break;
                         }
-                        cb(null, result);
-                        break;
-                    } else {
-                        console.log('time off');
-                        cb("You have not entered inTime", null);
-                        break;
+                        // else {
+                        //     console.log('time off');
+                        //     cb("You have not entered inTime", null);
+                        //     break;
+                        // }
                     }
+                } else {
+                    console.log('you have not entered inTime');
+                    cb("You have not entered inTime", null);
                 }
+
             }
         } else {
             cb('not exit in db', null);
