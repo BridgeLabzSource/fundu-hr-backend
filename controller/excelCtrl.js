@@ -9,8 +9,8 @@ var express = require('express'),
  */
 router.post('/', function(req, res) {
     var d = req.body.share;
-    console.log(JSON.stringify(d));
-    excel.save(d, function(err, data) {
+    console.log(JSON.stringify(d[0]));
+    excel.save(d[0], function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });
         } else {
