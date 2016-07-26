@@ -24,6 +24,7 @@ router.post('/send', function(req, res) {
  */
 router.post('/edit', function(req, res) {
     var d = req.body.share;
+    console.log(JSON.stringify(d));
     sms.save(d, function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });
