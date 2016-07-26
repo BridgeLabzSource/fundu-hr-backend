@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
     'srId': { type: Number },
-    'empId': { type: Number },
+    'empId': { type: String },
     'empName': { type: String },
     'designation': { type: String },
     'blStartDate': { type: Date },
