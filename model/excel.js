@@ -24,7 +24,7 @@ excel.prototype.save = function(data, cb) {
     for (var i = 0; i <= data.length - 1; i++) {
         console.log("inside for loop : "+data[i][7]);
         db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
-            console.log("inside for loop : "+data[i][7]);
+            console.log("inside for loop : "+existing);
             if (!existing) {
                 console.log("inside  not existing"+data[i][1])
                 var data = new db.userModel({
@@ -51,7 +51,7 @@ excel.prototype.save = function(data, cb) {
                         console.log(result);
                     }
                 })
-            } else if (existing.empId == data[i].empId) {
+            } else if (existing.empId == data[i][1]) {
                 console.log("inside existing")
                 db.userModel.update({
                     'empId': data[i][1]
