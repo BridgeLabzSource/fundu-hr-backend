@@ -24,6 +24,7 @@ excel.prototype.save = function(data, cb) {
     for (var i = 0; i <= data.length - 1; i++) {
         console.log("inside for loop : "+data[i][7]);
         db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
+            console.log("inside for loop : "+data[i][7]);
             if (!existing) {
                 console.log("inside  not existing"+data[i][1])
                 var data = new db.userModel({
