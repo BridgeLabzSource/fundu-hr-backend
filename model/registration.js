@@ -32,11 +32,17 @@ registration.prototype.register = function(d, cb) {
 
 registration.prototype.login = function(d, cb) {
     if (common.isMobile(d.mobile)) {
-        db.demo.findOne({ 'mobile': d.mobile, 'password': d.password }, function(err, result) {
+        db.demo.findOne({ 'mobile': d.mobile }, function(err, result) {
             if (!result || err) {
                 cb('You have not registered', null);
             } else {
-                cb(null, 'Successfully Login');
+                db.demo.findOne({ 'mobile': d.mobile, 'password': d.password }, function(err, result) {
+                    if (!result || err) {
+                        cb('Invalid password', null);
+                    } else {
+                        cb(null, 'Successfully Login');
+                    }
+                })
             }
         })
     } else {
