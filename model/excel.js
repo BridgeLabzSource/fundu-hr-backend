@@ -19,50 +19,66 @@ util.inherits(excel, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 excel.prototype.save = function(data, cb) {
-    console.log("data : "+data[0].empId)
-    // for (var i = 0; i <= data.length - 1; i++) {
-    //     db.userModel.findOne({ 'empId': data[i].empId }, function(err, existing) {
-    //         if (!existing) {
-    //             console.log("inside  not existing")
-    //             var data = new db.userModel(data[i]);
-    //             data.save(function(err, result) {
-    //                 if (err) {
-    //                     console.log(err)
-    //                 } else {
-    //                     console.log(result);
-    //                 }
-    //             })
-    //         } else if (existing.empId == data[i].empId) {
-    //             console.log("inside existing")
-    //             db.userModel.update({
-    //                 'empId': data[i].empId
-    //             }, {
-    //                 $set: {
-    //                     'empName': data[i].empName,
-    //                     'Designation': data[i].Designation,
-    //                     'BL_start_date': data[i].BL_start_date,
-    //                     'start_date_at_company': data[i].start_date_at_company,
-    //                     'End_Date': data[i].End_Date,
-    //                     'Mobile': data[i].Mobile,
-    //                     'PAN_card': data[i].PAN_card,
-    //                     'email': data[i].email,
-    //                     'DOB': data[i].DOB,
-    //                     'Emp_contract_signed': data[i].Emp_contract_signed,
-    //                     'offer_letter': data[i].offer_letter,
-    //                     'Emp_form_CSR': data[i].Emp_form_CSR,
-    //                     'original_submitted': data[i].original_submitted
-    //                 }
-    //             }, function(err, result) {
-    //                 if (err) {
-    //                     console.log(err)
-    //                 } else {
-    //                     console.log(result);
-    //                 }
-    //             });
-    //         }
-    //     })
-    // }
-    // cb(null,update);
+    console.log("data : " + JSON.stringify(data[0][1]));
+    for (var i = 0; i <= data.length - 1; i++) {
+        db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
+            if (!existing) {
+                console.log("inside  not existing")
+                var data = new db.userModel({
+                    'srId': data[i][0],
+                    'empId': data[i][1],
+                    'empName': data[i][2],
+                    'designation': data[i][3],
+                    'blStartDate': data[i][4],
+                    'startDateAtCompany': data[i][5],
+                    'endDate': data[i][6],
+                    'mobile': data[i][7],
+                    'panCard': data[i][8],
+                    'email': data[i][9],
+                    'dob': data[i][10],
+                    'empContractSigned': data[i][11],
+                    'offerLetter': data[i][12],
+                    'empFormCsr': data[i][13],
+                    'originalSubmitted': data[i][14]
+                });
+                data.save(function(err, result) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result);
+                    }
+                })
+            } else if (existing.empId == data[i].empId) {
+                console.log("inside existing")
+                db.userModel.update({
+                    'empId': data[i][1]
+                }, {
+                    $set: {
+                        'empName': data[i][2],
+                        'designation': data[i][3],
+                        'blStartDate': data[i][4],
+                        'startDateAtCompany': data[i][5],
+                        'endDate': data[i][6],
+                        'mobile': data[i][7],
+                        'panCard': data[i][8],
+                        'email': data[i][9],
+                        'dob': data[i][10],
+                        'empContractSigned': data[i][11],
+                        'offerLetter': data[i][12],
+                        'empFormCsr': data[i][13],
+                        'originalSubmitted': data[i][14]
+                    }
+                }, function(err, result) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result);
+                    }
+                });
+            }
+        })
+    }
+    cb(null, update);
 };
 
 module.exports = new excel;
