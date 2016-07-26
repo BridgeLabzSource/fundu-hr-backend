@@ -19,39 +19,49 @@ util.inherits(excel, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 excel.prototype.save = function(data, cb) {
-    console.log(data);
-    // if (common.isMobile(data[0][7].Mobile)) {
-    //     db.userModel.findOne({ 'Mobile': data[0][7].Mobile }, function(err, existingUser) {
-    //         if (!existingUser) {
-    //             var dbSave = new db.userModel({
-    //                 'srId': data[0][0].sr_id,
-    //                 'empId': data[0][1].empId,
-    //                 'empName': data[0][2].empName,
-    //                 'designation': data[0][3].Designation,
-    //                 'blStartDate': data[0][4].BL_start_date,
-    //                 'startDateAtCompany': data[0][5].start_date_at_company,
-    //                 'endDate': data[0][6].End_Date,
-    //                 'mobile': data[0][7].Mobile,
-    //                 'panCard': data[0][8].PAN_card,
-    //                 'email': data[0][9].email,
-    //                 'dob': data[0][10].DOB,
-    //                 'empContractSigned': data[0][11].Emp_contract_signed,
-    //                 'offerLetter': data[0][12].offer_letter,
-    //                 'empFormCsr': data[0][13].Emp_form_CSR,
-    //                 'originalSubmitted': data[0][14].original_submitted
-    //             });
-    //             dbSave.save(function(err, data) {
-    //                 if (err) {
-    //                     cb(err, null);
-    //                 } else {
-    //                     cb(null, 'save data');
-    //                 }
-    //             });
-    //         }
-    //     });
-    // } else {
-    //     cb('Mobile not proper Format', null);
-    // }
+    for (var i = 0; i <= data.length - 1; i++) {
+        db.userModel.findOne({ 'empId': data[i].empId }, function(err, existing) {
+            if (!existing) {
+                console.log("inside  not existing")
+                var data = new db.userModel(data[i]);
+                data.save(function(err, result) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result);
+                    }
+                })
+            } else if (existing.empId == data[i].empId) {
+                console.log("inside existing")
+                db.userModel.update({
+                    'empId': data[i].empId
+                }, {
+                    $set: {
+                        'empName': data[i].empName,
+                        'Designation': data[i].Designation,
+                        'BL_start_date': data[i].BL_start_date,
+                        'start_date_at_company': data[i].start_date_at_company,
+                        'End_Date': data[i].End_Date,
+                        'Mobile': data[i].Mobile,
+                        'PAN_card': data[i].PAN_card,
+                        'email': data[i].email,
+                        'DOB': data[i].DOB,
+                        'Emp_contract_signed': data[i].Emp_contract_signed,
+                        'offer_letter': data[i].offer_letter,
+                        'Emp_form_CSR': data[i].Emp_form_CSR,
+                        'original_submitted': data[i].original_submitted
+                    }
+                }, function(err, result) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result);
+                    }
+                });
+            }
+        })
+    }
+    cb(null,update);
 };
 
 module.exports = new excel;
