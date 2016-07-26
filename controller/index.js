@@ -4,9 +4,10 @@
 var express = require('express'),
     router = express.Router();
     
-router.use('/sms',require('./sms.js'));
-router.use('/message',require('./msg.js'));
-router.use('/registration',require('./registration.js'));
+router.use('/sms',require('./smsCtrl.js'));
+router.use('/message',require('./msgCtrl.js'));
+router.use('/excel',require('./excelCtrl.js'));
+router.use('/registration',require('./registrationCtrl.js'));
 /**
  * demo
  */
