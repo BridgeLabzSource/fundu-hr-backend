@@ -20,7 +20,7 @@ util.inherits(excel, EventEmitter);
  */
 excel.prototype.save = function(data, cb) {
     console.log("data : " + JSON.stringify(data.length)+"\n");
-    console.log("data : " + JSON.stringify(data[3][1]));
+    console.log("data : " + JSON.stringify(data[0][1]));
     for (var i = 0; i <= data.length-1; i++) {
         console.log("inside for loop : "+data[i][7]);
         db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
