@@ -19,7 +19,7 @@ util.inherits(excel, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 excel.prototype.save = function(data, cb) {
-    console.log("data : "+JSON.stringify(data[0][1]));
+    console.log("data : "+JSON.stringify(data[1][1]));
     // for (var i = 0; i <= data.length - 1; i++) {
     //     db.userModel.findOne({ 'empId': data[i].empId }, function(err, existing) {
     //         if (!existing) {
