@@ -37,7 +37,7 @@ excel.prototype.save = function(data, cb) {
             // do a thing, possibly async, then…
             // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
             console.log('after i' + i);
-            if (exist == undefined) {
+            if (!exist) {
                 var data = new db.userModel({
                     'srId': data[i][0],
                     'empId': data[i][1],
