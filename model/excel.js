@@ -29,6 +29,7 @@ excel.prototype.save = function(data, cb) {
         // console.log("find   :"+re);
         var find = data[i][1];
         console.log('before i : ' + i);
+
         var promise = new Promise(function(resolve, reject) {
             // do a thing, possibly async, then…
             db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
