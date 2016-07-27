@@ -33,6 +33,7 @@ excel.prototype.save = function(data, cb) {
         var promise = new Promise(function(resolve, reject) {
             console.log("after i :" + i+" and "+data[i][1]);
             db.userModel.findOne({ 'empId': data[i][1] }, function(err, exist) {
+                console.log("exist :"+exist.empId);
                 if (!exist) {
                     var dd = new db.userModel({
                         'srId': data[i][0],
