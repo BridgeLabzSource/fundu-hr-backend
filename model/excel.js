@@ -37,7 +37,7 @@ excel.prototype.save = function(data, cb) {
             // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
                 console.log('after i'+i);
                 if (!exist) {
-                    console.log("resolve"+i+" and "exist);
+                    console.log("resolve"+i+" and "+exist);
                     resolve("Stuff worked!");
                 } else {
                     console.log("reject"+i);
