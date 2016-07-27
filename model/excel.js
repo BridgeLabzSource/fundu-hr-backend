@@ -4,7 +4,7 @@
 var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     db = require('../database/db');
-    common=require('../helper/common');
+common = require('../helper/common');
 /**
  * @constructor
  */
@@ -32,18 +32,42 @@ excel.prototype.save = function(data, cb) {
         console.log('before i : ' + i);
 
         var promise = new Promise(function(resolve, reject) {
-            var exist=common.find(data[i][1]);
-            console.log("exist :"+exist);
+            var exist = common.find(data[i][1]);
+            console.log("exist :" + exist);
             // do a thing, possibly async, then…
             // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
-                console.log('after i'+i);
-                if (!exist) {
-                    console.log("resolve "+i+" and "+exist);
-                    resolve("Stuff worked!");
-                } else {
-                    console.log("reject"+i);
-                    reject(Error("It broke"));
-                }
+            console.log('after i' + i);
+            if (exist == undefined) {
+                var data = new db.userModel({
+                    'srId': data[i][0],
+                    'empId': data[i][1],
+                    'empName': data[i][2],
+                    'designation': data[i][3],
+                    'blStartDate': data[i][4],
+                    'startDateAtCompany': data[i][5],
+                    'endDate': data[i][6],
+                    'mobile': data[i][7],
+                    'panCard': data[i][8],
+                    'email': data[i][9],
+                    'dob': data[i][10],
+                    'empContractSigned': data[i][11],
+                    'offerLetter': data[i][12],
+                    'empFormCsr': data[i][13],
+                    'originalSubmitted': data[i][14]
+                });
+                data.save(function(err, result) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result);
+                    }
+                })
+                console.log("resolve " + i + " and " + exist);
+                resolve("Stuff worked!");
+            } else {
+                console.log("reject" + i);
+                reject(Error("It broke"));
+            }
             // })
         });
     }
