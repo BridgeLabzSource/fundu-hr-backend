@@ -38,7 +38,7 @@ excel.prototype.save = function(data, cb) {
             // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
                 console.log('after i'+i);
                 if (!exist) {
-                    var data={
+                    var dd={
                     'srId': data[i][0],
                     'empId': data[i][1],
                     'empName': data[i][2],
@@ -55,7 +55,7 @@ excel.prototype.save = function(data, cb) {
                     'empFormCsr': data[i][13],
                     'originalSubmitted': data[i][14]
                     }
-                    console.log("resolve "+i+" and "+common.save(data));
+                    console.log("resolve "+i+" and "+common.save(dd));
                     resolve("Stuff worked!");
                 } else {
                     console.log("reject"+i);

@@ -26,12 +26,12 @@ module.exports = {
         });
     },
     find: function(data) {
-        console.log("inside common :" + data)
         db.userModel.findOne({ 'empId': data }, function(err, exist) {
+            console.log("inside common "+data+" exist "+exist)
             if (err) {
                 return err;
             } else {
-                return exist;
+                return null;
             }
         })
     },
