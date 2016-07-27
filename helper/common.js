@@ -27,16 +27,16 @@ module.exports = {
     },
     find: function(data) {
         db.userModel.findOne({ 'empId': data }, function(err, exist) {
-            console.log("inside common "+data+" exist "+exist+" \n")
-            if (!exist) {
-                return null;
+            console.log("exist"+exist+" \n")
+            if (err) {
+                return err;
             } else {
-                return "exist";
+                return exist;
             }
         })
     },
     save: function(data) {
-        console.log("inside common :" + data)
+        console.log("inside save function :" + data)
        var data=new db.userModel(data);
        data.save(function(err,result){
         if (err) {

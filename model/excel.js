@@ -33,11 +33,8 @@ excel.prototype.save = function(data, cb) {
 
         var promise = new Promise(function(resolve, reject) {
             var exist=common.find(data[i][1]);
-            console.log("exist :"+exist);
-            // do a thing, possibly async, then…
-            // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
-                console.log('after i'+i);
-                if (!exist) {
+            console.log("result from findOne:"+exist+"\n");
+                if (exist==undefined) {
                     var dd={
                     'srId': data[i][0],
                     'empId': data[i][1],
@@ -55,7 +52,7 @@ excel.prototype.save = function(data, cb) {
                     'empFormCsr': data[i][13],
                     'originalSubmitted': data[i][14]
                     }
-                    console.log("resolve "+i+" and "+common.save(dd));
+                    console.log("resolve"+i+" and "+common.save(dd));
                     resolve("Stuff worked!");
                 } else {
                     console.log("reject"+i);
