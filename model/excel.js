@@ -31,7 +31,7 @@ excel.prototype.save = function(data, cb) {
         console.log('before i : ' + i);
 
         var promise = new Promise(function(resolve, reject) {
-            console.log("after i :" + i)
+            console.log("after i :" + i+" and "+data[i][1]);
             db.userModel.findOne({ 'empId': data[i][1] }, function(err, exist) {
                 if (!exist) {
                     var dd = new db.userModel({
