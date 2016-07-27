@@ -33,8 +33,10 @@ excel.prototype.save = function(data, cb) {
         db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
             console.log('after i : ' + i);
             if (!err) {
+                console.log(result);
                 promise.resolve(result);
             } else {
+                console.log(err);
                 promise.reject(err);
             }
         })
