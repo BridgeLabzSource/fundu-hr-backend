@@ -53,9 +53,10 @@ excel.prototype.save = function(data, cb) {
                     })
                     dd.save(function(err, result) {
                         if (result) {
-                            resolve("resolve")
+                            console.log('save')
                         }
                     })
+                    resolve("resolve");
                 } else {
                     reject(Error("It broke"));
                 }
