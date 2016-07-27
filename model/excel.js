@@ -35,6 +35,7 @@ excel.prototype.save = function(data, cb) {
                 console.log("not existing in db"+find)
             }
         })
+        continue;
     }
     cb(null, "update");
 };
