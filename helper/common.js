@@ -24,26 +24,5 @@ module.exports = {
         request.post(url, { form: { 'to': mobile, 'body': 'your otp is : ' + otp } }, function(ee, r, body) {
             return body;
         });
-    },
-    find: function(data) {
-        db.userModel.findOne({ 'empId': data }, function(err, exist) {
-            console.log("exist"+exist+" \n")
-            if (err) {
-                return err;
-            } else {
-                return exist;
-            }
-        })
-    },
-    save: function(data) {
-        console.log("inside save function :" + data)
-       var data=new db.userModel(data);
-       data.save(function(err,result){
-        if (err) {
-                return err;
-            } else {
-                return result;
-            }
-       })
     }
 }
