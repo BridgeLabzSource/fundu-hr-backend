@@ -4,6 +4,7 @@
 var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     db = require('../database/db');
+    common=require('../helper/common');
 /**
  * @constructor
  */
@@ -31,17 +32,18 @@ excel.prototype.save = function(data, cb) {
         console.log('before i : ' + i);
 
         var promise = new Promise(function(resolve, reject) {
+            var exist=common.find(data[i][1]);
             // do a thing, possibly async, then…
-            db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
+            // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
                 console.log('after i'+i);
                 if (!exist) {
-                    console.log("resolve"+i);
+                    console.log("resolve"+i+" and "exist);
                     resolve("Stuff worked!");
                 } else {
                     console.log("reject"+i);
                     reject(Error("It broke"));
                 }
-            })
+            // })
         });
     }
     cb(null, "update");
