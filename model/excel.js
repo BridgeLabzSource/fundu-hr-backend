@@ -31,8 +31,7 @@ excel.prototype.save = function(data, cb) {
         console.log('before i : ' + i);
 
         var promise = new Promise(function(resolve, reject) {
-                var exist = common.find(data[i][1]);
-                console.log("result from findOne:" + exist + "\n");
+            console.log("after i :"+i)
                 db.userModel.findOne({ 'empId': data[i][1] }, function(err, exist) {
                     if (!exist) {
                         var dd = new db.userModel({
@@ -61,16 +60,6 @@ excel.prototype.save = function(data, cb) {
                         reject(Error("It broke"));
                     }
                 })
-            })
-            // if (exist==undefined) {
-
-        //     console.log("resolve"+i+" and "+common.save(dd));
-        //     resolve("Stuff worked!");
-        // } else {
-        //     console.log("reject"+i);
-        //     reject(Error("It broke"));
-        // }
-        // })
     }
     cb(null, "update");
 }
