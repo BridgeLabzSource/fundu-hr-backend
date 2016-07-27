@@ -27,11 +27,11 @@ module.exports = {
     },
     find: function(data) {
         db.userModel.findOne({ 'empId': data }, function(err, exist) {
-            console.log("inside common "+data+" exist "+exist)
-            if (err) {
-                return err;
-            } else {
+            console.log("inside common "+data+" exist "+exist+" \n")
+            if (!exist) {
                 return null;
+            } else {
+                return "exist";
             }
         })
     },
@@ -42,7 +42,7 @@ module.exports = {
         if (err) {
                 return err;
             } else {
-                return request;
+                return result;
             }
        })
     }
