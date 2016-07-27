@@ -27,11 +27,12 @@ excel.prototype.save = function(data, cb) {
         console.log(i+" inside for loop : " + data[i][7]);
         // var re=JSON.stringify(db.userModel.find({'empId':data[i][1]}));
         // console.log("find   :"+re);
-        db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
+        var find=data[i][7]
+        db.userModel.findOne({ 'empId': find }, function(err, existing) {
             if(existing){
                 console.log("existing in db "+existing.empId)
             }else{
-                console.log("not existing in db"+data[i][1])
+                console.log("not existing in db"+find)
             }
         })
     }
