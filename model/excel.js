@@ -29,16 +29,18 @@ excel.prototype.save = function(data, cb) {
         // console.log("find   :"+re);
         var find = data[i][1];
         console.log('before i : ' + i);
-        var promise = new Promise();
-        db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
-            console.log('after i : ' + i);
-            if (!err) {
-                promise.resolve(result);
-            } else {
-                promise.reject(err);
-            }
-        })
-        promise.promise();
+        var promise = new Promise(function(resolve, reject) {
+            // do a thing, possibly async, then…
+            db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
+                if (!exist) {
+                    console.log("resolve");
+                    resolve("Stuff worked!");
+                } else {
+                    console.log("reject");
+                    reject(Error("It broke"));
+                }
+            })
+        });
     }
     cb(null, "update");
 };
