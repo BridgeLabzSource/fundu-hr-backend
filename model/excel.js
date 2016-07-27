@@ -31,37 +31,38 @@ excel.prototype.save = function(data, cb) {
         console.log('before i : ' + i);
 
         var promise = new Promise(function(resolve, reject) {
-            console.log("after i :"+i)
-                db.userModel.findOne({ 'empId': data[i][1] }, function(err, exist) {
-                    if (!exist) {
-                        var dd = new db.userModel({
-                            'srId': data[i][0],
-                            'empId': data[i][1],
-                            'empName': data[i][2],
-                            'designation': data[i][3],
-                            'blStartDate': data[i][4],
-                            'startDateAtCompany': data[i][5],
-                            'endDate': data[i][6],
-                            'mobile': data[i][7],
-                            'panCard': data[i][8],
-                            'email': data[i][9],
-                            'dob': data[i][10],
-                            'empContractSigned': data[i][11],
-                            'offerLetter': data[i][12],
-                            'empFormCsr': data[i][13],
-                            'originalSubmitted': data[i][14]
-                        })
-                        dd.save(function(err, result) {
-                            if (result) {
-                                resolve("resolve")
-                            }
-                        })
-                    } else {
-                        reject(Error("It broke"));
-                    }
-                })
+            console.log("after i :" + i)
+            db.userModel.findOne({ 'empId': data[i][1] }, function(err, exist) {
+                if (!exist) {
+                    var dd = new db.userModel({
+                        'srId': data[i][0],
+                        'empId': data[i][1],
+                        'empName': data[i][2],
+                        'designation': data[i][3],
+                        'blStartDate': data[i][4],
+                        'startDateAtCompany': data[i][5],
+                        'endDate': data[i][6],
+                        'mobile': data[i][7],
+                        'panCard': data[i][8],
+                        'email': data[i][9],
+                        'dob': data[i][10],
+                        'empContractSigned': data[i][11],
+                        'offerLetter': data[i][12],
+                        'empFormCsr': data[i][13],
+                        'originalSubmitted': data[i][14]
+                    })
+                    dd.save(function(err, result) {
+                        if (result) {
+                            resolve("resolve")
+                        }
+                    })
+                } else {
+                    reject(Error("It broke"));
+                }
+            });
+        });
+        cb(null, "update");
     }
-    cb(null, "update");
 }
 
 module.exports = new excel();
