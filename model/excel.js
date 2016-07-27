@@ -21,23 +21,24 @@ util.inherits(excel, EventEmitter);
 excel.prototype.save = function(data, cb) {
     console.log("data : " + JSON.stringify(data.length) + "\n");
     console.log("data : " + JSON.stringify(data[3][1]));
-    var dataLen=data.length-1;
+    var dataLen = data.length - 1;
     console.log(dataLen);
     for (var i = 0; i <= dataLen; i++) {
-        console.log(i+" inside for loop : " + data[i][7]);
+        console.log(i + " inside for loop : " + data[i][7]);
         // var re=JSON.stringify(db.userModel.find({'empId':data[i][1]}));
         // console.log("find   :"+re);
-        var find=data[i][1];
+        var find = data[i][1];
         console.log('before i : ' + i);
-        db.userModel.findOne({ 'empId': find }, function(err, existing) {
+        var promise = new Promise();
+        db.userModel.findOne({ 'empId': data[i][1] }, function(err, existing) {
             console.log('after i : ' + i);
-            if(existing){
-                console.log("existing in db "+existing.empId)
-            }else{
-                console.log("not existing in db"+find)
+            if (!err) {
+                promise.resolve(result);
+            } else {
+                promise.reject(err);
             }
         })
-        continue;
+        promise.promise();
     }
     cb(null, "update");
 };
