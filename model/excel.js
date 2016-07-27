@@ -33,11 +33,12 @@ excel.prototype.save = function(data, cb) {
         var promise = new Promise(function(resolve, reject) {
             // do a thing, possibly async, then…
             db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
+                console.log('after i'+i);
                 if (!exist) {
-                    console.log("resolve");
+                    console.log("resolve"+i);
                     resolve("Stuff worked!");
                 } else {
-                    console.log("reject");
+                    console.log("reject"+i);
                     reject(Error("It broke"));
                 }
             })
