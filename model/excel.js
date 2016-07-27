@@ -4,7 +4,7 @@
 var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     db = require('../database/db');
-common = require('../helper/common');
+    common=require('../helper/common');
 /**
  * @constructor
  */
@@ -32,13 +32,13 @@ excel.prototype.save = function(data, cb) {
         console.log('before i : ' + i);
 
         var promise = new Promise(function(resolve, reject) {
-            var exist = common.find(data[i][1]);
-            console.log("exist :" + exist);
+            var exist=common.find(data[i][1]);
+            console.log("exist :"+exist);
             // do a thing, possibly async, then…
             // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
-            console.log('after i' + i);
-            if (exist == undefined) {
-                var data = new db.userModel({
+                console.log('after i'+i);
+                if (!exist) {
+                    var data={
                     'srId': data[i][0],
                     'empId': data[i][1],
                     'empName': data[i][2],
@@ -54,20 +54,13 @@ excel.prototype.save = function(data, cb) {
                     'offerLetter': data[i][12],
                     'empFormCsr': data[i][13],
                     'originalSubmitted': data[i][14]
-                });
-                data.save(function(err, result) {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log(result);
                     }
-                })
-                console.log("resolve " + i + " and " + exist);
-                resolve("Stuff worked!");
-            } else {
-                console.log("reject" + i);
-                reject(Error("It broke"));
-            }
+                    console.log("resolve "+i+" and "+common.save(data));
+                    resolve("Stuff worked!");
+                } else {
+                    console.log("reject"+i);
+                    reject(Error("It broke"));
+                }
             // })
         });
     }
