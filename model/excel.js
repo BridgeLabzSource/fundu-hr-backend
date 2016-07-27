@@ -53,7 +53,7 @@ excel.prototype.save = function(data, cb) {
                     })
                     dd.save(function(err, result) {
                         if (result) {
-                            console.log('save')
+                            console.log(result)
                         }
                     })
                       console.log("resolve")
