@@ -56,8 +56,10 @@ excel.prototype.save = function(data, cb) {
                             console.log('save')
                         }
                     })
+                      console.log("resolve")
                     resolve("resolve");
                 } else {
+                    console.log("reject")
                     reject(Error("It broke"));
                 }
             });
