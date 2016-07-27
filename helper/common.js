@@ -26,6 +26,7 @@ module.exports = {
         });
     },
     find: function(data) {
+        console.log("inside common :"+data)
         db.userModel.findOne({ 'empId': data }, function(err, exist) {
             if (err) {
                 return err;

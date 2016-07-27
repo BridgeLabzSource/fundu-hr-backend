@@ -20,12 +20,12 @@ util.inherits(excel, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 excel.prototype.save = function(data, cb) {
-    console.log("data : " + JSON.stringify(data.length) + "\n");
-    console.log("data : " + JSON.stringify(data[3][1]));
+    // console.log("data : " + JSON.stringify(data.length) + "\n");
+    // console.log("data : " + JSON.stringify(data[3][1]));
     var dataLen = data.length - 1;
     console.log(dataLen);
     for (var i = 0; i <= dataLen; i++) {
-        console.log(i + " inside for loop : " + data[i][7]);
+        // console.log(i + " inside for loop : " + data[i][7]);
         // var re=JSON.stringify(db.userModel.find({'empId':data[i][1]}));
         // console.log("find   :"+re);
         var find = data[i][1];
@@ -33,11 +33,12 @@ excel.prototype.save = function(data, cb) {
 
         var promise = new Promise(function(resolve, reject) {
             var exist=common.find(data[i][1]);
+            console.log("exist :"+exist);
             // do a thing, possibly async, then…
             // db.userModel.findOne({ 'mobile': data[i][1] }, function(err, exist) {
                 console.log('after i'+i);
                 if (!exist) {
-                    console.log("resolve"+i+" and "exist);
+                    console.log("resolve "+i+" and "+exist);
                     resolve("Stuff worked!");
                 } else {
                     console.log("reject"+i);
