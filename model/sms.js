@@ -74,7 +74,7 @@ sms.prototype.otp = function(mobile, cb) {
  * @return {cb} -return cb either error or result
  */
 sms.prototype.verify = function(data, cb) {
- if (common.isMobile(mobile)) {
+ if (common.isMobile(data.mobile)) {
         var query = { 'mobile': data.mobile,'otp':data.otp };
         var update = { $set: { 'otp': 123456 } }
         var options = { upsert: true, returnNewDocument: true };
