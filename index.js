@@ -14,7 +14,7 @@ var express = require('express'),
  */
 
 app.use(cors());
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser());
 app.use(require('./controller/index'));
 
