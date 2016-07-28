@@ -18,7 +18,15 @@ var userSchema = mongoose.Schema({
     'empContractSigned': { type: String },
     'offerLetter': { type: String },
     'empFormCsr': { type: String },
-    'originalSubmitted': { type: String }
+    'originalSubmitted': { type: String },
+    'password':{type:String},
+    'otp':{type:String},
+    'time':[{
+        'inTime': { type: String },
+        'outTime': { type: String },
+        'totalTime': { type: String },
+        'syncTime': { type: Date, default: Date.now() }
+    }]
 });
 
 var userModel = mongoose.model('userModel', userSchema, 'userModel');
@@ -34,7 +42,7 @@ var demo = mongoose.Schema({
         'outTime': { type: String },
         'totalTime': { type: String },
         'syncTime': { type: Date, default: Date.now() }
-    }],
+    }]
 
 });
 var demo = mongoose.model('demo', demo, 'demo');

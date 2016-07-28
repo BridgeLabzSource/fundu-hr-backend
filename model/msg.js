@@ -22,7 +22,7 @@ util.inherits(msg, EventEmitter)
  * @return {cb} -return cb either error or result
  */
 msg.prototype.wit = function(d, cb) {
-    db.demo.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
+    db.userModel.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
             if (d.on_off == 'on') {
                 var result = {
@@ -88,7 +88,7 @@ msg.prototype.wit = function(d, cb) {
  */
 msg.prototype.conform = function(data, cb) {
     if (data.check == 'true') {
-        db.demo.findOne({ 'mobile': data.mobile }, function(err, existingUser) {
+        db.userModel.findOne({ 'mobile': data.mobile }, function(err, existingUser) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {

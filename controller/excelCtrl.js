@@ -16,7 +16,7 @@ router.post('/', function(req, res) {
         } else {
             res.json({ 'data': data, 'status': true });
         }
-    })
+    });
 });
 
 module.exports=router;

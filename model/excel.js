@@ -22,16 +22,16 @@ util.inherits(excel, EventEmitter);
 excel.prototype.save = function(data, cb) {
 
     data = JSON.parse(data);
-    console.log(data[0][0]);
+    // console.log(data[0][0]);
     var i = 0;
     var res = data.map(function(d, index, array) {
         return save2(d);
     });
-
+    console.log(res);
     Promise.all(res).then(function(values) {
         console.log("values" + values);
         cb(null,"update");
-    })
+    });
 }
 
 function save2(data) {
@@ -44,10 +44,10 @@ function save2(data) {
                 reject("rejec")
             } else if (!err && person) {
                 console.log("person");
-                resolve(person);
+                resolve("update");
             } else if (!err && !person) {
                 console.log("not person " + data);
-                resolve("aaa");
+                resolve("insert");
             }
         })
     });
