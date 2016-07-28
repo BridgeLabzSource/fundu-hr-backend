@@ -25,8 +25,8 @@ sms.prototype.otp = function(mobile, cb) {
     if (common.isMobile(mobile)) {
         var query = { 'mobile': mobile };
         var update = { $set: { 'otp': 123456 } }
-        var options = { upsert: true, returnNewDocument: true };
-        db.userModel.findOneAndUpdate(query, update, options, function(err, person) {
+        // var options = { upsert: true, returnNewDocument: true };
+        db.userModel.findOneAndUpdate(query, update, function(err, person) {
             if (err) {
                 cb(err, null);
             } else if (!err && person) {
