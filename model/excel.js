@@ -21,7 +21,7 @@ util.inherits(excel, EventEmitter);
  **/
 excel.prototype.save = function(data, cb) {
 
-    // data = JSON.parse(data);
+    data = JSON.parse(data);
     console.log(data[0][0]);
     var i = 0;
     var res = data.map(function(d, index, array) {
