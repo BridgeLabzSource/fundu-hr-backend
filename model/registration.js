@@ -36,7 +36,7 @@ registration.prototype.login = function(d, cb) {
             if (!result || err) {
                 cb('You have not registered', null);
             } else {
-                db.demo.findOne({ 'mobile': d.mobile, 'password': d.password }, function(err, result) {
+                db.userModel.findOne({ 'mobile': d.mobile, 'password': d.password }, function(err, result) {
                     if (!result || err) {
                         cb('Invalid password', null);
                     } else {
