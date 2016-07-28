@@ -92,7 +92,7 @@ msg.prototype.conform = function(data, cb) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
-                    db.demo.update({ 'mobile': data.mobile }, {
+                    db.userModel.update({ 'mobile': data.mobile }, {
                         $push: {
                             time: {
                                 inTime: data.inTime,
@@ -115,7 +115,7 @@ msg.prototype.conform = function(data, cb) {
                         str = str.slice(0, 10)
                         str1 = data.inTime.slice(0, 10);
                         if (str != str1) {
-                            db.demo.update({ 'mobile': data.mobile }, {
+                            db.userModel.update({ 'mobile': data.mobile }, {
                                 $push: {
                                     time: {
                                         inTime: data.inTime,
@@ -143,7 +143,7 @@ msg.prototype.conform = function(data, cb) {
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-                        db.demo.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
+                        db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
                                     'time.$.inTime': data.inTime,
                                     'time.$.outTime': data.outTime,
