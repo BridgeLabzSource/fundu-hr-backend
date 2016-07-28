@@ -9,7 +9,7 @@ var express = require('express'),
  */
 router.post('/', function(req, res) {
     var d = req.body.share;
-   	console.log("reached"); 
+   	console.log("reached"+d+"\n"); 
     excel.save(d, function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });
