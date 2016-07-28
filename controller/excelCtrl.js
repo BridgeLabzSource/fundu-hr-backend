@@ -8,7 +8,7 @@ var express = require('express'),
  * @return {json}
  */
 router.post('/', function(req, res) {
-    var d = req.body.share;
+    var d = JSON.parse(req.body.share);
    	console.log("reached"+d+"\n"); 
     excel.save(d, function(err, data) {
         if (err) {
