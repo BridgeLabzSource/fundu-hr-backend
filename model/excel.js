@@ -37,7 +37,7 @@ excel.prototype.save = function(data, cb) {
 function save2(data) {
     return new Promise(function(resolve, reject) {
         var query = { 'empId': data[1] };
-        var update = { $set: { 'empName': data[2], 'designation': data[3], 'blStartDate': data[4], 'startDateAtCompany': data[5], 'endDate': data[6], 'mobile': '+91'+data[7], 'panCard': data[8], 'email': data[9], 'dob': data[10], 'empContractSigned': data[11], 'offerLetter': data[12], 'empFormCsr': data[13], 'originalSubmitted': data[14],'password':data[7] } }
+        var update = { $set: { 'empName': data[2], 'designation': data[3], 'blStartDate': data[4], 'startDateAtCompany': data[5], 'endDate': data[6], 'mobile': '+91'+data[7], 'panCard': data[8], 'email': data[9], 'dob': data[10], 'empContractSigned': data[11], 'offerLetter': data[12], 'empFormCsr': data[13], 'originalSubmitted': data[14],'password':data[7] ,'time':[]} }
         var options = { upsert: true, returnNewDocument: true };
         db.userModel.findOneAndUpdate(query, update, options, function(err, person) {
             if (err) {
