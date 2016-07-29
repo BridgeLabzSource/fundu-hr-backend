@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-var express = require('express'),
+let express = require('express'),
     router = express.Router();
     
 router.use('/sms',require('./smsCtrl.js'));

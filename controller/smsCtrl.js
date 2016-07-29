@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-var express = require('express'),
+let express = require('express'),
     router = express.Router(),
     sms = require('../model/sms');
 
@@ -12,26 +12,8 @@ var express = require('express'),
  * @return {json}
  */
 router.post('/send', function(req, res) {
-    var message = req.body.message;
-    console.log(message);
+    let message = req.body.message;
     res.json({ message: message });
-});
-
-/**
- * save spreadsheet data into mongodb
- * @param {share}
- * @return {json}
- */
-router.post('/edit', function(req, res) {
-    var d = req.body.share;
-    console.log(JSON.stringify(d));
-    sms.save(d, function(err, data) {
-        if (err) {
-            res.json({ 'error': err, 'status': false });
-        } else {
-            res.json({ 'data': data, 'status': true });
-        }
-    })
 });
 
 /**
@@ -40,15 +22,14 @@ router.post('/edit', function(req, res) {
  * @return {otp}
  */
 router.post('/otp', function(req, res) {
-    console.log("opt received \n" + req);
-    var mobile = req.body.mobile;
+    let mobile = req.body.mobile;
     sms.otp(mobile, function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });
         } else {
             res.json({ 'data': data, 'status': true });
         }
-    })
+    });
 });
 
 /**
@@ -57,17 +38,17 @@ router.post('/otp', function(req, res) {
  * @return {json}
  */
 router.post('/verify', function(req, res) {
-    var data = {
+    let data = {
         mobile: req.body.mobile,
         otp: req.body.otp
-    }
+    };
     sms.verify(data, function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });
         } else {
             res.json({ 'data': data, 'status': true });
         }
-    })
+    });
 });
 
 module.exports = router;

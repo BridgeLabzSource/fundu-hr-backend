@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-var util = require('util'),
+let util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
@@ -13,7 +13,7 @@ var util = require('util'),
 function msg() {
     EventEmitter.call(this);
 }
-util.inherits(msg, EventEmitter)
+util.inherits(msg, EventEmitter);
 
 /** 
  * show time details to user
@@ -25,7 +25,7 @@ msg.prototype.wit = function(d, cb) {
     db.userModel.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
             if (d.on_off == 'on') {
-                var result = {
+                let result = {
                     userId: d.mobile,
                     inTime: d.time,
                     outTime: "0",
@@ -35,8 +35,8 @@ msg.prototype.wit = function(d, cb) {
                 if (existingUser.time.length == 0) {
                     cb(null, result);
                 } else {
-                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        var inTime;
+                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
+                        let inTime;
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = d.time.slice(0, 10);
@@ -44,7 +44,7 @@ msg.prototype.wit = function(d, cb) {
                             cb(null, result);
                             break;
                         } else {
-                            cb('You are already enter time', null)
+                            cb('You are already enter time', null);
                             break;
                         }
                         cb(null, result)
@@ -53,13 +53,13 @@ msg.prototype.wit = function(d, cb) {
                 }
             } else if (d.on_off == 'off') {
                 if (existingUser.time.length != 0) {
-                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
                         str = existingUser.time[i].inTime;
-                        str = str.slice(0, 10)
+                        str = str.slice(0, 10);
                         str1 = d.time.slice(0, 10);
                         if (str == str1) {
-                            var diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[i].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-                            var result = {
+                            let diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[i].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                            let result = {
                                 userId: existingUser.mobile,
                                 inTime: existingUser.time[i].inTime,
                                 outTime: d.time,
@@ -109,8 +109,8 @@ msg.prototype.conform = function(data, cb) {
                     })
                 } else {
                     /* inTime entry in time array */
-                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        var inTime;
+                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
+                        let inTime;
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = data.inTime.slice(0, 10);
@@ -127,7 +127,7 @@ msg.prototype.conform = function(data, cb) {
                                 if (err) {
                                     cb('err', null);
                                 } else {
-                                    console.log('update')
+                                    console.log('update');
                                 }
                             })
                             cb(null, 'update');
@@ -140,9 +140,9 @@ msg.prototype.conform = function(data, cb) {
                 }
             } else {
                 /* outTime entry in time array*/
-                for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                for (let i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
-                        var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                        let diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
                         db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
                                     'time.$.inTime': data.inTime,

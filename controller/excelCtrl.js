@@ -1,4 +1,4 @@
-var express = require('express'),
+let express = require('express'),
     router = express.Router(),
     excel = require('../model/excel');
 
@@ -8,8 +8,7 @@ var express = require('express'),
  * @return {json}
  */
 router.post('/', function(req, res) {
-    var d = req.body.share;
-   	console.log("reached"+d+"\n"); 
+    let d = req.body.share; 
     excel.save(d, function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });

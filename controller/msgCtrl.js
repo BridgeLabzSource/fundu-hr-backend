@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-var express = require('express'),
+let express = require('express'),
     router = express.Router(),
     common = require('../helper/common'),
     msg = require('../model/msg'),
@@ -13,7 +13,7 @@ var express = require('express'),
  * @return JSON 
  */
 router.post('/', function(req, res) {
-    var mobile = req.body.mobile,
+    let mobile = req.body.mobile,
         message = req.body.message;
     if (common.isMobile(mobile)) {
         witCtrl.message(message, 'Work', function(err, data) {
@@ -26,7 +26,7 @@ router.post('/', function(req, res) {
                     }
                 });
             } else {
-                var result = {
+                let result = {
                     mobile: mobile,
                     time: data.time,
                     on_off: data.on_off,
@@ -50,7 +50,7 @@ router.post('/', function(req, res) {
  * @return {response}
  */
 router.post('/timeEntryConform', function(req, res) {
-    var data = {
+    let data = {
         check: req.body.check,
         mobile: req.body.mobile,
         inTime: req.body.inTime,

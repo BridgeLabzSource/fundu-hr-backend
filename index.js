@@ -1,7 +1,7 @@
 /**
  * @define dependencies
  */
-var express = require('express'),
+let express = require('express'),
     app = express(),
     http = require('http').Server(app),
     port = process.env.PORT || 3019,
@@ -24,7 +24,7 @@ app.use(require('./controller/index'));
 // io.on('connection', function(socket) {
 //     console.log('a user connected to server');
 //     socket.on('message', function() {
-//         var data = ['I am in office', 'I left from office now', 'I left office yesterday', 'In office', 'Left office', 'I am in', 'I am out'];
+//         let data = ['I am in office', 'I left from office now', 'I left office yesterday', 'In office', 'Left office', 'I am in', 'I am out'];
 //         socket.emit('server ready', data);
 //     });
 //     socket.on('disconnect', function() {
@@ -38,5 +38,5 @@ app.use(require('./controller/index'));
 db.connect(function() {
     http.listen(port, function() {
         console.log('Server Runnig ' + port);
-    })
-})
+    });
+});

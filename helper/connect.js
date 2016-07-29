@@ -1,9 +1,8 @@
 /**
  * define require modules
  */
-var mongoose = require('mongoose');
-
-var state = {
+let mongoose = require('mongoose'),
+    state = {
         db: null,
     },
     url = process.env.MONGO || 'mongodb://demo:demo007@ds023694.mlab.com:23694/heroku_0k7kk5fx';
@@ -25,7 +24,7 @@ module.exports = {
                 state.db = null
                 state.mode = null
                 done(err)
-            })
+            });
         }
     }
 }

@@ -13,7 +13,7 @@ Extract value of fist index form matched entity field
 @param {string} entity - name of the entity to match in the entities list
 @return {integer|string} - Return value of given entitiy or '2' if confidence is below {@link minimumConfidence}
 */
-var self = module.exports = {
+let self = module.exports = {
     firstEntityValue: (entities, entity) => {
         const val = entities && entities[entity] &&
             Array.isArray(entities[entity]) &&

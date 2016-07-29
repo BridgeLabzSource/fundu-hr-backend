@@ -1,12 +1,12 @@
 /**
  * define require module
  */
-var express = require('express'),
+let express = require('express'),
     router = express.Router(),
     reg = require('../model/registration');
 
 router.post('/', function(req, res) {
-    var data = {
+    let data = {
         email: req.body.email,
         mobile: req.body.mobile,
         password: req.body.password,
@@ -18,11 +18,11 @@ router.post('/', function(req, res) {
         } else {
             res.json({ 'data': result });
         }
-    })
+    });
 });
 
 router.post('/login', function(req, res) {
-    var data = {
+    let data = {
         mobile: req.body.mobile,
         password: req.body.password
     };
@@ -32,6 +32,6 @@ router.post('/login', function(req, res) {
         } else {
             res.json({ 'data': result });
         }
-    })
+    });
 });
 module.exports = router;

@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-var util = require('util'),
+let util = require('util'),
     EventEmitter = require('events').EventEmitter,
     db = require('../database/db');
 /**
@@ -19,14 +19,14 @@ util.inherits(errorMsg, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 errorMsg.prototype.save = function(d, cb) {
-    var data = new db.errorMsg({ 'message': d.msg, 'response': d.error })
+    let data = new db.errorMsg({ 'message': d.msg, 'response': d.error })
     data.save(function(err, result) {
         if (err) {
             cb(err, null);
         } else {
             cb(null, 'please try again...')
         }
-    })
+    });
 };
 
 module.exports = new errorMsg;
