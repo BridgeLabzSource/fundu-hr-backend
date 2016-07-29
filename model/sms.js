@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-let util = require('util'),
+var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
@@ -23,7 +23,7 @@ util.inherits(sms, EventEmitter);
  */
 sms.prototype.otp = function(mobile, cb) {
     if (common.isMobile(mobile)) {
-        let query = { 'mobile': mobile },
+        var query = { 'mobile': mobile },
             update = { $set: { 'otp': 123456 } };
         // var options = { upsert: true, returnNewDocument: true };
         db.userModel.findOneAndUpdate(query, update, function(err, person) {
@@ -48,7 +48,7 @@ sms.prototype.otp = function(mobile, cb) {
  */
 sms.prototype.verify = function(data, cb) {
     if (common.isMobile(data.mobile)) {
-        let query = { 'mobile': data.mobile, 'otp': data.otp },
+        var query = { 'mobile': data.mobile, 'otp': data.otp },
             update = { $set: { 'otp': 123456 } },
             options = { upsert: true, returnNewDocument: true };
             db.userModel.findOneAndUpdate(query, update, options, function(err, person) {

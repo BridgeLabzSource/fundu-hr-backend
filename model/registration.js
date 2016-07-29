@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-let util = require('util'),
+var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     db = require('../database/db');
@@ -16,7 +16,7 @@ util.inherits(registration, EventEmitter);
 
 registration.prototype.register = function(d, cb) {
     if (common.isMobile(d.mobile) && common.isEmail(d.email) && (d.password == d.repassword)) {
-        let data = new db.demo({ 'mobile': d.mobile, 'email': d.email, 'password': d.password });
+        var data = new db.demo({ 'mobile': d.mobile, 'email': d.email, 'password': d.password });
         data.save(function(err, result) {
             if (err) {
                 cb(err, null);

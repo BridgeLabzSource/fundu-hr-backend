@@ -1,7 +1,7 @@
 /**
  * define require module
  */
-let util = require('util'),
+var util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
@@ -25,7 +25,7 @@ msg.prototype.wit = function(d, cb) {
     db.userModel.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
             if (d.on_off == 'on') {
-                let result = {
+                var result = {
                     userId: d.mobile,
                     inTime: d.time,
                     outTime: "0",
@@ -35,8 +35,8 @@ msg.prototype.wit = function(d, cb) {
                 if (existingUser.time.length == 0) {
                     cb(null, result);
                 } else {
-                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
-                        let inTime;
+                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                        var inTime;
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = d.time.slice(0, 10);
@@ -53,13 +53,13 @@ msg.prototype.wit = function(d, cb) {
                 }
             } else if (d.on_off == 'off') {
                 if (existingUser.time.length != 0) {
-                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
+                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10);
                         str1 = d.time.slice(0, 10);
                         if (str == str1) {
-                            let diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[i].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-                            let result = {
+                            var diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[i].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                            var result = {
                                 userId: existingUser.mobile,
                                 inTime: existingUser.time[i].inTime,
                                 outTime: d.time,
@@ -110,11 +110,14 @@ msg.prototype.conform = function(data, cb) {
                     })
                 } else {
                     /* inTime entry in time array */
-                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
-                        let inTime;
+                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                          console.log("existingUser length :"+existingUser.time.length)
+                    console.log("existingUser :"+existingUser.time[i].inTime+"\n");
+                        var inTime;
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = data.inTime.slice(0, 10);
+                        console.log("str  :"+str+" and str1"+str1)
                         if (str != str1) {
                             console.log("inside inTime entry")
                             db.userModel.update({ 'mobile': data.mobile }, {
@@ -142,11 +145,12 @@ msg.prototype.conform = function(data, cb) {
                 }
             } else {
                 /* outTime entry in time array*/
-                for (let i = 0; i <= existingUser.time.length - 1; i++) {
+                for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                    console.log("existingUser length :"+existingUser.time.length)
                     console.log("existingUser :"+existingUser.time[i].inTime+"\n");
                     if (existingUser.time[i].inTime == data.inTime) {
                         console.log('inside outTime entry');
-                        let diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                        var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
                         db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
                                     'time.$.inTime': data.inTime,
