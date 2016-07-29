@@ -50,7 +50,7 @@ sms.prototype.verify = function(data, cb) {
     if (common.isMobile(data.mobile)) {
         let query = { 'mobile': data.mobile, 'otp': data.otp },
             update = { $set: { 'otp': 123456 } },
-            options = { upsert: true, returnNewDocument: true },
+            options = { upsert: true, returnNewDocument: true };
             db.userModel.findOneAndUpdate(query, update, options, function(err, person) {
                 if (err) {
                     cb(err, null);

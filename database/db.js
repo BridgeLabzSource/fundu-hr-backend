@@ -32,10 +32,10 @@ let userSchema = mongoose.Schema({
 let userModel = mongoose.model('userModel', userSchema, 'userModel');
 exports.userModel = userModel;
 
-let errorMsg = mongoose.Schema({
+let errorSchema = mongoose.Schema({
     'message': { type: String },
     'response': { type: String },
     'Date': { type: Date, default: Date.now() }
 })
-let errorMsg = mongoose.model('errorMsg', errorMsg, 'errorMsg');
+let errorMsg = mongoose.model('errorMsg', errorSchema, 'errorMsg');
 exports.errorMsg = errorMsg;
