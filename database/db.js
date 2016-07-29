@@ -19,9 +19,9 @@ let userSchema = mongoose.Schema({
     'offerLetter': { type: String },
     'empFormCsr': { type: String },
     'originalSubmitted': { type: String },
-    'password':{type:String},
-    'otp':{type:String},
-    'time':[{
+    'password': { type: String },
+    'otp': { type: String },
+    'time': [{
         'inTime': { type: String },
         'outTime': { type: String },
         'totalTime': { type: String },
@@ -39,3 +39,16 @@ let errorSchema = mongoose.Schema({
 })
 let errorMsg = mongoose.model('errorMsg', errorSchema, 'errorMsg');
 exports.errorMsg = errorMsg;
+
+//  let AttendanceSchema = mongoose.Schema({
+//     'mobile': { type: Schema.Types.ObjectId, ref: 'userModel' },
+//     'time': [{
+//         'inTime': { type: String },
+//         'outTime': { type: String },
+//         'totalTime': { type: String },
+//         'syncTime': { type: Date, default: Date.now() }
+//     }]
+// })
+
+// let Attendance = mongoose.model('Attendance', AttendanceSchema, 'Attendance');
+// exports.Attendance = Attendance;

@@ -21,58 +21,94 @@ util.inherits(msg, EventEmitter);
  * @param {cb} -callback to controller
  * @return {cb} -return cb either error or result
  */
+function findinTime(data, d) {
+    console.log("mobile" + JSON.stringify(d));
+    console.log("data" + JSON.stringify(data));
+
+    var witTime = d.time.slice(0, 10);
+    var dbTime = data.inTime.slice(0, 10);
+    console.log(witTime + " and " + dbTime)
+    return new Promise(function(resolve, reject) {
+        if (witTime != dbTime) {
+            resolve("no")
+        } else {
+            resolve(d.time)
+        }
+    })
+}
+
+function findoutTime(data, d) {
+    console.log("mobile" + JSON.stringify(d));
+    console.log("data" + JSON.stringify(data));
+
+    var witTime = d.time.slice(0, 10);
+    var dbTime = data.inTime.slice(0, 10);
+    console.log(witTime + " and " + dbTime)
+    return new Promise(function(resolve, reject) {
+        if (witTime == dbTime) {
+            resolve(data.inTime)
+        } else {
+            resolve("no")
+        }
+    })
+}
 msg.prototype.wit = function(d, cb) {
     db.userModel.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
+            var result = {
+                userId: d.mobile,
+                inTime: d.time,
+                outTime: "0",
+                totalTime: "0",
+                type: d.type
+            }
             if (d.on_off == 'on') {
-                var result = {
-                    userId: d.mobile,
-                    inTime: d.time,
-                    outTime: "0",
-                    totalTime: "0",
-                    type: d.type
-                }
                 if (existingUser.time.length == 0) {
+                    console.log('inside null')
                     cb(null, result);
                 } else {
-                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        var inTime;
-                        str = existingUser.time[i].inTime;
-                        str = str.slice(0, 10)
-                        str1 = d.time.slice(0, 10);
-                        if (str != str1) {
-                            cb(null, result);
-                            break;
-                        } else {
-                            cb('You are already enter time', null);
-                            break;
+                    let res = existingUser.time.map(function(data, index, array) {
+                        return findinTime(data, d);
+                    })
+                    Promise.all(res).then(function(values) {
+                        console.log("values :" + values)
+                        var yes = 0;
+                        var no = 0
+                        for (var i = 0; i <= values.length - 1; i++) {
+                            (values[i].slice(0, 10).match(d.time.slice(0, 10))) ? yes++ : no++;
                         }
-                        cb(null, result)
-                        break;
-                    }
+                        (yes <= 0) ? cb(null, result): cb("You have already entered intime", null);
+                    })
                 }
             } else if (d.on_off == 'off') {
-                if (existingUser.time.length != 0) {
-                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        str = existingUser.time[i].inTime;
-                        str = str.slice(0, 10);
-                        str1 = d.time.slice(0, 10);
-                        if (str == str1) {
-                            var diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[i].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                console.log("inside off")
+                let res = existingUser.time.map(function(data, index, array) {
+                    return findoutTime(data, d);
+                })
+                Promise.all(res).then(function(values) {
+                    console.log("values :" + values)
+                    var yes = 0;
+                    var no = 0
+                    for (var i = 0; i <= values.length - 1; i++) {
+                        if (values[i].slice(0, 10).match(d.time.slice(0, 10))) {
+                            yes++;
+                            var diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(values[i], 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
                             var result = {
-                                userId: existingUser.mobile,
-                                inTime: existingUser.time[i].inTime,
+                                userId: d.mobile,
+                                inTime: values[i],
                                 outTime: d.time,
                                 totalTime: diff,
                                 type: d.type
                             }
-                            cb(null, result);
-                            break;
+                        } else {
+                            no++;
                         }
                     }
-                } else {
-                    cb('You have not entered inTime', null);
-                }
+                    console.log(yes + " and no " + no + " result" + JSON.stringify(result))
+                    if (yes == 1) {
+                        cb(null, result)
+                    } else { cb("You have already entered intime", null); }
+                })
             }
         } else {
             cb('not exit in db', null);
@@ -91,6 +127,7 @@ msg.prototype.conform = function(data, cb) {
         db.userModel.findOne({ 'mobile': data.mobile }, function(err, existingUser) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
+                console.log("length :" + existingUser.time.length + "\n")
                 if (existingUser.time.length == 0) {
                     console.log("new date entered")
                     db.userModel.update({ 'mobile': data.mobile }, {
@@ -110,67 +147,81 @@ msg.prototype.conform = function(data, cb) {
                     })
                 } else {
                     /* inTime entry in time array */
+                    var yes = 0,
+                        no = 0;
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                          console.log("existingUser length :"+existingUser.time.length)
-                    console.log("existingUser :"+existingUser.time[i].inTime+"\n");
-                        var inTime;
+                        console.log("inside for loop")
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10)
                         str1 = data.inTime.slice(0, 10);
-                        console.log("str  :"+str+" and str1"+str1)
-                        if (str != str1) {
-                            console.log("inside inTime entry")
-                            db.userModel.update({ 'mobile': data.mobile }, {
-                                $push: {
-                                    time: {
-                                        inTime: data.inTime,
-                                        outTime: 0,
-                                        totalTime: 0
-                                    }
-                                }
-                            }, function(err, result) {
-                                if (err) {
-                                    cb('err', null);
-                                } else {
-                                    console.log('update');
-                                }
-                            })
-                            cb(null, 'update');
-                            break;
+                        console.log("str  :" + str + " and str1" + str1 + "\n")
+                        if (str == str1) {
+                            yes++
                         } else {
-                            cb('already update time', null)
-                            break;
+                            no++
                         }
+                    }
+                    console.log(yes + " and no :" + no)
+                    if (yes <= 0) {
+                        console.log('no found')
+                        db.userModel.update({ 'mobile': data.mobile }, {
+                            $push: {
+                                time: {
+                                    inTime: data.inTime,
+                                    outTime: 0,
+                                    totalTime: 0
+                                }
+                            }
+                        }, function(err, result) {
+                            if (err) {
+                                cb('err', null);
+                            } else {
+                                cb(null, 'update');
+                            }
+                        })
+                    } else {
+                        console.log('found');
+                        cb('You have already entered inTime', null);
                     }
                 }
             } else {
                 /* outTime entry in time array*/
+                console.log("data :" + JSON.stringify(data))
+                var yes = 0;
+                no = 0;
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                    console.log("existingUser length :"+existingUser.time.length)
-                    console.log("existingUser :"+existingUser.time[i].inTime+"\n");
+                    console.log("existingUser length :" + existingUser.time.length)
+                    console.log("existingUser :" + existingUser.time[i].inTime + "\n");
                     if (existingUser.time[i].inTime == data.inTime) {
-                        console.log('inside outTime entry');
+                        console.log('inside true')
+                        yes++;
+                        var int = existingUser.time[i].inTime;
                         var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-                        db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
-                                $set: {
-                                    'time.$.inTime': data.inTime,
-                                    'time.$.outTime': data.outTime,
-                                    'time.$.totalTime': diff
-                                }
-                            },
-                            function(err, result) {
-                                if (err) {
-                                    cb('err', null);
-                                } else {
-                                    console.log(result);
-                                }
-                            })
-                        cb(null, 'update');
-                        break;
+
                     } else {
-                        cb('You have not enter inTime', null);
-                        break;
+                        console.log('inside no')
+                        no++;
                     }
+                }
+                console.log(yes + " and no " + no)
+                if (yes <= 1) {
+                    console.log('inside yes')
+                    db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: int } } }, {
+                            $set: {
+                                'time.$.inTime': data.inTime,
+                                'time.$.outTime': data.outTime,
+                                'time.$.totalTime': diff
+                            }
+                        },
+                        function(err, result) {
+                            if (err) {
+                                cb('err', null);
+                            } else {
+                                cb(null, "update");
+                            }
+                        })
+                } else {
+                    cb('You have not enter inTime', null);
                 }
             }
         })
