@@ -143,6 +143,7 @@ msg.prototype.conform = function(data, cb) {
             } else {
                 /* outTime entry in time array*/
                 for (let i = 0; i <= existingUser.time.length - 1; i++) {
+                    console.log("existingUser :"+existingUser+"\n");
                     if (existingUser.time[i].inTime == data.inTime) {
                         console.log('inside outTime entry');
                         let diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
