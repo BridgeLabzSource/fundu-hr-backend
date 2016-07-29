@@ -92,6 +92,7 @@ msg.prototype.conform = function(data, cb) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
+                    console.log("new date entered")
                     db.userModel.update({ 'mobile': data.mobile }, {
                         $push: {
                             time: {
@@ -115,6 +116,7 @@ msg.prototype.conform = function(data, cb) {
                         str = str.slice(0, 10)
                         str1 = data.inTime.slice(0, 10);
                         if (str != str1) {
+                            console.log("inside inTime entry")
                             db.userModel.update({ 'mobile': data.mobile }, {
                                 $push: {
                                     time: {
@@ -142,6 +144,7 @@ msg.prototype.conform = function(data, cb) {
                 /* outTime entry in time array*/
                 for (let i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
+                        console.log('inside outTime entry');
                         let diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
                         db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: existingUser.time[i].inTime } } }, {
                                 $set: {
