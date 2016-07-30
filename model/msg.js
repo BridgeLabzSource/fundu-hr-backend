@@ -22,33 +22,25 @@ util.inherits(msg, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 function findinTime(data, d) {
-    console.log("mobile" + JSON.stringify(d));
-    console.log("data" + JSON.stringify(data));
-
     var witTime = d.time.slice(0, 10);
     var dbTime = data.inTime.slice(0, 10);
-    console.log(witTime + " and " + dbTime)
     return new Promise(function(resolve, reject) {
         if (witTime != dbTime) {
-            resolve("no")
+            resolve("no");
         } else {
-            resolve(d.time)
+            resolve(d.time);
         }
     })
 }
 
 function findoutTime(data, d) {
-    console.log("mobile" + JSON.stringify(d));
-    console.log("data" + JSON.stringify(data));
-
     var witTime = d.time.slice(0, 10);
     var dbTime = data.inTime.slice(0, 10);
-    console.log(witTime + " and " + dbTime)
     return new Promise(function(resolve, reject) {
         if (witTime == dbTime) {
-            resolve(data.inTime)
+            resolve(data.inTime);
         } else {
-            resolve("no")
+            resolve("no");
         }
     })
 }
@@ -64,16 +56,14 @@ msg.prototype.wit = function(d, cb) {
             }
             if (d.on_off == 'on') {
                 if (existingUser.time.length == 0) {
-                    console.log('inside null')
                     cb(null, result);
                 } else {
                     let res = existingUser.time.map(function(data, index, array) {
                         return findinTime(data, d);
                     })
                     Promise.all(res).then(function(values) {
-                        console.log("values :" + values)
                         var yes = 0;
-                        var no = 0
+                        var no = 0;
                         for (var i = 0; i <= values.length - 1; i++) {
                             (values[i].slice(0, 10).match(d.time.slice(0, 10))) ? yes++ : no++;
                         }
@@ -81,12 +71,10 @@ msg.prototype.wit = function(d, cb) {
                     })
                 }
             } else if (d.on_off == 'off') {
-                console.log("inside off")
                 let res = existingUser.time.map(function(data, index, array) {
                     return findoutTime(data, d);
                 })
                 Promise.all(res).then(function(values) {
-                    console.log("values :" + values)
                     var yes = 0;
                     var no = 0
                     for (var i = 0; i <= values.length - 1; i++) {
@@ -104,7 +92,6 @@ msg.prototype.wit = function(d, cb) {
                             no++;
                         }
                     }
-                    console.log(yes + " and no " + no + " result" + JSON.stringify(result))
                     if (yes == 1) {
                         cb(null, result)
                     } else { cb("You have already entered intime", null); }
@@ -127,7 +114,6 @@ msg.prototype.conform = function(data, cb) {
         db.userModel.findOne({ 'mobile': data.mobile }, function(err, existingUser) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
-                console.log("length :" + existingUser.time.length + "\n")
                 if (existingUser.time.length == 0) {
                     console.log("new date entered")
                     db.userModel.update({ 'mobile': data.mobile }, {
@@ -150,20 +136,16 @@ msg.prototype.conform = function(data, cb) {
                     var yes = 0,
                         no = 0;
                     for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                        console.log("inside for loop")
                         str = existingUser.time[i].inTime;
-                        str = str.slice(0, 10)
+                        str = str.slice(0, 10);
                         str1 = data.inTime.slice(0, 10);
-                        console.log("str  :" + str + " and str1" + str1 + "\n")
                         if (str == str1) {
-                            yes++
+                            yes++;
                         } else {
-                            no++
+                            no++;
                         }
                     }
-                    console.log(yes + " and no :" + no)
                     if (yes <= 0) {
-                        console.log('no found')
                         db.userModel.update({ 'mobile': data.mobile }, {
                             $push: {
                                 time: {
@@ -186,26 +168,19 @@ msg.prototype.conform = function(data, cb) {
                 }
             } else {
                 /* outTime entry in time array*/
-                console.log("data :" + JSON.stringify(data))
                 var yes = 0;
                 no = 0;
                 for (var i = 0; i <= existingUser.time.length - 1; i++) {
-                    console.log("existingUser length :" + existingUser.time.length)
-                    console.log("existingUser :" + existingUser.time[i].inTime + "\n");
                     if (existingUser.time[i].inTime == data.inTime) {
-                        console.log('inside true')
                         yes++;
                         var int = existingUser.time[i].inTime;
                         var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
 
                     } else {
-                        console.log('inside no')
                         no++;
                     }
                 }
-                console.log(yes + " and no " + no)
                 if (yes <= 1) {
-                    console.log('inside yes')
                     db.userModel.update({ 'mobile': data.mobile, 'time': { $elemMatch: { inTime: int } } }, {
                             $set: {
                                 'time.$.inTime': data.inTime,

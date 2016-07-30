@@ -52,24 +52,3 @@ function save2(data) {
 
 
 module.exports = new excel();
-
-
-// var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-// let query = {
-//     $or: [{ 'mobile': data.mobile, 'time': { $elemMatch: { 'inTime': data.inTime } } },
-//         { 'mobile': data.mobile, 'time': { $elemMatch: { 'inTime': data.inTime, 'outTime': data.outTime } } }
-//     ]
-// };
-// let update = { $set: { 'inTime': data.inTime, 'outTime': data.outTime, 'diff': diff } }
-// let options = { upsert: true, returnNewDocument: true };
-// db.userModel.findOneAndUpdate(query, update, options, function(err, person) {
-//     if (err) {
-//         reject("rejec")
-//     } else if (!err && person) {
-//         console.log("person");
-//         resolve("update");
-//     } else if (!err && !person) {
-//         console.log("not person " + data);
-//         resolve("insert");
-//     }
-// });
