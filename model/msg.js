@@ -174,7 +174,7 @@ msg.prototype.conform = function(data, cb) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         yes++;
                         var int = existingUser.time[i].inTime;
-                        var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(existingUser.time[0].inTime, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                        var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(int, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
 
                     } else {
                         no++;
