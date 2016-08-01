@@ -98,7 +98,7 @@ msg.prototype.wit = function(d, cb) {
                     if (yes == 1) {
                         cb(null, result)
                     } else {
-                        cb("You have already entered intime", null);
+                        cb("You have not entered intime", null);
                     }
                 })
             }
