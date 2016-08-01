@@ -50,12 +50,12 @@ msg.prototype.wit = function(d, cb) {
         if (existingUser) {
             if (d.on_off == 'on') {
                 let result = {
-                userId: d.mobile,
-                inTime: d.time,
-                outTime: "0",
-                totalTime: "0",
-                type: d.type
-            }
+                    userId: d.mobile,
+                    inTime: d.time,
+                    outTime: "0",
+                    totalTime: "0",
+                    type: d.type
+                }
                 if (existingUser.time.length == 0) {
                     cb(null, result);
                 } else {
@@ -74,12 +74,14 @@ msg.prototype.wit = function(d, cb) {
                 }
             } else if (d.on_off == 'off') {
                 console.log(JSON.stringify(d));
-                let yes = 0,no = 0,result=0
+                let yes = 0,
+                    no = 0,
+                    result = 0
                 let res = existingUser.time.map(function(data, index, array) {
                     return findoutTime(data, d);
                 })
                 Promise.all(res).then(function(values) {
-                    
+
                     for (let i = 0; i <= values.length - 1; i++) {
                         if (values[i].slice(0, 10).match(d.time.slice(0, 10))) {
                             yes++;
@@ -87,11 +89,11 @@ msg.prototype.wit = function(d, cb) {
                             result = {
                                 userId: d.mobile,
                                 inTime: values[i],
-                                outTime:  d.time,
+                                outTime: d.time,
                                 totalTime: diff,
                                 type: d.type
                             }
-                            
+
                         } else {
                             no++;
                         }
@@ -99,7 +101,8 @@ msg.prototype.wit = function(d, cb) {
                     if (yes == 1) {
                         cb(null, result)
                     } else {
-                     cb("You have already entered intime", null); }
+                        cb("You have already entered intime", null);
+                    }
                 })
             }
         } else {
@@ -174,13 +177,16 @@ msg.prototype.conform = function(data, cb) {
                 }
             } else {
                 /* outTime entry in time array*/
-                let yes = 0,no = 0;
+                let yes = 0,
+                    no = 0,
+                    int = 0,
+                    diff = 0;
                 for (
                     let i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         yes++;
-                        let int = existingUser.time[i].inTime;
-                        let diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(int, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                        int = existingUser.time[i].inTime;
+                        diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(int, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
 
                     } else {
                         no++;
