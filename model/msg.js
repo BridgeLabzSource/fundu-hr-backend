@@ -174,8 +174,7 @@ msg.prototype.conform = function(data, cb) {
                 }
             } else {
                 /* outTime entry in time array*/
-                let yes = 0;
-                no = 0;
+                let yes = 0,no = 0;
                 for (
                     let i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
