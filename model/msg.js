@@ -65,23 +65,20 @@ msg.prototype.wit = function(d, cb) {
                     Promise.all(res).then(function(values) {
                         let yes = 0;
                         let no = 0;
-                        for (
-                            let i = 0; i <= values.length - 1; i++) {
+                        for (let i = 0; i <= values.length - 1; i++) {
                             (values[i].slice(0, 10).match(d.time.slice(0, 10))) ? yes++ : no++;
                         }
                         (yes <= 0) ? cb(null, result): cb("You have already entered intime", null);
                     })
                 }
             } else if (d.on_off == 'off') {
-                console.log(JSON.stringify(d));
                 let yes = 0,
                     no = 0,
-                    result = 0
+                    result = 0;
                 let res = existingUser.time.map(function(data, index, array) {
                     return findoutTime(data, d);
                 })
                 Promise.all(res).then(function(values) {
-
                     for (let i = 0; i <= values.length - 1; i++) {
                         if (values[i].slice(0, 10).match(d.time.slice(0, 10))) {
                             yes++;
@@ -123,7 +120,6 @@ msg.prototype.conform = function(data, cb) {
             /* first time intime Entry at 0 postion of time array */
             if (data.outTime == 0) {
                 if (existingUser.time.length == 0) {
-                    console.log("new date entered")
                     db.userModel.update({ 'mobile': data.mobile }, {
                         $push: {
                             time: {
@@ -142,9 +138,9 @@ msg.prototype.conform = function(data, cb) {
                 } else {
                     /* inTime entry in time array */
                     let yes = 0,
-                        no = 0,str,str1;
-                    for (
-                        let i = 0; i <= existingUser.time.length - 1; i++) {
+                        no = 0,
+                        str, str1;
+                    for (let i = 0; i <= existingUser.time.length - 1; i++) {
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10);
                         str1 = data.inTime.slice(0, 10);
@@ -171,7 +167,6 @@ msg.prototype.conform = function(data, cb) {
                             }
                         })
                     } else {
-                        console.log('found');
                         cb('You have already entered inTime', null);
                     }
                 }
@@ -181,8 +176,7 @@ msg.prototype.conform = function(data, cb) {
                     no = 0,
                     int = 0,
                     diff = 0;
-                for (
-                    let i = 0; i <= existingUser.time.length - 1; i++) {
+                for (let i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         yes++;
                         int = existingUser.time[i].inTime;
