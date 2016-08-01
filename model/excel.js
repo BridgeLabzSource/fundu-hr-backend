@@ -1,3 +1,4 @@
+'use strict';
 /**
  * define require module
  */
@@ -24,10 +25,20 @@ excel.prototype.save = function(data, cb) {
     let res = data.map(function(d, index, array) {
         return save2(d);
     });
-    console.log(res);
     Promise.all(res).then(function(values) {
-        console.log("values" + values);
-        cb(null, "update");
+         let update=0,insert=0
+        for(let i=0;i<=values.length-1;i++){
+            if(values[i]=='update'){
+                update++
+            }else if(values[i]=='insert'){
+                insert++;
+            }
+        }
+        let response={
+            update:update,
+            insert:insert
+        }
+        cb(null, response);
     });
 }
 
@@ -38,13 +49,11 @@ function save2(data) {
         let options = { upsert: true, returnNewDocument: true };
         db.userModel.findOneAndUpdate(query, update, options, function(err, person) {
             if (err) {
-                reject("rejec")
+                reject('rejec')
             } else if (!err && person) {
-                console.log("person");
-                resolve("update");
+                resolve('update');
             } else if (!err && !person) {
-                console.log("not person " + data);
-                resolve("insert");
+                resolve('insert');
             }
         });
     });

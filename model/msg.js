@@ -1,7 +1,8 @@
+'use strict';
 /**
  * define require module
  */
-var util = require('util'),
+let util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
@@ -22,8 +23,8 @@ util.inherits(msg, EventEmitter);
  * @return {cb} -return cb either error or result
  */
 function findinTime(data, d) {
-    var witTime = d.time.slice(0, 10);
-    var dbTime = data.inTime.slice(0, 10);
+    let witTime = d.time.slice(0, 10);
+    let dbTime = data.inTime.slice(0, 10);
     return new Promise(function(resolve, reject) {
         if (witTime != dbTime) {
             resolve("no");
@@ -34,8 +35,8 @@ function findinTime(data, d) {
 }
 
 function findoutTime(data, d) {
-    var witTime = d.time.slice(0, 10);
-    var dbTime = data.inTime.slice(0, 10);
+    let witTime = d.time.slice(0, 10);
+    let dbTime = data.inTime.slice(0, 10);
     return new Promise(function(resolve, reject) {
         if (witTime == dbTime) {
             resolve(data.inTime);
@@ -47,7 +48,7 @@ function findoutTime(data, d) {
 msg.prototype.wit = function(d, cb) {
     db.userModel.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
-            var result = {
+            let result = {
                 userId: d.mobile,
                 inTime: d.time,
                 outTime: "0",
@@ -62,9 +63,10 @@ msg.prototype.wit = function(d, cb) {
                         return findinTime(data, d);
                     })
                     Promise.all(res).then(function(values) {
-                        var yes = 0;
-                        var no = 0;
-                        for (var i = 0; i <= values.length - 1; i++) {
+                        let yes = 0;
+                        let no = 0;
+                        for (
+                            let i = 0; i <= values.length - 1; i++) {
                             (values[i].slice(0, 10).match(d.time.slice(0, 10))) ? yes++ : no++;
                         }
                         (yes <= 0) ? cb(null, result): cb("You have already entered intime", null);
@@ -75,13 +77,14 @@ msg.prototype.wit = function(d, cb) {
                     return findoutTime(data, d);
                 })
                 Promise.all(res).then(function(values) {
-                    var yes = 0;
-                    var no = 0
-                    for (var i = 0; i <= values.length - 1; i++) {
+                    let yes = 0;
+                    let no = 0
+                    for (
+                        let i = 0; i <= values.length - 1; i++) {
                         if (values[i].slice(0, 10).match(d.time.slice(0, 10))) {
                             yes++;
-                            var diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(values[i], 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-                            var result = {
+                            let diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(values[i], 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                            let result = {
                                 userId: d.mobile,
                                 inTime: values[i],
                                 outTime: d.time,
@@ -133,9 +136,10 @@ msg.prototype.conform = function(data, cb) {
                     })
                 } else {
                     /* inTime entry in time array */
-                    var yes = 0,
+                    let yes = 0,
                         no = 0;
-                    for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                    for (
+                        let i = 0; i <= existingUser.time.length - 1; i++) {
                         str = existingUser.time[i].inTime;
                         str = str.slice(0, 10);
                         str1 = data.inTime.slice(0, 10);
@@ -168,13 +172,14 @@ msg.prototype.conform = function(data, cb) {
                 }
             } else {
                 /* outTime entry in time array*/
-                var yes = 0;
+                let yes = 0;
                 no = 0;
-                for (var i = 0; i <= existingUser.time.length - 1; i++) {
+                for (
+                    let i = 0; i <= existingUser.time.length - 1; i++) {
                     if (existingUser.time[i].inTime == data.inTime) {
                         yes++;
-                        var int = existingUser.time[i].inTime;
-                        var diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(int, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
+                        let int = existingUser.time[i].inTime;
+                        let diff = moment.utc(moment(data.outTime, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(int, 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
 
                     } else {
                         no++;

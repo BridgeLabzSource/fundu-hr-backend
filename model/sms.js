@@ -1,7 +1,8 @@
+'use strict';
 /**
  * define require module
  */
-var util = require('util'),
+let util = require('util'),
     EventEmitter = require('events').EventEmitter,
     common = require('../helper/common'),
     request = require('request'),
@@ -23,9 +24,9 @@ util.inherits(sms, EventEmitter);
  */
 sms.prototype.otp = function(mobile, cb) {
     if (common.isMobile(mobile)) {
-        var query = { 'mobile': mobile },
+        let query = { 'mobile': mobile },
             update = { $set: { 'otp': 123456 } };
-        // var options = { upsert: true, returnNewDocument: true };
+        // let options = { upsert: true, returnNewDocument: true };
         db.userModel.findOneAndUpdate(query, update, function(err, person) {
             if (err) {
                 cb(err, null);
@@ -48,7 +49,7 @@ sms.prototype.otp = function(mobile, cb) {
  */
 sms.prototype.verify = function(data, cb) {
     if (common.isMobile(data.mobile)) {
-        var query = { 'mobile': data.mobile, 'otp': data.otp },
+        let query = { 'mobile': data.mobile, 'otp': data.otp },
             update = { $set: { 'otp': 123456 } },
             options = { upsert: true, returnNewDocument: true };
             db.userModel.findOneAndUpdate(query, update, options, function(err, person) {

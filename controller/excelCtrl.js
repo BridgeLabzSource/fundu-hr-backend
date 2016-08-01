@@ -1,3 +1,7 @@
+'use strict';
+/**
+ * define require module
+ */
 let express = require('express'),
     router = express.Router(),
     excel = require('../model/excel');
