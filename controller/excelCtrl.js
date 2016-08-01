@@ -8,7 +8,8 @@ let express = require('express'),
  * @return {json}
  */
 router.post('/', function(req, res) {
-    let d = req.body.share; 
+    let d = req.body.share;
+    console.log(d+'\n'); 
     excel.save(d, function(err, data) {
         if (err) {
             res.json({ 'error': err, 'status': false });
