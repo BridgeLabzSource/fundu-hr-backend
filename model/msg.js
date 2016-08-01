@@ -142,7 +142,7 @@ msg.prototype.conform = function(data, cb) {
                 } else {
                     /* inTime entry in time array */
                     let yes = 0,
-                        no = 0;
+                        no = 0,str,str1;
                     for (
                         let i = 0; i <= existingUser.time.length - 1; i++) {
                         str = existingUser.time[i].inTime;
