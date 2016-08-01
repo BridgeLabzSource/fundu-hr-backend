@@ -48,14 +48,14 @@ function findoutTime(data, d) {
 msg.prototype.wit = function(d, cb) {
     db.userModel.findOne({ 'mobile': d.mobile }, function(err, existingUser) {
         if (existingUser) {
-            let result = {
+            if (d.on_off == 'on') {
+                let result = {
                 userId: d.mobile,
                 inTime: d.time,
                 outTime: "0",
                 totalTime: "0",
                 type: d.type
             }
-            if (d.on_off == 'on') {
                 if (existingUser.time.length == 0) {
                     cb(null, result);
                 } else {
@@ -73,31 +73,33 @@ msg.prototype.wit = function(d, cb) {
                     })
                 }
             } else if (d.on_off == 'off') {
+                console.log(JSON.stringify(d));
+                let yes = 0,no = 0,result=0
                 let res = existingUser.time.map(function(data, index, array) {
                     return findoutTime(data, d);
                 })
                 Promise.all(res).then(function(values) {
-                    let yes = 0;
-                    let no = 0
-                    for (
-                        let i = 0; i <= values.length - 1; i++) {
+                    
+                    for (let i = 0; i <= values.length - 1; i++) {
                         if (values[i].slice(0, 10).match(d.time.slice(0, 10))) {
                             yes++;
                             let diff = moment.utc(moment(d.time, 'YYYY-MM-DD HH:mm:ss Z').diff(moment(values[i], 'YYYY-MM-DD HH:mm:ss Z'))).format('HH:mm:ss');
-                            let result = {
+                            result = {
                                 userId: d.mobile,
                                 inTime: values[i],
-                                outTime: d.time,
+                                outTime:  d.time,
                                 totalTime: diff,
                                 type: d.type
                             }
+                            
                         } else {
                             no++;
                         }
                     }
                     if (yes == 1) {
                         cb(null, result)
-                    } else { cb("You have already entered intime", null); }
+                    } else {
+                     cb("You have already entered intime", null); }
                 })
             }
         } else {
