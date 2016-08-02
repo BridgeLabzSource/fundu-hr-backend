@@ -103,7 +103,7 @@ msg.prototype.wit = function(d, cb) {
                     } else if(no==1) {
                         cb("You have already entered outTime", null);
                     }else{
-                        cb("You not entered inTime",null);
+                        cb("You have not entered inTime",null);
                     }
                 })
             }
