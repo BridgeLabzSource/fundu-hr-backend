@@ -17,7 +17,7 @@ router.post('/github', function(req, res) {
     let clientId = req.body.clientId;
     var token = jwt.sign(clientId, secret);
     res.json({ token: token });
-})
+});
 
 /**
  * When user login with again it verify with token
