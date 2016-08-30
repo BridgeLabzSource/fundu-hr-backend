@@ -9,6 +9,7 @@ let express = require('express'),
 
 router.post('/github',function(req,res){
     let clientId=req.body.clientId;
+    console.log("client id :"+clientId);
     var token=jwt.sign(clientId,secret);
     res.json({token:token});   
 })
