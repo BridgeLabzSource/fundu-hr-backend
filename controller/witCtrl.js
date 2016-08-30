@@ -5,7 +5,7 @@ const moment = require('moment');
 const client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' });
 
 /**@constant {number} */
-const minConfidence = 0.80;
+const minConfidence = 0.70;
 
 /**
 Extract value of fist index form matched entity field
