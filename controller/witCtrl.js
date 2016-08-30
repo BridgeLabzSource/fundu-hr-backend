@@ -5,7 +5,7 @@ const moment = require('moment');
 const client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' });
 
 /**@constant {number} */
-const minConfidence = 0.70;
+const minConfidence = 0.80;
 
 /**
 Extract value of fist index form matched entity field
@@ -19,7 +19,7 @@ let self = module.exports = {
             Array.isArray(entities[entity]) &&
             entities[entity].length > 0 &&
             entities[entity][0].value;
-        // console.log(val);
+        console.log(entities[entity][0].value);
         if (!val) {
             return null;
         }

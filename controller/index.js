@@ -9,6 +9,7 @@ router.use('/sms',require('./smsCtrl.js'));
 router.use('/message',require('./msgCtrl.js'));
 router.use('/excel',require('./excelCtrl.js'));
 router.use('/registration',require('./registrationCtrl.js'));
+router.use('/auth',require('./authCtrl.js'));
 /**
  * demo
  */
