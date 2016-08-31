@@ -6,7 +6,7 @@
 let Wit = require('node-wit').Wit,
     moment = require('moment'),
     client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' }),
-    minConfidence = 0.80;
+    minConfidence = 0.70;
 
 /**
 Extract value of fist index form matched entity field
