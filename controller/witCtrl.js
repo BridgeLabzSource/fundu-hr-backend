@@ -20,7 +20,6 @@ let self = module.exports = {
             Array.isArray(entities[entity]) &&
             entities[entity].length > 0 &&
             entities[entity][0].value;
-        console.log(entities[entity][0].value);
         if (!val) {
             return null;
         }
