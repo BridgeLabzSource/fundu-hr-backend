@@ -1,11 +1,12 @@
 'use strict';
-
-const Wit = require('node-wit').Wit;
-const moment = require('moment');
-const client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' });
-
-/**@constant {number} */
-const minConfidence = 0.80;
+/**
+ * define require module 
+ * @module  node-wit,moment
+ */
+let Wit = require('node-wit').Wit,
+    moment = require('moment'),
+    client = new Wit({ accessToken: 'S2VQWSMBFF6BE4NSJICC26BL75BALYVD' }),
+    minConfidence = 0.80;
 
 /**
 Extract value of fist index form matched entity field
