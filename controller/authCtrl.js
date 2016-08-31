@@ -1,4 +1,5 @@
 'use strict';
+
 /**
  * define require module
  * @module  express,jsonwebtoken
