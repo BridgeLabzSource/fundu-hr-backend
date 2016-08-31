@@ -16,7 +16,7 @@ let express = require('express'),
 router.post('/', function(req, res) {
     let mobile = req.body.mobile,
         message = req.body.message;
-        console.log("message "+mobile);
+        console.log("mobile "+mobile);
         console.log("message "+message);
     if (common.isMobile(mobile)) {
         witCtrl.message(message, 'Work', function(err, data) {
